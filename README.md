@@ -1,7 +1,5 @@
 # Mini Ride-Sharing Simulator
 
-<hr>
-
 ## Introduction and Project Overview
 > **Note:** This document provides a comprehensive guide and structured plan for developing a mini ride-sharing simulator in Python. The objective is to create a simplified, in-memory simulation of core logic that powers ride services like Lyft or Uber. This project will focus on essential interactions between riders, drivers and the system that coordinates them, providing a solid foundation for understanding the complexities of real-world and large-scale distributed applications.
 
