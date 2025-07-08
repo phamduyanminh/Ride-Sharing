@@ -25,6 +25,6 @@ The main algorithm challenge in this ride-sharing project is efficiently finding
 2. Searching for all available drivers within a given radius.
 
 ### Algorithms for Distance Calculation: Euclidean Distance vs Haversine
-[!NOTE]
+> [!NOTE]
 > Euclidean Distance: Euclidean Distance measures the straightest and shortest path between two points.
 > Haversine: Haversine measures the shortest distance between 2 points on a sphere using their latitudes and longtitudes measured along the surface.
