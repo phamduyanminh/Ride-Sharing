@@ -19,6 +19,7 @@
 7. Tracking System
    - Provide a list of all currently active rides within the system.
 
+
 ## Algorithms
 The main algorithm challenge in this ride-sharing project is efficiently finding nearby drivers based on rider's location. This involves 2 key steps:
 1. Calculating the distance between 2 points, rider's location to driver's location.
@@ -40,6 +41,7 @@ Due to the reason the Euclidean Distance formula treats earth like a flat surfac
 
 Brute-Force Search is simple to implement; however, it will become very slow as the number of drivers increases. Meanwhile, Spatial Index method remains fast. Therefore, Spatial Index is the chosen method for the finding available nearby drivers. 
 
+
 ## System Design
 
 ### Entities
@@ -58,7 +60,7 @@ This entity relationships define how entites interact with each other in the pro
 - `User` -> `Rider`/`Driver`:
    - A `Rider` is a `User`
    - A `Driver` is a `User`
-   
+
 - `Ride` -> `Rider` & `Driver`:
    - A `Ride` has one `Rider`
    - A `Ride` has one `Driver`
