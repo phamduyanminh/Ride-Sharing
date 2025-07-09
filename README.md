@@ -28,3 +28,10 @@ The main algorithm challenge in this ride-sharing project is efficiently finding
 > [!NOTE]
 > Euclidean Distance: Euclidean Distance measures the straightest and shortest path between two points.
 > Haversine: Haversine measures the shortest distance between 2 points on a sphere using their latitudes and longtitudes measured along the surface.
+Due to the reason the Euclidean Distance formula treats earth like a flat surface, it will leads to some significant errors. Therefore, the Haversine formula is the chosen method for the distance calculations in this project.
+
+### Algorithms for Finding Available Nearby Drivers: Brute-Force vs Spatial Indexing vs Spatial Fencing 
+> [!NOTE]
+> Brute-Force: A Brute-Force search is the most basic way to find the nearest object. In Brute-Force search, you will find the distance from rider to every single available nearby driver in the system. Then it picks the on with the shortest distance.
+> Spatial Index: Spatial Index is a technique used to efficiently store and retrieve spatial data like points, lines, and polygons based on the location. Instead of searching through all the data, a spatial index creates a map that helps quickly identify relevant data for a query, significantly speeding up spatial operations like finding all available drivers within a certain radius.
+Brute-Force Search is simple to implement; however, it will become very slow as the number of drivers increases. Meanwhile, Spatial Index method remains fast. Therefore, Spatial Index is the chosen method for the finding available nearby drivers. 
