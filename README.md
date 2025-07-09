@@ -3,6 +3,7 @@
 ## Introduction and Project Overview
 > This document provides a comprehensive guide and structured plan for developing a mini ride-sharing simulator in Python. The objective is to create a simplified, in-memory simulation of core logic that powers ride services like Lyft or Uber. This project will focus on essential interactions between riders, drivers and the system that coordinates them, providing a solid foundation for understanding the complexities of real-world and large-scale distributed applications.
 
+
 ## Core Features
 1. User Registration
    - Onboard new users, designating them as driver or rider.
@@ -39,7 +40,7 @@ Due to the reason the Euclidean Distance formula treats earth like a flat surfac
 > 
 > - **Spatial Index:** Spatial Index is a technique used to efficiently store and retrieve spatial data like points, lines, and polygons based on the location. Instead of searching through all the data, a spatial index creates a map that helps quickly identify relevant data for a query, significantly speeding up spatial operations like finding all available drivers within a certain radius.
 
-Brute-Force Search is simple to implement; however, it will become very slow as the number of drivers increases. Meanwhile, Spatial Index method remains fast. Therefore, Spatial Index is the chosen method for the finding available nearby drivers. 
+Brute-Force Search is simple to implement; however, it will become very slow as the number of drivers increases. Meanwhile, Spatial Index method remains fast even if you have many drivers. Therefore, Spatial Index is the chosen method for the finding available nearby drivers. 
 
 
 ## System Design
