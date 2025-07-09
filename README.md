@@ -39,3 +39,16 @@ Due to the reason the Euclidean Distance formula treats earth like a flat surfac
 > - **Spatial Index:** Spatial Index is a technique used to efficiently store and retrieve spatial data like points, lines, and polygons based on the location. Instead of searching through all the data, a spatial index creates a map that helps quickly identify relevant data for a query, significantly speeding up spatial operations like finding all available drivers within a certain radius.
 
 Brute-Force Search is simple to implement; however, it will become very slow as the number of drivers increases. Meanwhile, Spatial Index method remains fast. Therefore, Spatial Index is the chosen method for the finding available nearby drivers. 
+
+## System Design
+
+### Entities
+Our project system will have 4 main entities. Each represent a Python class:
+- `User`: The base enity hold common information of the app users.
+   - **Attributes**: `user_id`, `user_name`
+- `Rider`: A user who requests a ride. This class inherits from `User` class.
+   - **Attirbutes**: `current_location`
+- `Driver`: A user who provides riding service. This class inherits from `User` class.
+   - **Attributes**: `current_location`, `is_available`
+- `Ride`: Represent a trip from starting point to destination. This entity will connect with `Rider` and `Driver`.
+   - **Attributes**: `ride_id`, `rider`, `driver`, `start_location`, `end_location`, `status` ("`requested`", "`in_progress`", "`completed`")
