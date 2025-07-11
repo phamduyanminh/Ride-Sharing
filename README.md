@@ -48,7 +48,7 @@ Brute-Force Search is simple to implement; however, it will become very slow as 
 ### Entities
 Our project system will have 4 main entities. Each represent a Python class:
 - `User`: The base enity hold common information of the app users.
-   - **Attributes**: `user_id`, `user_name`
+   - **Attributes**: `user_id`, `email`, `user_name`
 - `Rider`: A user who requests a ride. This class inherits from `User` class.
    - **Attirbutes**: `current_location`
 - `Driver`: A user who provides riding service. This class inherits from `User` class.
