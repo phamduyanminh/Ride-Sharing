@@ -37,6 +37,18 @@ class Ride:
         else:
             raise Exception("Cannot assign driver to a ride that is not in REQUESTED status.")
     
+    # Cancel the ride
+    def _cacel_ride(self):
+        if self.ride_status in [RideStatus.IN_PROGRESS, RideStatus.REQUESTED]:
+            self.ride_status = RideStatus.CANCELLED
+            self.rider.current_ride = None
+            if self.driver:
+                self.driver.current_ride = None
+                self.driver.is_available = True
+            print(f"Ride {self.ride_id} has been cancelled.")
+        else:
+            raise Exception("Cannot cancel a ride that is not in progress or requested.")
+    
     # Complete the ride
     def complete_ride(self):
         if not self.ride_is_active():
