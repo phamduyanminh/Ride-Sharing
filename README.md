@@ -34,7 +34,7 @@ The main algorithm challenge in this ride-sharing project is efficiently finding
 
 Due to the reason the Euclidean Distance formula treats earth like a flat surface, it will leads to some significant errors. Therefore, the Haversine formula is the chosen method for the distance calculations in this project.
 
-### Algorithms for Finding Available Nearby Drivers: Brute-Force vs Spatial Indexing vs Spatial Fencing 
+### Algorithms for Finding Available Nearby Drivers: Brute-Force vs Spatial Indexing
 > [!NOTE]
 > - **Brute-Force:** A Brute-Force search is the most basic way to find the nearest object. In Brute-Force search, you will find the distance from rider to every single available nearby driver in the system. Then it picks the on with the shortest distance.
 > 
