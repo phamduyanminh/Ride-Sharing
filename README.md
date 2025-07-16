@@ -54,7 +54,7 @@ Our project system will have 4 main entities. Each represent a Python class:
 - `Driver`: A user who provides riding service. This class inherits from `User` class.
    - **Attributes**: `current_location`, `is_available`
 - `Ride`: Represent a trip from starting point to destination. This entity will connect with `Rider` and `Driver`.
-   - **Attributes**: `ride_id`, `rider`, `driver`, `start_location`, `end_location`, `status` ("`requested`", "`in_progress`", "`completed`")
+   - **Attributes**: `ride_id`, `rider`, `driver`, `start_location`, `end_location`, `status` ("`none`", "`requested`", "`in_progress`", "`completed`")
 
 ### Entity Relationships
 This entity relationships define how entites interact with each other in the project.
