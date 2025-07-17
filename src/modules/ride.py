@@ -26,12 +26,9 @@ class Ride:
         return self.ride_status == RideStatus.IN_TRIP
     
     # Assign a driver to a ride
-    def assign_driver(self, driver: Driver, rider: Rider):
+    def assign_driver(self, driver: Driver):
         if self.ride_status == RideStatus.REQUESTED:
             self.driver = driver
-            self.rider = rider
-            self.driver.is_available = True
-            self.rider.current_ride = self
             self.ride_status = RideStatus.PICKING_UP
             print(f"Driver {driver.user_name} assigned to ride {self.ride_id}.")
         else:
@@ -49,23 +46,12 @@ class Ride:
     def cancel_ride(self):
         if self.ride_status in [RideStatus.PICKING_UP, RideStatus.REQUESTED]:
             self.ride_status = RideStatus.CANCELLED
-            self.rider.current_ride = None
-            if self.driver:
-                self.driver.current_ride = None
-                self.driver.is_available = True
             print(f"Ride {self.ride_id} has been cancelled.")
         else:
             raise Exception("Cannot cancel a ride that is in-trip or not in requested status.")
 
     # Complete the ride
-    def complete_ride(self, driver: Driver, rider: Rider):
+    def complete_ride(self):
         if not self.ride_is_active():
             raise Exception("Cannot complete a ride that is not in-trip.")
-        self.driver = driver
-        self.rider = rider
         self.ride_status = RideStatus.COMPLETED
-        self.driver.drive_history.append(self)
-        self.driver.current_ride = None
-        self.driver.is_available = True
-        self.rider.ride_history.append(self)
-        self.rider.current_ride = None
