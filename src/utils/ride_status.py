@@ -1,8 +1,9 @@
 from enum import Enum
 
 class RideStatus(Enum):
-    NONE = "None"
+    NEW = "New"
     REQUESTED = "Requested"
-    IN_PROGRESS = "In Progress"
+    PICKING_UP = "Picking Up"
+    IN_TRIP = "In Trip"
     CANCELLED = "Cancelled"
     COMPLETED = "Completed"
