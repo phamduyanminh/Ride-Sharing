@@ -1,5 +1,5 @@
-from math import radians, cos, sin, asin, sqrt
 from __future__ import annotations
+from math import radians, cos, sin, asin, sqrt
 
 class Location:
     def __init__(self, latitude: float, longitude: float):
@@ -10,11 +10,11 @@ class Location:
         self.latitude = latitude
         self.longitude = longitude
     
-    def calculate_distance(self, start_location: Location, end_location: Location) -> float:
+    def calculate_distance(self, end_location: Location) -> float:
         radius = 6371 # Radius of the Earth in kilometers
         
         # Convert decimal degrees to radians
-        start_lat, start_long = map(radians, [start_location.latitude, start_location.longitude])
+        start_lat, start_long = map(radians, [self.latitude, self.longitude])
         end_lat, end_long = map(radians, [end_location.latitude, end_location.longitude])
         
         # Haversine formula

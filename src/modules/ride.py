@@ -4,20 +4,22 @@ from src.utils.location import Location
 from src.utils.ride_status import RideStatus
 
 class Ride:
-    def __init__(self, rider: Rider, start_location: Location, end_location: Location, driver: Driver = None):
+    def __init__(self, rider: Rider, start_location: Location, end_location: Location, driver: Driver = None, distance: float = 0.0):
         self.ride_id: str = id(self)
         self.rider: Rider = rider
         self.driver: Driver = driver
+        self.ride_status: RideStatus = RideStatus.NEW
         self.start_location: Location = start_location
         self.end_location: Location = end_location
-        self.ride_status: RideStatus = RideStatus.NEW
+        self.distance: float = distance
     
     # Get ride information
     def get_ride_info(self) -> str:
         if self.ride_status == RideStatus.IN_TRIP:
             return (
-                f"Ride ID: {self.ride_id}, status: {self.ride_status.value}"
-                f"Driver: {self.driver.user_name} - Rider: {self.rider.user_name}"
+                f"Ride ID: {self.ride_id}, status: {self.ride_status.value}\n"
+                f"Driver: {self.driver.user_name} - Rider: {self.rider.user_name}\n"
+                f"Distance: {self.distance} km"
             )
         return "N/A"
 
