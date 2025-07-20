@@ -10,7 +10,7 @@ class Ride:
         self.driver: Driver = driver
         self.start_location: Location = start_location
         self.end_location: Location = end_location
-        self.ride_status: RideStatus = RideStatus.NONE
+        self.ride_status: RideStatus = RideStatus.NEW
     
     # Get ride information
     def get_ride_info(self) -> str:
