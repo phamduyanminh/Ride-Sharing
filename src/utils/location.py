@@ -10,7 +10,7 @@ class Location:
         self.latitude = latitude
         self.longitude = longitude
     
-    def calculate_distance(self, end_location: Location) -> float:
+    def calculate_distance_in_km(self, end_location: Location) -> float:
         radius = 6371 # Radius of the Earth in kilometers
         
         # Convert decimal degrees to radians

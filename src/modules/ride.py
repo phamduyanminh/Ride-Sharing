@@ -25,7 +25,15 @@ class Ride:
 
     # Check if ride is active
     def ride_is_active(self) -> bool:
-        return self.ride_status == RideStatus.IN_TRIP
+        return self.ride_status in [RideStatus.REQUESTED, RideStatus.IN_TRIP]
+    
+    # Handle request for a ride
+    def request_ride(self):
+        if self.ride_status == RideStatus.NEW:
+            self.ride_status = RideStatus.REQUESTED
+            print(f"Ride {self.ride_id} has been requested.")
+        else:
+            raise Exception("Ride can only be requested if it is in NEW status.")
     
     # Assign a driver to a ride
     def assign_driver(self, driver: Driver):

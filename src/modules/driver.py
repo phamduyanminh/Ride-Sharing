@@ -1,11 +1,11 @@
 from typing import List
 from .user import User
 from src.utils.location import Location
-from src.utils.ride import Ride
+from src.modules.ride import Ride
 
 class Driver(User):
-    def __init__(self, user_id: str, email: str, user_name: str, longitude: float, latitude: float):
-        super().__init__(user_id, email, user_name) 
+    def __init__(self, email: str, user_name: str, longitude: float, latitude: float):
+        super().__init__(email, user_name) 
         self.current_location: Location = Location(latitude, longitude)
         self.is_available: bool = True
         self.current_ride: Ride | None = None
