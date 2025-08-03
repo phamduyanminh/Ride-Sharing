@@ -22,7 +22,7 @@ class Rider(User):
         distance = self.current_location.calculate_distance_in_km(destination)
         new_ride = Ride(rider = self, start_location = self.current_location, end_location = destination, distance = distance)
         self.current_ride = new_ride
-        ride_system.ride_request(new_ride)
+        ride_system.process_ride_request(new_ride)
         print(f"{self.user_name} has requested a ride from {self.current_location} to {destination}.")
     
     def ride_completed(self):
