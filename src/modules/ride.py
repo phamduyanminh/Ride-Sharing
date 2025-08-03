@@ -25,7 +25,7 @@ class Ride:
 
     # Check if ride is active
     def ride_is_active(self) -> bool:
-        return self.ride_status in [RideStatus.REQUESTED, RideStatus.IN_TRIP]
+        return self.ride_status in [RideStatus.REQUESTED, RideStatus.PICKING_UP, RideStatus.IN_TRIP]
     
     # Handle request for a ride
     def request_ride(self):
@@ -51,6 +51,18 @@ class Ride:
             print(f"Ride {self.ride_id} has started.")
         else:
             raise Exception("Cannot start a ride that is not in picking-up status.")
+
+    # Complete the ride
+    def complete_ride(self):
+        if self.ride_status != RideStatus.IN_TRIP:
+            raise Exception("Cannot complete a ride that is not in-trip.")
+        self.ride_status = RideStatus.COMPLETED
+        print(f"Ride {self.ride_id} has been completed.")
+        
+        if self.driver:
+            self.driver.complete_ride()
+        if self.rider:
+            self.rider.ride_completed()
     
     # Cancel the ride
     def cancel_ride(self):
@@ -59,9 +71,3 @@ class Ride:
             print(f"Ride {self.ride_id} has been cancelled.")
         else:
             raise Exception("Cannot cancel a ride that is in-trip or not in requested status.")
-
-    # Complete the ride
-    def complete_ride(self):
-        if not self.ride_is_active():
-            raise Exception("Cannot complete a ride that is not in-trip.")
-        self.ride_status = RideStatus.COMPLETED
