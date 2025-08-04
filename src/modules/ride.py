@@ -2,6 +2,8 @@ from .rider import Rider
 from .driver import Driver
 from src.utils.location import Location
 from src.utils.ride_status import RideStatus
+from src.modules.ride import Ride
+from typing import List
 
 class Ride:
     def __init__(self, rider: Rider, start_location: Location, end_location: Location, driver: Driver = None, distance: float = 0.0):
@@ -26,6 +28,10 @@ class Ride:
     # Check if ride is active
     def ride_is_active(self) -> bool:
         return self.ride_status in [RideStatus.REQUESTED, RideStatus.PICKING_UP, RideStatus.IN_TRIP]
+
+    def get_active_ride(self) -> List[Ride]:
+        active_rides = [ride for ride in self.rides if ride.ride_is_active()]
+        return active_rides
     
     # Handle request for a ride
     def request_ride(self):

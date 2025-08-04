@@ -2,6 +2,7 @@ from __future__ import annotations
 from typing import List
 from pyqtree import Index
 from src.modules.driver import Driver
+from src.modules.rider import Rider
 from src.modules.ride import Ride
 from src.utils.location import Location
 
@@ -10,16 +11,38 @@ KM_PER_DEGREE = 111.0
 class RideSystem:
     def __init__(self, operational_area: List[float]):
         self.drivers: List[Driver] = []
-        self.spatial_index = Index(bbox=operational_area)        
+        self.riders: List[Rider] = []
+        self.rides: List[Ride] = []
+        self.spatial_index = Index(bbox=operational_area)   
+    
+    def create_ride_request(self, rider: Rider, destination: Location):
+        # Calculate distance and create ride object
+        distance = rider.current_location.calculate_distance_in_km(destination)
+        new_ride = Ride(rider, rider.current_location, destination, distance)
+        # Track new ride
+        self.rides.append(new_ride)
+        # Set the ride's status and the rider's current rid
+        new_ride.request_ride() 
+        rider.current_ride = new_ride
+        # Process the request to find a driver
+        self.process_ride_request(new_ride)
+        print(f"Rider {rider.user_name} has requested a ride from {rider.current_location} to {destination}.")
+        
+        
+    # Add a rider to the system
+    def register_rider(self, rider: Rider):
+        self.riders.append(rider)
+        print(f"Rider {rider.user_name} registered.")
     
     # Add a driver to the system and insert into spatial index
-    def add_driver(self, driver: Driver):
+    def register_driver(self, driver: Driver):
         self.drivers.append(driver)
         location = driver.current_location
         self.spatial_index.insert(
             item=driver,
             bbox=[location.longitude, location.latitude, location.longitude, location.latitude]
         )
+        print(f"Driver {driver.user_name} registered.")
     
     # Update the driver's location in the system
     def update_driver_location(self, driver: Driver, new_latitude: float, new_longitude: float):

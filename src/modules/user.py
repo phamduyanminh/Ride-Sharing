@@ -7,5 +7,5 @@ class User(ABC):
         self.user_name: str = user_name
     
     @abstractmethod
-    def update_location(self, latitude:float, longitude:float):
+    def update_location(self, latitude: float, longitude: float):
         pass
