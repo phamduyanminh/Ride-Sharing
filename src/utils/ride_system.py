@@ -1,5 +1,5 @@
 from __future__ import annotations
-from typing import List, TYPE_CHECKING
+from typing import List
 from pyqtree import Index
 from src.modules.driver import Driver
 from src.modules.ride import Ride
@@ -12,6 +12,7 @@ class RideSystem:
         self.drivers: List[Driver] = []
         self.spatial_index = Index(bbox=operational_area)        
     
+    # Add a driver to the system and insert into spatial index
     def add_driver(self, driver: Driver):
         self.drivers.append(driver)
         location = driver.current_location
@@ -20,6 +21,7 @@ class RideSystem:
             bbox=[location.longitude, location.latitude, location.longitude, location.latitude]
         )
     
+    # Update the driver's location in the system
     def update_driver_location(self, driver: Driver, new_latitude: float, new_longitude: float):
         old_location = driver.current_location
         self.spatial_index.remove(
@@ -33,36 +35,45 @@ class RideSystem:
             item=driver,
             bbox=[new_location.longitude, new_location.latitude, new_location.longitude, new_location.latitude]
         )
-    
+
+    # Process a ride request
     def process_ride_request(self, ride: Ride):
-       print(f"System is processing ride {ride.ride_id}...") 
-       most_suitable_driver = self.find_most_suitable_driver(ride)
-       
-       if most_suitable_driver:
-           most_suitable_driver.accept_ride(ride)
-       else:
-           ride.cancel_ride()
+        print(f"System is processing ride...")
+        suitable_drivers = self.find_suitable_drivers(ride)
+        
+        assigned_driver = None
+        if not suitable_drivers:
+            print("No drivers found in the operational area.")
+        else:
+            for driver in suitable_drivers:
+                print(f"Offering ride to {driver.user_name}...")
+                if driver.decide_on_ride(ride):
+                    assigned_driver = driver
+                    break
+        
+        if assigned_driver:
+            ride.assign_driver(assigned_driver)
+            assigned_driver.accept_ride(ride)
+        else:
+            print(f"No available drivers accepted the ride. The ride will be cancelled.")
+            ride.cancel_ride()
     
-    def find_most_suitable_driver(self, ride: Ride) -> Driver | None:
+    # Search for drivers within a specified radius in km 
+    def find_suitable_drivers(self, ride: Ride) -> Driver | None:
         print("Searching for drivers within 3km...")
+        drivers = self.search_driver_in_radius_km(ride, 3.0)
         
-        # Parameter of a circle of the earth is 2 * pi * R, where R = 6371KM
-        # Ratio of 3km to paramter is 3 / (2 * pi * 6371)
-        # Therefore, 3km to radius is (3 / (2 * pi * 6371)) * (2*pi) = 3/6371 rad
-        driver = self.search_driver_in_radius_km(ride, 3.0)
-        if not driver:
+        if not drivers:
             print("No drivers found. Expanding search to 6km...")
-            driver = self.search_driver_in_radius_km(ride, 6.0)
+            drivers = self.search_driver_in_radius_km(ride, 6.0)
         
-        return driver
-    
-    def search_driver_in_radius_km(self, ride: Ride, radius_km: float) -> Driver | None:
+        return drivers
+
+    # Search list of drivers within a specified radius in km using bounding box
+    def search_driver_in_radius_km(self, ride: Ride, radius_km: float) -> List[Driver]:
         rider_location = ride.start_location
         
         # Coarse search using bounding box
-        # TODO:
-        # Create a constant for degree
-        # Add unit for search_driver_in_radius_km
         degree_radius = radius_km / KM_PER_DEGREE # 360 / 3.14 (pi) = 114.0 degrees per km
         search_bbox = [
             rider_location.longitude - degree_radius,
@@ -77,19 +88,17 @@ class RideSystem:
         
         if not available_drivers:
             print(f"No available drivers found in {radius_km} km bounding box.")
-            return None
+            return []
         
         # Find the closest driver using Haversine algorithm
-        closest_driver = None
-        closest_distance = float('inf')
+        closest_drivers = []
         
         for driver in available_drivers:
             distance = rider_location.calculate_distance_in_km(driver.current_location)
-            if distance <= radius_km and distance < closest_distance:
-                closest_distance = distance
-                closest_driver = driver
-        
-        if closest_driver:
-            print(f"Found driver {closest_driver.user_name} at {closest_distance:.2f} km away.")
+            if distance <= radius_km:
+                closest_drivers.append((driver, distance))
 
-        return closest_driver
+        sorted_closest_drivers = sorted(closest_drivers, key=lambda x: x[1])
+        sorted_closest_drivers = [driver for driver, distance in closest_drivers]
+
+        return sorted_closest_drivers
