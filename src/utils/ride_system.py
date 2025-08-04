@@ -18,7 +18,12 @@ class RideSystem:
     def create_ride_request(self, rider: Rider, destination: Location):
         # Calculate distance and create ride object
         distance = rider.current_location.calculate_distance_in_km(destination)
-        new_ride = Ride(rider, rider.current_location, destination, distance)
+        new_ride = Ride(
+            rider = rider, 
+            start_location = rider.current_location, 
+            end_location = destination, 
+            distance = distance
+            )
         # Track new ride
         self.rides.append(new_ride)
         # Set the ride's status and the rider's current rid
@@ -122,6 +127,5 @@ class RideSystem:
                 closest_drivers.append((driver, distance))
 
         sorted_closest_drivers = sorted(closest_drivers, key=lambda x: x[1])
-        sorted_closest_drivers = [driver for driver, distance in closest_drivers]
-
-        return sorted_closest_drivers
+        sorted_drivers = [driver for driver, distance in sorted_closest_drivers]
+        return sorted_drivers
