@@ -26,6 +26,7 @@ class Rider(User):
             end_location = destination, 
             distance = distance
             )
+        new_ride.request_ride()
         self.current_ride = new_ride
         ride_system.process_ride_request(new_ride)
         print(f"{self.user_name} has requested a ride from {self.current_location} to {destination}.")

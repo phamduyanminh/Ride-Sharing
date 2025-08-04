@@ -66,8 +66,11 @@ class Ride:
     
     # Cancel the ride
     def cancel_ride(self):
-        if self.ride_status in [RideStatus.PICKING_UP, RideStatus.REQUESTED]:
-            self.ride_status = RideStatus.CANCELLED
-            print(f"Ride {self.ride_id} has been cancelled.")
-        else:
-            raise Exception("Cannot cancel a ride that is in-trip or not in requested status.")
+        if self.ride_status not in [RideStatus.PICKING_UP, RideStatus.REQUESTED]:
+            raise Exception("Cannot cancel a ride that is already in-trip or has finished.")
+        
+        if self.driver and self.ride_status == RideStatus.PICKING_UP:
+            self.driver.cancel_ride(self)
+        
+        self.ride_status = RideStatus.CANCELLED
+        print(f"Ride {self.ride_id} has been cancelled.")

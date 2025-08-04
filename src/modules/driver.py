@@ -47,7 +47,7 @@ class Driver(User):
     
     # Driver cancels a ride
     def cancel_ride(self, ride: Ride):
-        if self.current_ride is None:
+        if self.current_ride is None or self.current_ride.ride_id != ride.ride_id:
             raise Exception("No current ride to cancel.")
         
         self.current_ride = None
