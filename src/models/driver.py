@@ -1,0 +1,55 @@
+import random
+from typing import List
+from .user import User
+from .ride import Ride
+from ..utils.location import Location
+
+class Driver(User):
+    def __init__(self, email: str, user_name: str, longitude: float, latitude: float):
+        super().__init__(email, user_name) 
+        self.current_location: Location = Location(latitude, longitude)
+        self.is_available: bool = True
+        self.current_ride: Ride | None = None
+        self.drive_history: List[Ride] = [] 
+    
+    # Update driver's location
+    def update_location(self, latitude: float, longitude: float):
+        self.current_location = Location(latitude, longitude)
+        print(f"Driver {self.user_name} location updated to {self.current_location}.")
+    
+    # Driver decides to accept or decline a ride request
+    def decide_on_ride(self, ride: Ride):
+        decision: bool = random.choice([True, False])
+        if decision == True:
+            print(f"Driver {self.user_name} has accepted the ride request.")
+        else:
+            print(f"Driver {self.user_name} has declined the ride request.")
+        return decision
+    
+    # Driver accepts a ride
+    def accept_ride(self, ride: Ride):
+        if not self.is_available:
+            raise Exception("Driver is not available to accept a new ride.")
+        
+        self.current_ride = ride
+        self.is_available = False
+        print(f"Driver {self.user_name} has accepted a ride from {ride.start_location} to {ride.end_location}.")
+    
+    # Driver completes a ride
+    def complete_ride(self):
+        if self.current_ride is None:
+            raise Exception("No ride to complete.")
+        
+        self.drive_history.append(self.current_ride)
+        self.current_ride = None
+        self.is_available = True
+        print(f"Driver {self.user_name} has completed a ride.")
+    
+    # Driver cancels a ride
+    def cancel_ride(self, ride: Ride):
+        if self.current_ride is None or self.current_ride.ride_id != ride.ride_id:
+            raise Exception("No current ride to cancel.")
+        
+        self.current_ride = None
+        self.is_available = True
+        print(f"Driver {self.user_name} has cancelled a ride from {ride.start_location} to {ride.end_location}.")

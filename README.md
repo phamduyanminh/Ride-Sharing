@@ -34,7 +34,7 @@ The main algorithm challenge in this ride-sharing project is efficiently finding
 
 Due to the reason the Euclidean Distance formula treats earth like a flat surface, it will leads to some significant errors. Therefore, the Haversine formula is the chosen method for the distance calculations in this project.
 
-### Algorithms for Finding Available Nearby Drivers: Brute-Force vs Spatial Indexing vs Spatial Fencing 
+### Algorithms for Finding Available Nearby Drivers: Brute-Force vs Spatial Indexing
 > [!NOTE]
 > - **Brute-Force:** A Brute-Force search is the most basic way to find the nearest object. In Brute-Force search, you will find the distance from rider to every single available nearby driver in the system. Then it picks the on with the shortest distance.
 > 
@@ -54,7 +54,7 @@ Our project system will have 4 main entities. Each represent a Python class:
 - `Driver`: A user who provides riding service. This class inherits from `User` class.
    - **Attributes**: `current_location`, `is_available`
 - `Ride`: Represent a trip from starting point to destination. This entity will connect with `Rider` and `Driver`.
-   - **Attributes**: `ride_id`, `rider`, `driver`, `start_location`, `end_location`, `status` ("`requested`", "`in_progress`", "`completed`")
+   - **Attributes**: `ride_id`, `rider`, `driver`, `start_location`, `end_location`, `status` ("`new`", "`requested`", "`in_progress`", "`cancelled`", "`completed`")
 
 ### Entity Relationships
 This entity relationships define how entites interact with each other in the project.
@@ -68,3 +68,22 @@ This entity relationships define how entites interact with each other in the pro
 
 - A `Rider` can has many `Ride`
 - A `Driver` can has many `Ride` 
+
+
+### TODO FIX BUGS - circular import models issue
+- Restructure folders -> Change modules -> models/entities | location -> utils | move enum in ride.py
+- Layers: model -> use-cases 
+- Create hashmap (instance singleton) for driver, rider, ride for in-memory | use UUID (Google v7) for storing ID 
+- Write unit test
+- Write integration (end-to-end) testing. Create user A, B, C -> drivers and D, E, F -> riders
+
+
+### Future Ideas:
+- Implement Docker
+- Integrate PostgreSQL or MySQL to save driver and rider information
+- External spatial service (PostGis)
+- External map service (path finding)
+- Write APIs service (postman, automation test postman, newman can run postman through CI/CD) 
+- Observability 
+- Asynchronize 
+- Real-time 
