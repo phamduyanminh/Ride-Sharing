@@ -10,6 +10,7 @@ KM_PER_DEGREE = 111.0
 
 class RideSystem:
     def __init__(self, operational_area: List[float]):
+        # TODO - move those lists and store into hashmaps | those should be singleton (do not depends on any class)
         self.drivers: List[Driver] = []
         self.riders: List[Rider] = []
         self.rides: List[Ride] = []
@@ -33,7 +34,7 @@ class RideSystem:
         self.process_ride_request(new_ride)
         print(f"Rider {rider.user_name} has requested a ride from {rider.current_location} to {destination}.")
         
-        
+    # TODO - move those register functions into singleton class    
     # Add a rider to the system
     def register_rider(self, rider: Rider):
         self.riders.append(rider)

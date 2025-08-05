@@ -1,7 +1,8 @@
+from __future__ import annotations
 from .rider import Rider
 from .driver import Driver
-from src.utils.location import Location
-from src.utils.ride_status import RideStatus
+from ..utils.location import Location
+from ..utils.ride_status import RideStatus
 from typing import List
 
 class Ride:

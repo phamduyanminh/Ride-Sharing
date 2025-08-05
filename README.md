@@ -69,15 +69,19 @@ This entity relationships define how entites interact with each other in the pro
 - A `Rider` can has many `Ride`
 - A `Driver` can has many `Ride` 
 
-### TODO:
-- Write unit test for all classes
-- Rename functions, arguments, and variables with units 
-- Restructure folders -> Change modules -> models/entities | utils -> spatial service | move enum in ride.py
+
+### TODO FIX BUGS - circular import models issue
+- Restructure folders -> Change modules -> models/entities | location -> utils | move enum in ride.py
+- Layers: model -> use-cases 
+- Create hashmap (instance singleton) for driver, rider, ride for in-memory | use UUID (Google v7) for storing ID 
+- Write unit test
 - Write integration (end-to-end) testing. Create user A, B, C -> drivers and D, E, F -> riders
 
+
 ### Future Ideas:
+- Implement Docker
 - Integrate PostgreSQL or MySQL to save driver and rider information
-- External spatial service (redis)
+- External spatial service (PostGis)
 - External map service (path finding)
 - Write APIs service (postman, automation test postman, newman can run postman through CI/CD) 
 - Observability 

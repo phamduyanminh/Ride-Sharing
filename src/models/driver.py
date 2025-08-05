@@ -1,8 +1,8 @@
 import random
 from typing import List
 from .user import User
-from src.utils.location import Location
-from src.modules.ride import Ride
+from .ride import Ride
+from ..utils.location import Location
 
 class Driver(User):
     def __init__(self, email: str, user_name: str, longitude: float, latitude: float):
