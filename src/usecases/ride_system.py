@@ -1,10 +1,10 @@
 from __future__ import annotations
 from typing import List
 from pyqtree import Index
-from src.modules.driver import Driver
-from src.modules.rider import Rider
-from src.modules.ride import Ride
-from src.utils.location import Location
+from src.models.driver import Driver
+from src.models.rider import Rider
+from src.models.ride import Ride
+from src.usecases.location import Location
 
 KM_PER_DEGREE = 111.0
 

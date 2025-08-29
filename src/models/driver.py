@@ -2,7 +2,7 @@ import random
 from typing import List
 from .user import User
 from .ride import Ride
-from ..utils.location import Location
+from ..usecases.location import Location
 
 class Driver(User):
     def __init__(self, email: str, user_name: str, longitude: float, latitude: float):
