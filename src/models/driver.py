@@ -17,15 +17,6 @@ class Driver(User):
         self.current_location = Location(latitude, longitude)
         print(f"Driver {self.user_name} location updated to {self.current_location}.")
     
-    # Driver decides to accept or decline a ride request
-    def decide_on_ride(self, ride: Ride):
-        decision: bool = random.choice([True, False])
-        if decision == True:
-            print(f"Driver {self.user_name} has accepted the ride request.")
-        else:
-            print(f"Driver {self.user_name} has declined the ride request.")
-        return decision
-    
     # Driver accepts a ride
     def accept_ride(self, ride: Ride):
         if not self.is_available:

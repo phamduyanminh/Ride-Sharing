@@ -15,12 +15,6 @@ class Rider(User):
         self.current_location = Location(latitude, longitude)
         print(f"Rider {self.user_name} location updated to {self.current_location}.")
     
-    def request_ride(self, ride_system: RideSystem, destination: Location):
-        if self.current_ride:
-            raise Exception("Can't request a new ride while you are on a ride!")
-        # TODO - a model shouldn't call usecase directly
-        ride_system.create_ride_request(self, destination)
-    
     def ride_completed(self):
         if not self.current_ride:
             raise Exception("No ride to complete!")
