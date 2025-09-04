@@ -2,7 +2,6 @@ from typing import List
 from .user import User
 from .ride import Ride
 from ..usecases.location import Location
-from ..usecases.ride_system import RideSystem
 
 class Rider(User):
     def __init__(self, email: str, user_name: str, longitude: float, latitude: float):
