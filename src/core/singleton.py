@@ -1,4 +1,4 @@
-from typing import Dict
+from typing import Dict, List
 from pyqtree import Index
 
 from src.models.driver import Driver
@@ -31,7 +31,7 @@ class SingletonClass:
     Returns:
         Rider: The rider object if found, else None.
     """
-    def get_rider(self, rider_id: str) -> Rider:
+    def get_rider(self, rider_id: str) -> Rider|None:
         return self.riders.get(rider_id)
     
     
@@ -49,7 +49,7 @@ class SingletonClass:
     Args:
         driver (Driver): The driver object.
     """    
-    def resgister_driver(self, driver: Driver):
+    def register_driver(self, driver: Driver):
         if self.spatial_index is None:
             raise Exception("Spatial index not initialized.")
         self.drivers[driver.user_id] = driver
@@ -58,7 +58,7 @@ class SingletonClass:
             item=driver,
             bbox=[location.longitude, location.latitude, location.longitude, location.latitude]
         )
-        print(f"{driver.user_name} has been registered.")
+        print(f"Driver {driver.user_name} has been registered.")
         
     
     """
@@ -66,7 +66,7 @@ class SingletonClass:
     Args:
         driver_id (str): The ID of the driver.
     """
-    def get_driver(self, driver_id: Driver) -> Driver:
+    def get_driver(self, driver_id: str) -> Driver|None:
         return self.drivers.get(driver_id)
     
     

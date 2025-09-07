@@ -1,71 +1,69 @@
 from __future__ import annotations
 from typing import List
-from pyqtree import Index
+import random
+
 from src.models.driver import Driver
 from src.models.rider import Rider
 from src.models.ride import Ride
 from src.usecases.location import Location
+from src.core.singleton import singleton_object
 
 KM_PER_DEGREE = 111.0
 
 class RideSystem:
     def __init__(self, operational_area: List[float]):
-        # TODO - move those lists and store into hashmaps | those should be singleton (do not depends on any class)
-        self.drivers: List[Driver] = []
-        self.riders: List[Rider] = []
-        self.rides: List[Ride] = []
-        self.spatial_index = Index(bbox=operational_area)   
+        singleton_object.initialize_spatial_index(operational_area)
     
-    def create_ride_request(self, rider: Rider, destination: Location):
-        # Calculate distance and create ride object
+    
+    """ 
+    Rider requests a ride 
+    Args:
+        rider (Rider): The rider requesting the ride
+        destination (Location): The destination of the ride
+    """
+    def request_ride(self, rider: Rider, destination: Location) -> Ride:
+        if rider.current_ride:
+            raise Exception("Rider already has an ongoing ride!")
+        
         distance = rider.current_location.calculate_distance_in_km(destination)
         new_ride = Ride(
-            rider = rider, 
-            start_location = rider.current_location, 
-            end_location = destination, 
+            rider = rider,
+            start_location = rider.current_location,
+            end_location = destination,
             distance = distance
-            )
-        # Track new ride
-        self.rides.append(new_ride)
-        # Set the ride's status and the rider's current rid
-        new_ride.request_ride() 
+        )
+        singleton_object.add_ride(new_ride)
+        new_ride.request_ride()
         rider.current_ride = new_ride
-        # Process the request to find a driver
-        self.process_ride_request(new_ride)
         print(f"Rider {rider.user_name} has requested a ride from {rider.current_location} to {destination}.")
-        
-    # TODO - move those register functions into singleton class    
-    # Add a rider to the system
-    def register_rider(self, rider: Rider):
-        self.riders.append(rider)
-        print(f"Rider {rider.user_name} registered.")
+        self.process_ride_request(new_ride)
+        return new_ride
     
-    # Add a driver to the system and insert into spatial index
-    def register_driver(self, driver: Driver):
-        self.drivers.append(driver)
-        location = driver.current_location
-        self.spatial_index.insert(
-            item=driver,
-            bbox=[location.longitude, location.latitude, location.longitude, location.latitude]
-        )
-        print(f"Driver {driver.user_name} registered.")
-    
-    # Update the driver's location in the system
-    def update_driver_location(self, driver: Driver, new_latitude: float, new_longitude: float):
-        old_location = driver.current_location
-        self.spatial_index.remove(
-            item=driver,
-            bbox=[old_location.longitude, old_location.latitude, old_location.longitude, old_location.latitude]
-        )
+    """ 
+    Complete a ride
+    Args:
+        ride (Ride): The ride has been completed
+    """
+    def complete_ride(self, ride:Ride):
+        ride.complete_ride()
+        rider = ride.rider
+        driver = ride.driver
         
-        driver.update_location(new_latitude, new_longitude)
-        new_location = driver.current_location
-        self.spatial_index.insert(
-            item=driver,
-            bbox=[new_location.longitude, new_location.latitude, new_location.longitude, new_location.latitude]
-        )
+        if rider:
+            rider.ride_history.append(ride)
+            rider.current_ride = None
+        
+        if driver:
+            driver.drive_history.append(ride)
+            driver.is_available = True
+            driver.current_ride = None
 
-    # Process a ride request
+    
+    """ 
+    Process a ride request by finding and assigning a suitable driver (random assignment)
+    Args:
+        ride (Ride): The ride to be processed
+    """
     def process_ride_request(self, ride: Ride):
         print(f"System is processing ride...")
         suitable_drivers = self.find_suitable_drivers(ride)
@@ -76,8 +74,9 @@ class RideSystem:
         else:
             for driver in suitable_drivers:
                 print(f"Offering ride to {driver.user_name}...")
-                if driver.decide_on_ride(ride):
+                if random.choice([True, False]):
                     assigned_driver = driver
+                    print(f"Driver {driver.user_name} has accepted the ride.")
                     break
         
         if assigned_driver:
@@ -87,7 +86,11 @@ class RideSystem:
             print(f"No available drivers accepted the ride. The ride will be cancelled.")
             ride.cancel_ride()
     
-    # Search for drivers within a specified radius in km 
+    """
+    Find suitable drivers for a ride within 3km, expanding to 6km if none found
+    Args:
+        ride (Ride): The ride to find drivers for
+    """
     def find_suitable_drivers(self, ride: Ride) -> Driver | None:
         print("Searching for drivers within 3km...")
         drivers = self.search_driver_in_radius_km(ride, 3.0)
@@ -98,7 +101,13 @@ class RideSystem:
         
         return drivers
 
-    # Search list of drivers within a specified radius in km using bounding box
+    
+    """
+    Search for available drivers within a specified radius using spatial indexing and Haversine formula
+    Args:
+        ride (Ride): Using ride's starting location to find drivers
+        radius_km (float): The search radius in kilometers
+    """
     def search_driver_in_radius_km(self, ride: Ride, radius_km: float) -> List[Driver]:
         rider_location = ride.start_location
         
@@ -110,7 +119,7 @@ class RideSystem:
             rider_location.longitude + degree_radius,
             rider_location.latitude + degree_radius
         ]
-        candidate_drivers = self.spatial_index.intersect(bbox=search_bbox)
+        candidate_drivers = singleton_object.spatial_index.intersect(bbox=search_bbox)
 
         # Filter available drivers
         available_drivers = [d for d in candidate_drivers if d.is_available]
@@ -121,7 +130,6 @@ class RideSystem:
         
         # Find the closest driver using Haversine algorithm
         closest_drivers = []
-        
         for driver in available_drivers:
             distance = rider_location.calculate_distance_in_km(driver.current_location)
             if distance <= radius_km:
