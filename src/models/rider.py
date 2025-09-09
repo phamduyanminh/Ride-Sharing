@@ -1,7 +1,11 @@
-from typing import List
+from typing import List, TYPE_CHECKING
+
+
 from .user import User
-from .ride import Ride
 from ..usecases.location import Location
+
+if TYPE_CHECKING:
+    from .ride import Ride
 
 class Rider(User):
     def __init__(self, email: str, user_name: str, longitude: float, latitude: float):

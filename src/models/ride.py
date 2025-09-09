@@ -1,15 +1,19 @@
 from __future__ import annotations
-from uuid import uuid7
+from typing import List
+import uuid
+from uuid import uuid5
 
 from .rider import Rider
 from .driver import Driver
 from ..usecases.location import Location
 from ..usecases.ride_status import RideStatus
-from typing import List
+
+NAME_SPACE = uuid.NAMESPACE_DNS
+NAME = "ridesharingapp.com"
 
 class Ride:
     def __init__(self, rider: Rider, start_location: Location, end_location: Location, driver: Driver = None, distance: float = 0.0):
-        self.ride_id: str = str(uuid7())
+        self.ride_id: str = str(uuid5(NAME_SPACE, NAME))
         self.rider: Rider = rider
         self.driver: Driver = driver
         self.ride_status: RideStatus = RideStatus.NEW

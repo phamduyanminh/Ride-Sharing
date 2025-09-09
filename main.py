@@ -3,6 +3,7 @@ from src.models.driver import Driver
 from src.models.rider import Rider
 from src.usecases.location import Location
 from src.usecases.ride_system import RideSystem
+from src.usecases.ride_status import RideStatus
 
 def run_simulation():
     print("===================================================")
@@ -19,7 +20,13 @@ def run_simulation():
     drivers = [
         Driver(email="td1@email.com", user_name="Minh", longitude=-79.64, latitude=43.59),
         Driver(email="td2@email.com", user_name="Mike", longitude=-79.60, latitude=43.62),
-        Driver(email="td3@email.com", user_name="Martin", longitude=-79.70, latitude=43.58)
+        Driver(email="td3@email.com", user_name="Martin", longitude=-79.70, latitude=43.58),
+        Driver(email="td4@email.com", user_name="Min", longitude=-79.68, latitude=43.55),
+        Driver(email="td5@email.com", user_name="Mart", longitude=-79.55, latitude=43.68),
+        Driver(email="td6@email.com", user_name="Kevin", longitude=-79.75, latitude=43.61),
+        Driver(email="td7@email.com", user_name="Micheal", longitude=-79.62, latitude=43.66),
+        Driver(email="td8@email.com", user_name="Mi", longitude=-79.58, latitude=43.52),
+        Driver(email="td9@email.com", user_name="Mark", longitude=-79.72, latitude=43.69)
     ]
     for driver in drivers:
         singleton_object.register_driver(driver)

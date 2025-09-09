@@ -39,6 +39,24 @@ class RideSystem:
         self.process_ride_request(new_ride)
         return new_ride
     
+    
+    """
+    Rider cancels a ride
+    Args:
+        ride (Ride): The ride to be cancelled
+    """
+    def cancel_ride(self, ride: "Ride"):
+        ride.cancel_ride()
+        rider = ride.rider
+        driver = ride.driver
+        
+        if rider:
+            rider.current_ride = None
+        if driver:
+            driver.is_available = True
+            driver.current_ride = None
+    
+    
     """ 
     Complete a ride
     Args:
@@ -74,7 +92,7 @@ class RideSystem:
         else:
             for driver in suitable_drivers:
                 print(f"Offering ride to {driver.user_name}...")
-                if random.choice([True, False]):
+                if True:
                     assigned_driver = driver
                     print(f"Driver {driver.user_name} has accepted the ride.")
                     break
