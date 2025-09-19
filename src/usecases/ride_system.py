@@ -1,6 +1,5 @@
 from __future__ import annotations
 from typing import List
-import random
 
 from src.models.driver import Driver
 from src.models.rider import Rider
