@@ -72,7 +72,6 @@ This entity relationships define how entites interact with each other in the pro
 
 ### TODO FIX BUGS - circular import models issue
 - Restructure folders -> Change modules -> models/entities | location -> utils | move enum in ride.py
-- Layers: model -> use-cases 
 - Create hashmap (instance singleton) for driver, rider, ride for in-memory | use UUID (Google v7) for storing ID 
 - Write unit test
 - Write integration (end-to-end) testing. Create user A, B, C -> drivers and D, E, F -> riders
