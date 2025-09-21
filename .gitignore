@@ -1,3 +1,7 @@
 .venv
 .vscode
 .pytest_cache
+src/usecases/*.pyc
+src/usecases/**/*.pyc
+src/models/**/*.pyc
+src/core/**/*.pyc

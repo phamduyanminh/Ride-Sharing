@@ -70,15 +70,16 @@ This entity relationships define how entites interact with each other in the pro
 - A `Driver` can has many `Ride` 
 
 
-### TODO FIX BUGS - circular import models issue
-- Restructure folders -> Change modules -> models/entities | location -> utils | move enum in ride.py
-- Create hashmap (instance singleton) for driver, rider, ride for in-memory | use UUID (Google v7) for storing ID 
+### TODO - FIX BUGS 
+- Fix duplicated log when rider cancels ride
+- Add feature: driver can cancel ride as well
 - Write unit test
 - Write integration (end-to-end) testing. Create user A, B, C -> drivers and D, E, F -> riders
-
+- Docker: compose up/down (research about this)
+- Research how to setup docker with PostGIS
+- PostgesSQL should be placed in models -> implementing through ORM 
 
 ### Future Ideas:
-- Implement Docker
 - Integrate PostgreSQL or MySQL to save driver and rider information
 - External spatial service (PostGis)
 - External map service (path finding)
@@ -86,3 +87,16 @@ This entity relationships define how entites interact with each other in the pro
 - Observability 
 - Asynchronize 
 - Real-time 
+
+# Question
+- Diff between TCP & UDP 
+- Diff between Threads & Processes
+- Diff between dict & set (python) -> key-value pair
+- What happens to the OS when you run a command line 
+- Concurrence in OS
+- Diff between git merge and git rebase 
+- What is git commit -> wrapped/packaged into a commit (a commit hash, which stored differents) -> when you push it will make the changes synchronize between local current branch and current remote branch
+- What will you do if there is a conflict between main branch with your current working branch?
+- git switch (new version of git checkout)
+- Which git cmd line will you use when you are working on a branch but you want to swith to another branch to work on different feature -> git checkout commit
+- Diff btween docker img and docker container 
