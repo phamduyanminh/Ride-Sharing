@@ -45,7 +45,8 @@ class RideSystem:
         ride (Ride): The ride to be cancelled
     """
     def cancel_ride(self, ride: "Ride"):
-        ride.cancel_ride()
+        if not ride.cancel_ride():
+            return
         rider = ride.rider
         driver = ride.driver
         

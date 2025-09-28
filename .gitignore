@@ -5,3 +5,5 @@ src/usecases/*.pyc
 src/usecases/**/*.pyc
 src/models/**/*.pyc
 src/core/**/*.pyc
+__pycache__/main.cpython-313.pyc
+
