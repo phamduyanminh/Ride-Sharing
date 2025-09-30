@@ -55,6 +55,8 @@ class Ride:
     # Start the ride:
     def start_ride(self):
         if self.ride_status == RideStatus.PICKING_UP:
+            if self.driver:
+                self.driver.update_location(self.start_location.latitude, self.start_location.longitude)
             self.ride_status = RideStatus.IN_TRIP
             print(f"Ride {self.ride_id} has started.")
         else:
@@ -64,6 +66,8 @@ class Ride:
     def complete_ride(self):
         if self.ride_status != RideStatus.IN_TRIP:
             raise Exception("Cannot complete a ride that is not in-trip.")
+        if self.driver:
+            self.driver.update_location(self.end_location.latitude, self.end_location.longitude)
         self.ride_status = RideStatus.COMPLETED
         print(f"Ride {self.ride_id} has been completed.")
     
