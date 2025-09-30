@@ -96,6 +96,37 @@ def run_simulation():
     except Exception as e:
         print(f"An error occurred during Scenario 2: {e}")
 
+    
+    # SCENARIO 3: A DRIVER CANCELS A RIDE ---
+    print("\n===================================================")
+    print("        SCENARIO 3: DRIVER CANCELS THE RIDE         ")
+    print("===================================================")
+    try:
+        fam = riders[1]
+        destination_fam = Location(latitude=43.63, longitude=-79.57)
+        print(f"\n{fam.user_name} needs another ride to run more errands.")
+        ride = ride_system.request_ride(pham, destination_fam)
+
+        if ride and ride.driver:
+            assigned_driver = ride.driver
+            print(f"\nRide {ride.ride_id} assigned to driver {assigned_driver.user_name}.")
+            print("Driver is on the way to pick up the rider...")
+
+            print(f"Current ride status before cancellation: {ride.ride_status.value}")
+
+            print(f"\nUnexpected issue! Driver {assigned_driver.user_name} must cancel the ride.")
+            assigned_driver.cancel_ride(ride)
+            ride_system.cancel_ride(ride)
+
+            print(f"\nRide status after driver cancellation: {ride.ride_status.value}")
+            print(f"Is {assigned_driver.user_name} available now? {assigned_driver.is_available}")
+            print(f"Does {fam.user_name} have a current ride? {fam.current_ride is not None}")
+        else:
+            print("\n--- No driver accepted the ride, so cancellation is not needed. ---")
+    
+    except Exception as e:
+        print(f"An error occurred during Scenario 3: {e}")
+
     print("\n===================================================")
     print("               SIMULATION COMPLETE               ")
     print("===================================================")
