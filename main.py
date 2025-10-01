@@ -3,7 +3,7 @@ from src.models.driver import Driver
 from src.models.rider import Rider
 from src.usecases.location import Location
 from src.usecases.ride_system import RideSystem
-from src.usecases.ride_status import RideStatus
+from models.ride_status import RideStatus
 
 def run_simulation():
     print("===================================================")
