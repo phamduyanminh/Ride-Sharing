@@ -1,6 +1,6 @@
 import unittest
 from unittest.mock import Mock
-from src.models.rider import Rider
+from models.users.rider import Rider
 
 class TestRider(unittest.TestCase):
     def setUp(self):

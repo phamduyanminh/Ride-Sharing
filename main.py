@@ -1,9 +1,9 @@
-from src.core.singleton import singleton_object
-from src.models.driver import Driver
-from src.models.rider import Rider
-from src.usecases.location import Location
+from src.core.ride_sharing_manager import ride_sharing_manager_object
+from src.models.users.driver import Driver
+from src.models.users.rider import Rider
+from src.models.location.location import Location
 from src.usecases.ride_system import RideSystem
-from models.ride_status import RideStatus
+from src.models.ride.ride_status import RideStatus
 
 def run_simulation():
     print("===================================================")
@@ -29,14 +29,14 @@ def run_simulation():
         Driver(email="td9@email.com", user_name="Mark", longitude=-79.72, latitude=43.69)
     ]
     for driver in drivers:
-        singleton_object.register_driver(driver)
+        ride_sharing_manager_object.register_driver(driver)
 
     riders = [
         Rider(email="tr1@email.com", user_name="Pham", longitude=-79.65, latitude=43.60),
         Rider(email="tr2@email.com", user_name="Fam", longitude=-79.62, latitude=43.59)
     ]
     for rider in riders:
-        singleton_object.register_rider(rider)
+        ride_sharing_manager_object.register_rider(rider)
 
     # SCENARIO 1: A RIDER COMPLETES A FULL TRIP ---
     print("\n===================================================")

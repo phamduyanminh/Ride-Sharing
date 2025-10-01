@@ -1,12 +1,12 @@
 from typing import Dict, List
 from pyqtree import Index
 
-from src.models.driver import Driver
-from src.models.rider import Rider
-from src.models.ride import Ride
+from src.models.users.driver import Driver
+from src.models.users.rider import Rider
+from src.models.ride.ride import Ride
 
 
-class SingletonClass:
+class RideSharingManager:
     def __init__(self):
         self.drivers: Dict[str, Driver] = {}
         self.riders: Dict[str, Rider] = {}
@@ -87,4 +87,4 @@ class SingletonClass:
     def get_ride(self, ride_id: str) -> Ride:
         return self.rides.get(ride_id)
 
-singleton_object = SingletonClass()
+ride_sharing_manager_object = RideSharingManager()

@@ -74,7 +74,6 @@ This entity relationships define how entites interact with each other in the pro
 - `.\.venv\Scripts\Activate.ps1`
 
 ### TODO - FIX BUGS 
-- Add feature: driver can cancel ride as well
 - Write unit test
 - Write integration (end-to-end) testing. Create user A, B, C -> drivers and D, E, F -> riders
 - Docker: compose up/down (research about this)

@@ -1,17 +1,17 @@
 from __future__ import annotations
 from typing import List
 
-from src.models.driver import Driver
-from src.models.rider import Rider
-from src.models.ride import Ride
-from src.usecases.location import Location
-from src.core.singleton import singleton_object
+from src.models.users.driver import Driver
+from src.models.users.rider import Rider
+from src.models.ride.ride import Ride
+from src.models.location.location import Location
+from src.core.ride_sharing_manager import ride_sharing_manager_object
 
 KM_PER_DEGREE = 111.0
 
 class RideSystem:
     def __init__(self, operational_area: List[float]):
-        singleton_object.initialize_spatial_index(operational_area)
+        ride_sharing_manager_object.initialize_spatial_index(operational_area)
     
     
     """ 
@@ -31,7 +31,7 @@ class RideSystem:
             end_location = destination,
             distance = distance
         )
-        singleton_object.add_ride(new_ride)
+        ride_sharing_manager_object.add_ride(new_ride)
         new_ride.request_ride()
         rider.current_ride = new_ride
         print(f"Rider {rider.user_name} has requested a ride from {rider.current_location} to {destination}.")
@@ -137,7 +137,7 @@ class RideSystem:
             rider_location.longitude + degree_radius,
             rider_location.latitude + degree_radius
         ]
-        candidate_drivers = singleton_object.spatial_index.intersect(bbox=search_bbox)
+        candidate_drivers = ride_sharing_manager_object.spatial_index.intersect(bbox=search_bbox)
 
         # Filter available drivers
         available_drivers = [d for d in candidate_drivers if d.is_available]
