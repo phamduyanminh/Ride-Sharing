@@ -1,5 +1,6 @@
 from __future__ import annotations
 from typing import List
+import random
 
 from src.models.driver import Driver
 from src.models.rider import Rider
@@ -90,12 +91,9 @@ class RideSystem:
         if not suitable_drivers:
             print("No drivers found in the operational area.")
         else:
-            for driver in suitable_drivers:
-                print(f"Offering ride to {driver.user_name}...")
-                if True:
-                    assigned_driver = driver
-                    print(f"Driver {driver.user_name} has accepted the ride.")
-                    break
+            assigned_driver = random.choice(suitable_drivers)
+            print(f"Driver {assigned_driver.user_name} has accepted the ride.")
+
         
         if assigned_driver:
             ride.assign_driver(assigned_driver)
