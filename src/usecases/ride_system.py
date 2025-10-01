@@ -64,18 +64,21 @@ class RideSystem:
         ride (Ride): The ride has been completed
     """
     def complete_ride(self, ride:Ride):
-        ride.complete_ride()
         rider = ride.rider
         driver = ride.driver
         
-        if rider:
-            rider.ride_history.append(ride)
-            rider.current_ride = None
+        if not rider:
+            raise Exception("No rider to complete this ride!")
+        if not driver:
+            raise Exception("No driver to complete this ride!")
         
-        if driver:
-            driver.drive_history.append(ride)
-            driver.is_available = True
-            driver.current_ride = None
+        ride.complete_ride()
+        rider.ride_history.append(ride)
+        rider.current_ride = None
+        driver.drive_history.append(ride)
+        driver.is_available = True
+        driver.current_ride = None
+        print(f"{rider.user_name} has completed ride for {driver.user_name}")
 
     
     """ 
