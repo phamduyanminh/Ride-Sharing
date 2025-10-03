@@ -1,6 +1,6 @@
 import unittest
 from unittest.mock import Mock
-import src.models.driver as Driver
+import models.users.driver as Driver
 
 class TestDriver(unittest.TestCase):
     def setUp(self):

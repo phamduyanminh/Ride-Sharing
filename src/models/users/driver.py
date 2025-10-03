@@ -3,10 +3,10 @@ from typing import List, TYPE_CHECKING
 
 
 from .user import User
-from ..usecases.location import Location
+from ..location.location import Location
 
 if TYPE_CHECKING:
-    from .ride import Ride
+    from ..ride.ride import Ride
 
 class Driver(User):
     def __init__(self, email: str, user_name: str, longitude: float, latitude: float):

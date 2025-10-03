@@ -3,10 +3,10 @@ from typing import List
 import uuid
 from uuid import uuid5
 
-from .rider import Rider
-from .driver import Driver
-from ..usecases.location import Location
-from ..usecases.ride_status import RideStatus
+from ..users.rider import Rider
+from ..users.driver import Driver
+from ..location.location import Location
+from .ride_status import RideStatus
 
 NAME_SPACE = uuid.NAMESPACE_DNS
 NAME = "ridesharingapp.com"
