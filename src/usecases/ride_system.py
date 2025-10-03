@@ -45,7 +45,7 @@ class RideSystem:
     Args:
         ride (Ride): The ride to be cancelled
     """
-    def cancel_ride(self, ride: "Ride"):
+    def cancel_ride(self, ride: Ride):
         if not ride.cancel_ride():
             return
         rider = ride.rider
@@ -63,7 +63,7 @@ class RideSystem:
     Args:
         ride (Ride): The ride has been completed
     """
-    def complete_ride(self, ride:Ride):
+    def complete_ride(self, ride: Ride):
         rider = ride.rider
         driver = ride.driver
         
