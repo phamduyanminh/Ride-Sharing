@@ -23,7 +23,7 @@ class RideSystem:
     """
     def request_ride(self, rider: Rider, destination: Location) -> Ride:
         if rider.current_ride:
-            raise Exception("Rider already has an ongoing ride!")
+            raise ValueError("Rider already has an ongoing ride!")
         
         distance = rider.current_location.calculate_distance_in_km(destination)
         new_ride = Ride(
@@ -68,17 +68,19 @@ class RideSystem:
         driver = ride.driver
         
         if not rider:
-            raise Exception("No rider to complete this ride!")
+            raise ValueError("No rider to complete this ride!")
         if not driver:
-            raise Exception("No driver to complete this ride!")
+            raise ValueError("No driver to complete this ride!")
         
-        ride.complete_ride()
-        rider.ride_history.append(ride)
-        rider.current_ride = None
-        driver.drive_history.append(ride)
-        driver.is_available = True
-        driver.current_ride = None
-        print(f"{rider.user_name} has completed ride for {driver.user_name}")
+        try:
+            ride.complete_ride()
+            rider.ride_history.append(ride)
+            driver.drive_history.append(ride)
+            print(f"{rider.user_name} has completed ride for {driver.user_name}")
+        finally:
+            rider.current_ride = None
+            driver.current_ride = None
+            driver.is_available = True
 
     
     """ 
