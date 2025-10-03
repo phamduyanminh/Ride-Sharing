@@ -1,13 +1,19 @@
 from __future__ import annotations
-from .rider import Rider
-from .driver import Driver
-from ..utils.location import Location
-from ..utils.ride_status import RideStatus
 from typing import List
+import uuid
+from uuid import uuid5
+
+from ..users.rider import Rider
+from ..users.driver import Driver
+from ..location.location import Location
+from .ride_status import RideStatus
+
+NAME_SPACE = uuid.NAMESPACE_DNS
+NAME = "ridesharingapp.com"
 
 class Ride:
     def __init__(self, rider: Rider, start_location: Location, end_location: Location, driver: Driver = None, distance: float = 0.0):
-        self.ride_id: str = id(self)
+        self.ride_id: str = str(uuid5(NAME_SPACE, NAME))
         self.rider: Rider = rider
         self.driver: Driver = driver
         self.ride_status: RideStatus = RideStatus.NEW
@@ -49,6 +55,8 @@ class Ride:
     # Start the ride:
     def start_ride(self):
         if self.ride_status == RideStatus.PICKING_UP:
+            if self.driver:
+                self.driver.update_location(self.start_location.latitude, self.start_location.longitude)
             self.ride_status = RideStatus.IN_TRIP
             print(f"Ride {self.ride_id} has started.")
         else:
@@ -58,21 +66,19 @@ class Ride:
     def complete_ride(self):
         if self.ride_status != RideStatus.IN_TRIP:
             raise Exception("Cannot complete a ride that is not in-trip.")
+        if self.driver:
+            self.driver.update_location(self.end_location.latitude, self.end_location.longitude)
         self.ride_status = RideStatus.COMPLETED
         print(f"Ride {self.ride_id} has been completed.")
-        
-        if self.driver:
-            self.driver.complete_ride()
-        if self.rider:
-            self.rider.ride_completed()
     
     # Cancel the ride
     def cancel_ride(self):
+        if self.ride_status == RideStatus.CANCELLED:
+            return False
+        
         if self.ride_status not in [RideStatus.PICKING_UP, RideStatus.REQUESTED]:
             raise Exception("Cannot cancel a ride that is already in-trip or has finished.")
-        
-        if self.driver and self.ride_status == RideStatus.PICKING_UP:
-            self.driver.cancel_ride(self)
-        
+
         self.ride_status = RideStatus.CANCELLED
         print(f"Ride {self.ride_id} has been cancelled.")
+        return True

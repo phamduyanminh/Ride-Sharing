@@ -10,6 +10,9 @@ class Location:
         self.latitude = latitude
         self.longitude = longitude
     
+    def __repr__(self) -> str:
+        return f"Location(lat={self.latitude}, lon={self.longitude})"
+    
     def calculate_distance_in_km(self, end_location: Location) -> float:
         radius = 6371 # Radius of the Earth in kilometers
         

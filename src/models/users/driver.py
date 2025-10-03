@@ -1,8 +1,12 @@
 import random
-from typing import List
+from typing import List, TYPE_CHECKING
+
+
 from .user import User
-from .ride import Ride
-from ..utils.location import Location
+from ..location.location import Location
+
+if TYPE_CHECKING:
+    from ..ride.ride import Ride
 
 class Driver(User):
     def __init__(self, email: str, user_name: str, longitude: float, latitude: float):
@@ -17,17 +21,8 @@ class Driver(User):
         self.current_location = Location(latitude, longitude)
         print(f"Driver {self.user_name} location updated to {self.current_location}.")
     
-    # Driver decides to accept or decline a ride request
-    def decide_on_ride(self, ride: Ride):
-        decision: bool = random.choice([True, False])
-        if decision == True:
-            print(f"Driver {self.user_name} has accepted the ride request.")
-        else:
-            print(f"Driver {self.user_name} has declined the ride request.")
-        return decision
-    
     # Driver accepts a ride
-    def accept_ride(self, ride: Ride):
+    def accept_ride(self, ride: "Ride"):
         if not self.is_available:
             raise Exception("Driver is not available to accept a new ride.")
         
@@ -46,7 +41,7 @@ class Driver(User):
         print(f"Driver {self.user_name} has completed a ride.")
     
     # Driver cancels a ride
-    def cancel_ride(self, ride: Ride):
+    def cancel_ride(self, ride: "Ride"):
         if self.current_ride is None or self.current_ride.ride_id != ride.ride_id:
             raise Exception("No current ride to cancel.")
         

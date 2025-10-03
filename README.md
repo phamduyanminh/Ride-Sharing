@@ -70,16 +70,17 @@ This entity relationships define how entites interact with each other in the pro
 - A `Driver` can has many `Ride` 
 
 
-### TODO FIX BUGS - circular import models issue
-- Restructure folders -> Change modules -> models/entities | location -> utils | move enum in ride.py
-- Layers: model -> use-cases 
-- Create hashmap (instance singleton) for driver, rider, ride for in-memory | use UUID (Google v7) for storing ID 
+### Activate Python environment
+- `.\.venv\Scripts\Activate.ps1`
+
+### TODO - FIX BUGS 
 - Write unit test
 - Write integration (end-to-end) testing. Create user A, B, C -> drivers and D, E, F -> riders
-
+- Docker: compose up/down (research about this)
+- Research how to setup docker with PostGIS
+- PostgesSQL should be placed in models -> implementing through ORM 
 
 ### Future Ideas:
-- Implement Docker
 - Integrate PostgreSQL or MySQL to save driver and rider information
 - External spatial service (PostGis)
 - External map service (path finding)

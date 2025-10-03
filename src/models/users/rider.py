@@ -1,8 +1,11 @@
-from typing import List
+from typing import List, TYPE_CHECKING
+
+
 from .user import User
-from .ride import Ride
-from ..usecases.location import Location
-from ..usecases.ride_system import RideSystem
+from ..location.location import Location
+
+if TYPE_CHECKING:
+    from ..ride.ride import Ride
 
 class Rider(User):
     def __init__(self, email: str, user_name: str, longitude: float, latitude: float):
@@ -14,12 +17,6 @@ class Rider(User):
     def update_location(self, latitude: float, longitude: float):
         self.current_location = Location(latitude, longitude)
         print(f"Rider {self.user_name} location updated to {self.current_location}.")
-    
-    def request_ride(self, ride_system: RideSystem, destination: Location):
-        if self.current_ride:
-            raise Exception("Can't request a new ride while you are on a ride!")
-        # TODO - a model shouldn't call usecase directly
-        ride_system.create_ride_request(self, destination)
     
     def ride_completed(self):
         if not self.current_ride:
