@@ -84,7 +84,7 @@ def run_simulation():
             print(f"\nRide {ride_to_cancel.ride_id} created with driver {assigned_driver.user_name}.")
             
             print(f"\n...Oh no, {fam.user_name} needs to cancel the ride!...")
-            ride_system.cancel_ride(ride_to_cancel)
+            ride_system.cancel_ride(ride_to_cancel.ride_id)
 
             # Verify final state
             print(f"\nRide status: {ride_to_cancel.ride_status.value}")
@@ -105,7 +105,7 @@ def run_simulation():
         fam = riders[1]
         destination_fam = Location(latitude=43.63, longitude=-79.57)
         print(f"\n{fam.user_name} needs another ride to run more errands.")
-        ride = ride_system.request_ride(pham, destination_fam)
+        ride = ride_system.request_ride(fam, destination_fam)
 
         if ride and ride.driver:
             assigned_driver = ride.driver
@@ -116,7 +116,7 @@ def run_simulation():
 
             print(f"\nUnexpected issue! Driver {assigned_driver.user_name} must cancel the ride.")
             assigned_driver.cancel_ride(ride)
-            ride_system.cancel_ride(ride)
+            ride_system.cancel_ride(ride.ride_id)
 
             print(f"\nRide status after driver cancellation: {ride.ride_status.value}")
             print(f"Is {assigned_driver.user_name} available now? {assigned_driver.is_available}")

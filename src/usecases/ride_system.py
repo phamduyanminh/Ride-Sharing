@@ -43,9 +43,14 @@ class RideSystem:
     """
     Rider cancels a ride
     Args:
-        ride (Ride): The ride to be cancelled
+        ride_id (str): The ride to be cancelled
     """
-    def cancel_ride(self, ride: Ride):
+    def cancel_ride(self, ride_id: str):
+        ride = ride_sharing_manager_object.get_ride(ride_id)
+
+        if not ride:
+            raise ValueError(f"Ride with ID {ride_id} not found!")
+
         if not ride.cancel_ride():
             return
         rider = ride.rider
@@ -61,9 +66,14 @@ class RideSystem:
     """ 
     Complete a ride
     Args:
-        ride (Ride): The ride has been completed
+        ride_d (str): The ride has been completed
     """
-    def complete_ride(self, ride: Ride):
+    def complete_ride(self, ride_id: str):
+        ride = ride_sharing_manager_object.get_ride(ride_id)
+
+        if not ride:
+            raise ValueError(f"Ride with ID {ride_id} not found!")
+
         rider = ride.rider
         driver = ride.driver
         
@@ -106,6 +116,8 @@ class RideSystem:
         else:
             print(f"No available drivers accepted the ride. The ride will be cancelled.")
             ride.cancel_ride()
+            if ride.rider:
+                ride.rider.current_ride = None
     
     """
     Find suitable drivers for a ride within 3km, expanding to 6km if none found
