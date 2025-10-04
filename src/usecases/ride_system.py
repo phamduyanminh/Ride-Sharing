@@ -1,5 +1,6 @@
 from __future__ import annotations
 from typing import List
+import random
 
 from src.models.users.driver import Driver
 from src.models.users.rider import Rider
@@ -22,7 +23,7 @@ class RideSystem:
     """
     def request_ride(self, rider: Rider, destination: Location) -> Ride:
         if rider.current_ride:
-            raise Exception("Rider already has an ongoing ride!")
+            raise ValueError("Rider already has an ongoing ride!")
         
         distance = rider.current_location.calculate_distance_in_km(destination)
         new_ride = Ride(
@@ -42,9 +43,14 @@ class RideSystem:
     """
     Rider cancels a ride
     Args:
-        ride (Ride): The ride to be cancelled
+        ride_id (str): The ride to be cancelled
     """
-    def cancel_ride(self, ride: "Ride"):
+    def cancel_ride(self, ride_id: str):
+        ride = ride_sharing_manager_object.get_ride(ride_id)
+
+        if not ride:
+            raise ValueError(f"Ride with ID {ride_id} not found!")
+
         if not ride.cancel_ride():
             return
         rider = ride.rider
@@ -60,21 +66,31 @@ class RideSystem:
     """ 
     Complete a ride
     Args:
-        ride (Ride): The ride has been completed
+        ride_d (str): The ride has been completed
     """
-    def complete_ride(self, ride:Ride):
-        ride.complete_ride()
+    def complete_ride(self, ride_id: str):
+        ride = ride_sharing_manager_object.get_ride(ride_id)
+
+        if not ride:
+            raise ValueError(f"Ride with ID {ride_id} not found!")
+
         rider = ride.rider
         driver = ride.driver
         
-        if rider:
-            rider.ride_history.append(ride)
-            rider.current_ride = None
+        if not rider:
+            raise ValueError("No rider to complete this ride!")
+        if not driver:
+            raise ValueError("No driver to complete this ride!")
         
-        if driver:
+        try:
+            ride.complete_ride()
+            rider.ride_history.append(ride)
             driver.drive_history.append(ride)
-            driver.is_available = True
+            print(f"{rider.user_name} has completed ride for {driver.user_name}")
+        finally:
+            rider.current_ride = None
             driver.current_ride = None
+            driver.is_available = True
 
     
     """ 
@@ -90,12 +106,9 @@ class RideSystem:
         if not suitable_drivers:
             print("No drivers found in the operational area.")
         else:
-            for driver in suitable_drivers:
-                print(f"Offering ride to {driver.user_name}...")
-                if True:
-                    assigned_driver = driver
-                    print(f"Driver {driver.user_name} has accepted the ride.")
-                    break
+            assigned_driver = random.choice(suitable_drivers)
+            print(f"Driver {assigned_driver.user_name} has accepted the ride.")
+
         
         if assigned_driver:
             ride.assign_driver(assigned_driver)
@@ -103,6 +116,8 @@ class RideSystem:
         else:
             print(f"No available drivers accepted the ride. The ride will be cancelled.")
             ride.cancel_ride()
+            if ride.rider:
+                ride.rider.current_ride = None
     
     """
     Find suitable drivers for a ride within 3km, expanding to 6km if none found
