@@ -1,9 +1,10 @@
 from src.core.ride_sharing_manager import ride_sharing_manager_object
+from src.models.location.location import Location
+from src.models.ride.ride_status import RideStatus
 from src.models.users.driver import Driver
 from src.models.users.rider import Rider
-from src.models.location.location import Location
 from src.usecases.ride_system import RideSystem
-from src.models.ride.ride_status import RideStatus
+
 
 def run_simulation():
     print("===================================================")
