@@ -83,17 +83,27 @@ This entity relationships define how entites interact with each other in the pro
 
 - `.\.venv\Scripts\Activate.ps1`
 
-### TODO - FIX BUGS
+### Basics SQL Shell commands
 
-- Write unit test
-- Write integration (end-to-end) testing. Create user A, B, C -> drivers and D, E, F -> riders
-- Docker: compose up/down (research about this)
-- Research how to setup docker with PostGIS
-- PostgesSQL should be placed in models -> implementing through ORM 
+- `\l` - List all databases
+- `\c <database_name>` - Connect to a database
+- `\dt` - List all tables
+- `\d <table_name>` - Describe a table
+- `CREATE DATABASE <database_name>;` - Create a database
+- `DROP DATABASE <database_name>;` - Drop a database
+- `\q` - Quit
 
-### Future Ideas
+### TODO
 
-- Integrate PostgreSQL or MySQL to save driver and rider information
+- [X] Write unit test
+- [ ] Write integration (end-to-end) testing. Create user A, B, C -> drivers and D, E, F -> riders
+- [X] Docker: compose up/down (research about this)
+- [X] Research how to setup docker with PostGIS
+- [-] Integrate PostgreSQL with the project
+- [ ] PostgesSQL should be placed in models -> implementing through ORM 
+
+### Future Implementations
+
 - External spatial service (PostGis)
 - External map service (path finding)
 - Write APIs service (postman, automation test postman, newman can run postman through CI/CD)

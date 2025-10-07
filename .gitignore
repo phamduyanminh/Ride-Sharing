@@ -2,6 +2,7 @@
 .vscode
 .pytest_cache
 .idea
+.env
 
 # Ignore all compiled Python files
 *.pyc
