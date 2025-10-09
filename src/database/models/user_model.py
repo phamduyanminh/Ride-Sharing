@@ -11,12 +11,12 @@ class UserTypeEnum(enum.Enum):
     rider = "rider"
 
 class UserModel(Base):
-    _tablename_ = "users"
+    __tablename__ = "users"
 
     user_id = Column(UUID(as_uuid=True), primary_key=True)
     email = Column(String(255), unique=True, nullable=False)
     user_name = Column(String(50), nullable=False)
-    user_type = Column(Enum(UserTypeEnum), nulable=False)
+    user_type = Column(Enum(UserTypeEnum), nullable=False)
     current_location = Column(Geometry("POINT", srid=4326))
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)

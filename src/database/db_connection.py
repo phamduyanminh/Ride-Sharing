@@ -1,5 +1,5 @@
 import psycopg2
-from config.config import config
+from src.database.config.config import config
 
 def connect():
     connection = None 

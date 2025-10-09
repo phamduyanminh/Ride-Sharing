@@ -66,7 +66,7 @@ class RideSystem:
     """ 
     Complete a ride
     Args:
-        ride_d (str): The ride has been completed
+        ride_id (str): The ride has been completed
     """
     def complete_ride(self, ride_id: str):
         ride = ride_sharing_manager_object.get_ride(ride_id)
