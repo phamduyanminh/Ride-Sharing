@@ -2,6 +2,8 @@ from __future__ import annotations
 from typing import List
 import random
 
+from database.models.base import get_session
+from database.repositories.driver_repository import DriverRepository
 from src.models.users.driver import Driver
 from src.models.users.rider import Rider
 from src.models.ride.ride import Ride
@@ -144,30 +146,44 @@ class RideSystem:
     def search_driver_in_radius_km(self, ride: Ride, radius_km: float) -> List[Driver]:
         rider_location = ride.start_location
         
+        """Old Code - using PyQTree for spatial search"""
         # Coarse search using bounding box
-        degree_radius = radius_km / KM_PER_DEGREE # 360 / 3.14 (pi) = 114.0 degrees per km
-        search_bbox = [
-            rider_location.longitude - degree_radius,
-            rider_location.latitude - degree_radius,
-            rider_location.longitude + degree_radius,
-            rider_location.latitude + degree_radius
-        ]
-        candidate_drivers = ride_sharing_manager_object.spatial_index.intersect(bbox=search_bbox)
+        # degree_radius = radius_km / KM_PER_DEGREE # 360 / 3.14 (pi) = 114.0 degrees per km
+        # search_bbox = [
+        #     rider_location.longitude - degree_radius,
+        #     rider_location.latitude - degree_radius,
+        #     rider_location.longitude + degree_radius,
+        #     rider_location.latitude + degree_radius
+        # ]
+        # candidate_drivers = ride_sharing_manager_object.spatial_index.intersect(bbox=search_bbox)
 
         # Filter available drivers
-        available_drivers = [d for d in candidate_drivers if d.is_available]
-        
-        if not available_drivers:
-            print(f"No available drivers found in {radius_km} km bounding box.")
-            return []
+        # available_drivers = [d for d in candidate_drivers if d.is_available]
+        # if not available_drivers:
+        #     print(f"No available drivers found in {radius_km} km bounding box.")
+        #     return []
         
         # Find the closest driver using Haversine algorithm
-        closest_drivers = []
-        for driver in available_drivers:
-            distance = rider_location.calculate_distance_in_km(driver.current_location)
-            if distance <= radius_km:
-                closest_drivers.append((driver, distance))
+        # closest_drivers = []
+        # for driver in available_drivers:
+        #     distance = rider_location.calculate_distance_in_km(driver.current_location)
+        #     if distance <= radius_km:
+        #         closest_drivers.append((driver, distance))
 
-        sorted_closest_drivers = sorted(closest_drivers, key=lambda x: x[1])
-        sorted_drivers = [driver for driver, distance in sorted_closest_drivers]
-        return sorted_drivers
+        # sorted_closest_drivers = sorted(closest_drivers, key=lambda x: x[1])
+        # sorted_drivers = [driver for driver, distance in sorted_closest_drivers]
+        # return sorted_drivers
+
+        """New Code - using PostGIS for spatial search"""
+        driver_repo = DriverRepository(get_session())
+        driver_models = driver_repo.find_available_drivers_within_radius(
+            rider_location,
+            radius_km
+        )
+
+        drivers = []
+        for driver_model in driver_models:
+            driver = self.drivers.get(str(driver_model.user_id))
+            if driver and driver.is_available:
+                drivers.append(driver)
+        return drivers

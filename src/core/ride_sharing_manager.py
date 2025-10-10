@@ -4,14 +4,23 @@ from pyqtree import Index
 from src.models.users.driver import Driver
 from src.models.users.rider import Rider
 from src.models.ride.ride import Ride
+from src.database.models.base import get_session
+from src.database.repositories.user_repository import UserRepository
+from src.database.repositories.driver_repository import DriverRepository
 
 
 class RideSharingManager:
     def __init__(self):
+        # In-memory code
         self.drivers: Dict[str, Driver] = {}
         self.riders: Dict[str, Rider] = {}
         self.rides: Dict[str, Ride] = {}
         self.spatial_index: Index = None
+
+        # Database code
+        self.db_session = get_session()
+        self.user_repo = UserRepository(self.db_session)
+        self.driver_repo = DriverRepository(self.db_session)
     
     
     """
@@ -20,7 +29,11 @@ class RideSharingManager:
         rider (Rider): The rider object to be registered.
     """
     def register_rider(self, rider: Rider):
+        # In-memory
         self.riders[rider.user_id] = rider
+
+        # Database
+        self.user_repo.create_rider(rider)
         print(f"{rider.user_name} has been registered.")
     
     
@@ -52,12 +65,17 @@ class RideSharingManager:
     def register_driver(self, driver: Driver):
         if self.spatial_index is None:
             raise Exception("Spatial index not initialized.")
+        
+        # In-memory
         self.drivers[driver.user_id] = driver
         location = driver.current_location
         self.spatial_index.insert(
             item=driver,
             bbox=[location.longitude, location.latitude, location.longitude, location.latitude]
         )
+
+        # Database
+        self.user_repo.create_driver(driver)
         print(f"Driver {driver.user_name} has been registered.")
         
     
