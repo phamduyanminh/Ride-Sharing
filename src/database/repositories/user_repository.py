@@ -23,7 +23,7 @@ class UserRepository:
     """
     def create_driver(self, driver: Driver) -> UserModel:
         user = UserModel(
-            user_id = uuiid.UUID(driver.user_id),
+            user_id = uuid.UUID(driver.user_id),
             email = driver.email,
             user_name = driver.user_name,
             user_type = UserTypeEnum.driver,

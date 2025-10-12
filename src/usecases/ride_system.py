@@ -2,8 +2,8 @@ from __future__ import annotations
 from typing import List
 import random
 
-from database.models.base import get_session
-from database.repositories.driver_repository import DriverRepository
+from src.database.models.base import get_session
+from src.database.repositories.driver_repository import DriverRepository
 from src.models.users.driver import Driver
 from src.models.users.rider import Rider
 from src.models.ride.ride import Ride
@@ -183,7 +183,7 @@ class RideSystem:
 
         drivers = []
         for driver_model in driver_models:
-            driver = self.drivers.get(str(driver_model.user_id))
+            driver = ride_sharing_manager_object.drivers.get(str(driver_model.user_id))
             if driver and driver.is_available:
                 drivers.append(driver)
         return drivers

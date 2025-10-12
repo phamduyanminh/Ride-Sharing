@@ -22,17 +22,16 @@ class DriverRepository:
     """
     def find_available_drivers_within_radius(self, location: Location, radius_km: float) -> List[UserModel]:
         search_point = ST_SetSRID(ST_MakePoint(location.longitude, location.latitude), 4326)
-        
+        radius_meter = radius_km * 1000
         driver = (
             self.session.query(UserModel)
             .join(DriverModel, UserModel.user_id == DriverModel.user_id)
-            .filter(ST_DWithin(UserModel.current_location, search_point, radius_km))
             .filter(DriverModel.is_available == True)
             .filter(
                 ST_DWithin(
                     UserModel.current_location.cast(Geography),
                     search_point.cast(Geography),
-                    radius_km * 1000
+                    radius_meter
                 )
             )
             .all()
@@ -45,8 +44,8 @@ class DriverRepository:
         driver_id (str): The driver ID
         is_available (bool): The availability status
     """
-    def set_avaibility(self, driver_id: str, is_available: bool):
-        driver = self.session.query(UserModel).filter_by(
+    def set_availability(self, driver_id: str, is_available: bool):
+        driver = self.session.query(DriverModel).filter_by(
             user_id = uuid.UUID(driver_id)
             ).first()
         

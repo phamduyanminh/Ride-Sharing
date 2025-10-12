@@ -9,3 +9,4 @@
 *.pyo
 *.pyd
 
+db/is_postgis_init.sql
