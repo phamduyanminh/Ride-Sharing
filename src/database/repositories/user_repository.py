@@ -22,6 +22,11 @@ class UserRepository:
         UserModel: The created user model (driver)
     """
     def create_driver(self, driver: Driver) -> UserModel:
+        existing_user = self.session.query(UserModel).filter_by(email=driver.email).first()
+        if existing_user:
+            print("User-Driver already exists")
+            return existing_user
+
         user = UserModel(
             user_id = uuid.UUID(driver.user_id),
             email = driver.email,
@@ -55,6 +60,11 @@ class UserRepository:
         UserModel: The created user model (rider)
     """
     def create_rider(self, rider: Rider) -> UserModel:
+        existing_rider = self.session.query(UserModel).filter_by(email=rider.email).first()
+        if existing_rider:
+            print("User-Rider already exists")
+            return existing_rider
+
         user = UserModel(
             user_id=uuid.UUID(rider.user_id),
             email=rider.email,

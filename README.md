@@ -99,8 +99,17 @@ This entity relationships define how entites interact with each other in the pro
 - [ ] Write integration (end-to-end) testing. Create user A, B, C -> drivers and D, E, F -> riders
 - [X] Docker: compose up/down (research about this)
 - [X] Research how to setup docker with PostGIS
-- [-] Integrate PostgreSQL with the project
-- [ ] PostgesSQL should be placed in models -> implementing through ORM 
+- [X] PostgesSQL should be placed in models -> implementing through ORM 
+- [ ] Move all logic into database (request ride, update ride, cancel ride)
+- [ ] Each step in the simulation should be processed by user's input as enter
+- [ ] Setup debugging environment
+- [ ] Session should be able to either commit or rollback based on the entire request status (success or failure)
+  - [ ] Each request should have its own session
+  - [ ] Each session should have a database transaction
+- [ ] Create a config to store flag for using in-memory or database
+  - [ ] In-memory flag
+  - [ ] Database flag
+  - [ ] Or both
 
 ### Future Implementations
 
