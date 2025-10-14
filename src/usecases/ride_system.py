@@ -2,6 +2,7 @@ from __future__ import annotations
 from typing import List
 import random
 
+from database.repositories.ride_repository import RideRepository
 from src.database.models.base import get_session
 from src.database.repositories.driver_repository import DriverRepository
 from src.models.users.driver import Driver
@@ -15,6 +16,7 @@ KM_PER_DEGREE = 111.0
 class RideSystem:
     def __init__(self, operational_area: List[float]):
         ride_sharing_manager_object.initialize_spatial_index(operational_area)
+        ride_repo = RideRepository(get_session())
     
     
     """ 
