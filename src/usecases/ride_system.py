@@ -2,7 +2,7 @@ from __future__ import annotations
 from typing import List
 import random
 
-from database.repositories.ride_repository import RideRepository
+from src.database.repositories.ride_repository import RideRepository
 from src.database.models.base import get_session
 from src.database.repositories.driver_repository import DriverRepository
 from src.models.users.driver import Driver
