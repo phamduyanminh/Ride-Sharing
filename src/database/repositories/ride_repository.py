@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Session
 from geoalchemy2.functions import ST_MakePoint, ST_SetSRID
 from geoalchemy2.elements import WKBElement
-from typing import Optional
+from typing import Optional, List
 import uuid
 
 from src.database.models.ride_model import RideModel, RideStatusEnum
@@ -24,7 +24,7 @@ class RideRepository:
         RideModel: The created ride model
     """
     def create_ride(self, ride: Ride) -> RideModel:
-        ride = RideModel(
+        new_ride = RideModel(
             ride_id = uuid.UUID(ride.ride_id),
             rider_id = uuid.UUID(ride.rider.user_id),
             driver_id = uuid.UUID(ride.driver.user_id) if ride.driver else None,
@@ -33,9 +33,9 @@ class RideRepository:
             end_location = self.location(ride.end_location),
             distance_km = ride.distance
         )
-        self.session.add(ride)
+        self.session.add(new_ride)
         self.session.commit()
-        return ride
+        return new_ride
 
 
     """
@@ -138,7 +138,11 @@ class RideRepository:
         return(
             self.session.query(RideModel)
             .filter(
-                RideModel.ride_status.in_([RideStatusEnum.PICKING_UP, RideStatusEnum.IN_TRIP])
+                RideModel.ride_status.in_([
+                    RideStatusEnum.REQUESTED,
+                    RideStatusEnum.PICKING_UP, 
+                    RideStatusEnum.IN_TRIP
+                ])
             )
             .all()
         )

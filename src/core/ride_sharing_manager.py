@@ -7,6 +7,7 @@ from src.models.ride.ride import Ride
 from src.database.models.base import get_session
 from src.database.repositories.user_repository import UserRepository
 from src.database.repositories.driver_repository import DriverRepository
+from src.database.repositories.ride_repository import RideRepository
 
 
 class RideSharingManager:
@@ -21,6 +22,7 @@ class RideSharingManager:
         self.db_session = get_session()
         self.user_repo = UserRepository(self.db_session)
         self.driver_repo = DriverRepository(self.db_session)
+        self.ride_repo = RideRepository(self.db_session)
     
     
     """
@@ -94,7 +96,10 @@ class RideSharingManager:
         ride (Ride): The ride object.
     """
     def add_ride(self, ride: Ride):
+        # In-memory
         self.rides[ride.ride_id] = ride
+        # Database
+        self.ride_repo.create_ride(ride)
     
     
     """

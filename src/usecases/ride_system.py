@@ -2,6 +2,7 @@ from __future__ import annotations
 from typing import List
 import random
 
+from src.database.models.ride_model import RideStatusEnum
 from src.database.repositories.ride_repository import RideRepository
 from src.database.models.base import get_session
 from src.database.repositories.driver_repository import DriverRepository
@@ -16,8 +17,7 @@ KM_PER_DEGREE = 111.0
 class RideSystem:
     def __init__(self, operational_area: List[float]):
         ride_sharing_manager_object.initialize_spatial_index(operational_area)
-        ride_repo = RideRepository(get_session())
-    
+        self.ride_repo = RideRepository(get_session()) 
     
     """ 
     Rider requests a ride 
@@ -36,13 +36,42 @@ class RideSystem:
             end_location = destination,
             distance = distance
         )
+        new_ride.request_ride() 
         ride_sharing_manager_object.add_ride(new_ride)
-        new_ride.request_ride()
+
+        # Database
+        self.ride_repo.update_status(
+            new_ride.ride_id,
+            RideStatusEnum.REQUESTED,
+            current_status={RideStatusEnum.NEW}
+        )
+
         rider.current_ride = new_ride
         print(f"Rider {rider.user_name} has requested a ride from {rider.current_location} to {destination}.")
         self.process_ride_request(new_ride)
         return new_ride
     
+
+    """
+    Start a ride when driver pickup rider
+    Args:
+        ride_id (str): The ride id to be started
+    """
+    def start_ride(self, ride_id: str):
+        ride = ride_sharing_manager_object.get_ride(ride_id)
+
+        if not ride:
+            raise ValueError(f"Ride with ID {ride_id} not found!")
+
+        if not ride.driver:
+            raise ValueError(f"Cannot start a ride without a driver for ride {ride_id}!")
+        
+        ride.start_ride()
+
+        # Database
+        self.ride_repo.start_ride(ride_id)
+
+        print(f"Ride {ride_id} has been started!")
     
     """
     Rider cancels a ride
@@ -57,6 +86,10 @@ class RideSystem:
 
         if not ride.cancel_ride():
             return
+        
+        # Database
+        self.ride_repo.cancel_ride(ride_id)
+
         rider = ride.rider
         driver = ride.driver
         
@@ -88,14 +121,22 @@ class RideSystem:
         
         try:
             ride.complete_ride()
+
+            # Database
+            self.ride_repo.complete_ride(ride_id)
+
+            # In-memory
             rider.ride_history.append(ride)
             driver.drive_history.append(ride)
-            print(f"{rider.user_name} has completed ride for {driver.user_name}")
-        finally:
+
             rider.current_ride = None
             driver.current_ride = None
             driver.is_available = True
 
+            print(f"{rider.user_name} has completed ride for {driver.user_name}")
+        except Exception as e:
+            print(f"Error completing ride: {e}")
+            raise
     
     """ 
     Process a ride request by finding and assigning a suitable driver (random assignment)
@@ -117,9 +158,14 @@ class RideSystem:
         if assigned_driver:
             ride.assign_driver(assigned_driver)
             assigned_driver.accept_ride(ride)
+            # Database
+            self.ride_repo.assign_driver(ride.ride_id, assigned_driver.user_id)
         else:
             print(f"No available drivers accepted the ride. The ride will be cancelled.")
             ride.cancel_ride()
+            # Database
+            self.ride_repo.cancel_ride(ride.ride_id)
+
             if ride.rider:
                 ride.rider.current_ride = None
     

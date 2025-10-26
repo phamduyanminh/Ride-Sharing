@@ -55,11 +55,11 @@ def run_simulation():
             print(f"\n--- Ride is in progress with {driver.user_name} ---")
             
             # Simulate trip progress
-            current_ride.start_ride()
+            ride_system.start_ride(current_ride.ride_id)
             print(f"Ride status: {current_ride.ride_status.value}")
             
             print("\n--- Reached destination ---")
-            ride_system.complete_ride(current_ride)
+            ride_system.complete_ride(current_ride.ride_id)
             
             # Verify final state
             print(f"\nIs {driver.user_name} available now? {driver.is_available}")
