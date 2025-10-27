@@ -1,4 +1,4 @@
-CREATE DATABASE IF NOT EXISTS ride_sharing;
+CREATE DATABASE ride_sharing;
 CREATE EXTENSION IF NOT EXISTS postgis;
 
 CREATE TYPE user_type AS ENUM ('driver', 'rider');
