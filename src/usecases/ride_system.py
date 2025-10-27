@@ -129,14 +129,14 @@ class RideSystem:
             rider.ride_history.append(ride)
             driver.drive_history.append(ride)
 
-            rider.current_ride = None
-            driver.current_ride = None
-            driver.is_available = True
-
-            print(f"{rider.user_name} has completed ride for {driver.user_name}")
         except Exception as e:
             print(f"Error completing ride: {e}")
             raise
+        finally:
+            rider.current_ride = None
+            driver.current_ride = None
+            driver.is_available = True
+            print(f"{rider.user_name} has completed ride for {driver.user_name}")
     
     """ 
     Process a ride request by finding and assigning a suitable driver (random assignment)

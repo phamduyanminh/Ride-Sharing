@@ -45,7 +45,7 @@ class RideRepository:
     Return:
         RideModel: The retrieved ride model
     """
-    def get_ride(self, ride_id: str) -> RideModel|None:
+    def get_ride(self, ride_id: str) -> Optional[RideModel]:
         return (
             self.session.query(RideModel)
             .filter_by(ride_id = uuid.UUID(ride_id))
