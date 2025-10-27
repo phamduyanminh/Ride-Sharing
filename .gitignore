@@ -2,9 +2,11 @@
 .vscode
 .pytest_cache
 .idea
+.env
 
 # Ignore all compiled Python files
 *.pyc
 *.pyo
 *.pyd
 
+db/is_postgis_init.sql

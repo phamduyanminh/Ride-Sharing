@@ -2,6 +2,10 @@ from __future__ import annotations
 from typing import List
 import random
 
+from src.database.models.ride_model import RideStatusEnum
+from src.database.repositories.ride_repository import RideRepository
+from src.database.models.base import get_session
+from src.database.repositories.driver_repository import DriverRepository
 from src.models.users.driver import Driver
 from src.models.users.rider import Rider
 from src.models.ride.ride import Ride
@@ -13,7 +17,7 @@ KM_PER_DEGREE = 111.0
 class RideSystem:
     def __init__(self, operational_area: List[float]):
         ride_sharing_manager_object.initialize_spatial_index(operational_area)
-    
+        self.ride_repo = RideRepository(get_session()) 
     
     """ 
     Rider requests a ride 
@@ -32,13 +36,42 @@ class RideSystem:
             end_location = destination,
             distance = distance
         )
+        new_ride.request_ride() 
         ride_sharing_manager_object.add_ride(new_ride)
-        new_ride.request_ride()
+
+        # Database
+        self.ride_repo.update_status(
+            new_ride.ride_id,
+            RideStatusEnum.REQUESTED,
+            current_status={RideStatusEnum.NEW}
+        )
+
         rider.current_ride = new_ride
         print(f"Rider {rider.user_name} has requested a ride from {rider.current_location} to {destination}.")
         self.process_ride_request(new_ride)
         return new_ride
     
+
+    """
+    Start a ride when driver pickup rider
+    Args:
+        ride_id (str): The ride id to be started
+    """
+    def start_ride(self, ride_id: str):
+        ride = ride_sharing_manager_object.get_ride(ride_id)
+
+        if not ride:
+            raise ValueError(f"Ride with ID {ride_id} not found!")
+
+        if not ride.driver:
+            raise ValueError(f"Cannot start a ride without a driver for ride {ride_id}!")
+        
+        ride.start_ride()
+
+        # Database
+        self.ride_repo.start_ride(ride_id)
+
+        print(f"Ride {ride_id} has been started!")
     
     """
     Rider cancels a ride
@@ -53,6 +86,10 @@ class RideSystem:
 
         if not ride.cancel_ride():
             return
+        
+        # Database
+        self.ride_repo.cancel_ride(ride_id)
+
         rider = ride.rider
         driver = ride.driver
         
@@ -66,7 +103,7 @@ class RideSystem:
     """ 
     Complete a ride
     Args:
-        ride_d (str): The ride has been completed
+        ride_id (str): The ride has been completed
     """
     def complete_ride(self, ride_id: str):
         ride = ride_sharing_manager_object.get_ride(ride_id)
@@ -84,14 +121,22 @@ class RideSystem:
         
         try:
             ride.complete_ride()
+
+            # Database
+            self.ride_repo.complete_ride(ride_id)
+
+            # In-memory
             rider.ride_history.append(ride)
             driver.drive_history.append(ride)
-            print(f"{rider.user_name} has completed ride for {driver.user_name}")
+
+        except Exception as e:
+            print(f"Error completing ride: {e}")
+            raise
         finally:
             rider.current_ride = None
             driver.current_ride = None
             driver.is_available = True
-
+            print(f"{rider.user_name} has completed ride for {driver.user_name}")
     
     """ 
     Process a ride request by finding and assigning a suitable driver (random assignment)
@@ -113,9 +158,14 @@ class RideSystem:
         if assigned_driver:
             ride.assign_driver(assigned_driver)
             assigned_driver.accept_ride(ride)
+            # Database
+            self.ride_repo.assign_driver(ride.ride_id, assigned_driver.user_id)
         else:
             print(f"No available drivers accepted the ride. The ride will be cancelled.")
             ride.cancel_ride()
+            # Database
+            self.ride_repo.cancel_ride(ride.ride_id)
+
             if ride.rider:
                 ride.rider.current_ride = None
     
@@ -144,30 +194,44 @@ class RideSystem:
     def search_driver_in_radius_km(self, ride: Ride, radius_km: float) -> List[Driver]:
         rider_location = ride.start_location
         
+        """Old Code - using PyQTree for spatial search"""
         # Coarse search using bounding box
-        degree_radius = radius_km / KM_PER_DEGREE # 360 / 3.14 (pi) = 114.0 degrees per km
-        search_bbox = [
-            rider_location.longitude - degree_radius,
-            rider_location.latitude - degree_radius,
-            rider_location.longitude + degree_radius,
-            rider_location.latitude + degree_radius
-        ]
-        candidate_drivers = ride_sharing_manager_object.spatial_index.intersect(bbox=search_bbox)
+        # degree_radius = radius_km / KM_PER_DEGREE # 360 / 3.14 (pi) = 114.0 degrees per km
+        # search_bbox = [
+        #     rider_location.longitude - degree_radius,
+        #     rider_location.latitude - degree_radius,
+        #     rider_location.longitude + degree_radius,
+        #     rider_location.latitude + degree_radius
+        # ]
+        # candidate_drivers = ride_sharing_manager_object.spatial_index.intersect(bbox=search_bbox)
 
         # Filter available drivers
-        available_drivers = [d for d in candidate_drivers if d.is_available]
-        
-        if not available_drivers:
-            print(f"No available drivers found in {radius_km} km bounding box.")
-            return []
+        # available_drivers = [d for d in candidate_drivers if d.is_available]
+        # if not available_drivers:
+        #     print(f"No available drivers found in {radius_km} km bounding box.")
+        #     return []
         
         # Find the closest driver using Haversine algorithm
-        closest_drivers = []
-        for driver in available_drivers:
-            distance = rider_location.calculate_distance_in_km(driver.current_location)
-            if distance <= radius_km:
-                closest_drivers.append((driver, distance))
+        # closest_drivers = []
+        # for driver in available_drivers:
+        #     distance = rider_location.calculate_distance_in_km(driver.current_location)
+        #     if distance <= radius_km:
+        #         closest_drivers.append((driver, distance))
 
-        sorted_closest_drivers = sorted(closest_drivers, key=lambda x: x[1])
-        sorted_drivers = [driver for driver, distance in sorted_closest_drivers]
-        return sorted_drivers
+        # sorted_closest_drivers = sorted(closest_drivers, key=lambda x: x[1])
+        # sorted_drivers = [driver for driver, distance in sorted_closest_drivers]
+        # return sorted_drivers
+
+        """New Code - using PostGIS for spatial search"""
+        driver_repo = DriverRepository(get_session())
+        driver_models = driver_repo.find_available_drivers_within_radius(
+            rider_location,
+            radius_km
+        )
+
+        drivers = []
+        for driver_model in driver_models:
+            driver = ride_sharing_manager_object.drivers.get(str(driver_model.user_id))
+            if driver and driver.is_available:
+                drivers.append(driver)
+        return drivers

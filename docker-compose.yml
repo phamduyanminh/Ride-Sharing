@@ -3,16 +3,16 @@ services:
     image: postgis/postgis:16-3.4
     container_name: ride_sharing_postgres
     environment:
-      POSTGRES_DB: postgis_ride_sharing
+      POSTGRES_DB: ride_sharing
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: bunz3120
     ports:
-      - "5433:5432"
+      - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
-      - ./db/init.db:/docker-entrypoint-initdb.d/init.sql
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres -d postgis_ride_sharing"]
+      test: ["CMD-SHELL", "pg_isready -U postgres -d ride_sharing"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -24,7 +24,7 @@ services:
       postgres:
         condition: service_healthy
     environment:
-      DATABASE_URL: postgresql://postgres:bunz3120@postgres:5432/postgis_ride_sharing
+      DATABASE_URL: postgresql://postgres:bunz3120@postgres:5432/ride_sharing
     volumes:
       - .:/app
     working_dir: /app

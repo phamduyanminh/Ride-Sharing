@@ -1,7 +1,7 @@
 from __future__ import annotations
 from typing import List
 import uuid
-from uuid import uuid5
+from uuid import uuid4
 
 from ..users.rider import Rider
 from ..users.driver import Driver
@@ -13,7 +13,7 @@ NAME = "ridesharingapp.com"
 
 class Ride:
     def __init__(self, rider: Rider, start_location: Location, end_location: Location, driver: Driver = None, distance: float = 0.0):
-        self.ride_id: str = str(uuid5(NAME_SPACE, NAME))
+        self.ride_id: str = str(uuid4())
         self.rider: Rider = rider
         self.driver: Driver = driver
         self.ride_status: RideStatus = RideStatus.NEW

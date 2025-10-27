@@ -83,17 +83,36 @@ This entity relationships define how entites interact with each other in the pro
 
 - `.\.venv\Scripts\Activate.ps1`
 
-### TODO - FIX BUGS
+### Basics SQL Shell commands
 
-- Write unit test
-- Write integration (end-to-end) testing. Create user A, B, C -> drivers and D, E, F -> riders
-- Docker: compose up/down (research about this)
-- Research how to setup docker with PostGIS
-- PostgesSQL should be placed in models -> implementing through ORM 
+- `\l` - List all databases
+- `\c <database_name>` - Connect to a database
+- `\dt` - List all tables
+- `\d <table_name>` - Describe a table
+- `CREATE DATABASE <database_name>;` - Create a database
+- `DROP DATABASE <database_name>;` - Drop a database
+- `\q` - Quit
 
-### Future Ideas
+### TODO
 
-- Integrate PostgreSQL or MySQL to save driver and rider information
+- [X] Write unit test
+- [ ] Write integration (end-to-end) testing. Create user A, B, C -> drivers and D, E, F -> riders
+- [X] Docker: compose up/down (research about this)
+- [X] Research how to setup docker with PostGIS
+- [X] PostgesSQL should be placed in models -> implementing through ORM 
+- [ ] Move all logic into database (request ride, update ride, cancel ride)
+- [ ] Each step in the simulation should be processed by user's input as enter
+- [ ] Setup debugging environment
+- [ ] Session should be able to either commit or rollback based on the entire request status (success or failure)
+  - [ ] Each request should have its own session
+  - [ ] Each session should have a database transaction
+- [ ] Create a config to store flag for using in-memory or database
+  - [ ] In-memory flag
+  - [ ] Database flag
+  - [ ] Or both
+
+### Future Implementations
+
 - External spatial service (PostGis)
 - External map service (path finding)
 - Write APIs service (postman, automation test postman, newman can run postman through CI/CD)
