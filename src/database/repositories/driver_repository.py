@@ -62,7 +62,7 @@ class DriverRepository:
         driver_id (str): The driver ID
         ride_id (Optional[str]): The ride ID
     """
-    def update_current_ride(self, driver_id: str, ride_id: Optional[str]):
+    def update_driver_current_ride(self, driver_id: str, ride_id: Optional[str]):
         driver = self.session.query(DriverModel).filter(
             user_id = uuid.UUID(driver_id)
         ).first()
