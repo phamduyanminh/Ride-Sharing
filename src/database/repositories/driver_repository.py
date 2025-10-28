@@ -1,7 +1,7 @@
 from geoalchemy2 import Geography
 from sqlalchemy.orm import Session
 from geoalchemy2.functions import ST_DWithin, ST_Distance, ST_MakePoint, ST_SetSRID, ST_Within
-from typing import List
+from typing import List, Optional, Tuple
 import uuid
 
 from src.database.models.user_model import UserModel
@@ -54,4 +54,38 @@ class DriverRepository:
         
         driver.is_available = is_available
         self.session.commit()
+
+
+    """
+    Update driver's current ride
+    Args:
+        driver_id (str): The driver ID
+        ride_id (Optional[str]): The ride ID
+    """
+    def update_current_ride(self, driver_id: str, ride_id: Optional[str]):
+        driver = self.session.query(DriverModel).filter(
+            user_id = uuid.UUID(driver_id)
+        ).first()
+
+        if driver is None:
+            raise ValueError("Driver not found")
         
+        driver.current_ride_id = uuid.UUID(ride_id) if ride_id else None
+        self.session.commit()
+
+    
+    """
+    Get driver by id with user information
+    Args:
+        driver_id (str): The driver id to be retrieved
+    Returns:
+        Optional[Tuple[UserModel, DriverModel]]: Tuple of user and driver models if found
+    """
+    def get_driver(self, driver_id: str) -> Optional[Tuple[UserModel, DriverModel]]:
+        driver_result = (
+            self.session.query(UserModel, DriverModel)
+            .join(DriverModel, UserModel.user_id == DriverModel.user_id)
+            .filter(UserModel.user_id == uuid.UUID(driver_id))
+            .first()
+        )
+        return driver_result

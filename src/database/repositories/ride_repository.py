@@ -158,7 +158,7 @@ class RideRepository:
     """
     def get_driver_rides_history(self, driver_id: str) -> Optional[List[RideModel]]:
         return (
-            self.session.query(RiderModel)
+            self.session.query(RideModel)
             .filter(RideModel.driver_id == uuid.UUID(driver_id))
             .filter(RideModel.ride_status == RideStatusEnum.COMPLETED)
             .order_by(RideModel.created_at.desc())
@@ -175,7 +175,7 @@ class RideRepository:
     """
     def get_rider_rides_history(self, rider_id: str) -> Optional[List[RideModel]]:
         return (
-            self.session.query(RiderModel)
+            self.session.query(RideModel)
             .filter(RideModel.rider_id == uuid.UUID(rider_id))
             .filter(RideModel.ride_status == RideStatusEnum.COMPLETED)
             .order_by(RideModel.created_at.desc())
