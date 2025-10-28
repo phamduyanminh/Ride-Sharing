@@ -1,3 +1,4 @@
+from database.models.rider_model import RiderModel
 from sqlalchemy.orm import Session
 from geoalchemy2.functions import ST_MakePoint, ST_SetSRID
 from geoalchemy2.elements import WKBElement
@@ -144,5 +145,39 @@ class RideRepository:
                     RideStatusEnum.IN_TRIP
                 ])
             )
+            .all()
+        )
+    
+
+    """
+    This function get all completed rides for a driver in database
+    Args:
+        driver_id (str): The driver id to be retrieved
+    Return:
+        List[RideModel]: The list of complete rides for the driver
+    """
+    def get_driver_rides_history(self, driver_id: str) -> Optional[List[RideModel]]:
+        return (
+            self.session.query(RiderModel)
+            .filter(RideModel.driver_id == uuid.UUID(driver_id))
+            .filter(RideModel.ride_status == RideStatusEnum.COMPLETED)
+            .order_by(RideModel.created_at.desc())
+            .all()
+        )
+
+    
+    """
+    This function get all completed rides for a rider in database
+    Args:
+        rider_id (str): The rider id to be retrieved
+    Return:
+        List[RideModel]: The list of complete rides for the rider
+    """
+    def get_rider_rides_history(self, rider_id: str) -> Optional[List[RideModel]]:
+        return (
+            self.session.query(RiderModel)
+            .filter(RideModel.rider_id == uuid.UUID(rider_id))
+            .filter(RideModel.ride_status == RideStatusEnum.COMPLETED)
+            .order_by(RideModel.created_at.desc())
             .all()
         )
