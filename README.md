@@ -106,10 +106,6 @@ This entity relationships define how entites interact with each other in the pro
 - [ ] Session should be able to either commit or rollback based on the entire request status (success or failure)
   - [ ] Each request should have its own session
   - [ ] Each session should have a database transaction
-- [ ] Create a config to store flag for using in-memory or database
-  - [ ] In-memory flag
-  - [ ] Database flag
-  - [ ] Or both
 
 ### Future Implementations
 
