@@ -34,8 +34,8 @@ class RiderRepository:
         ride_id (Optional[str]): The ride ID
     """
     def update_rider_current_ride(self, rider_id: str, ride_id: Optional[str]):
-        rider = self.session.query(DriverModel).filter(
-            user_id = uuid.UUID(rider_id)
+        rider = self.session.query(RiderModel).filter(
+            RiderModel.user_id == uuid.UUID(rider_id)
         ).first()
 
         if rider is None:

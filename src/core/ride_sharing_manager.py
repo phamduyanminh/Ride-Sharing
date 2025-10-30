@@ -1,27 +1,27 @@
-from typing import Dict, List
-from pyqtree import Index
+from pickle import TUPLE
+from typing import Optional, Tuple
+from sqlalchemy.orm import Session
 
+from src.database.models.base import get_session
+from src.database.models.user_model import UserModel
+from src.database.models.driver_model import DriverModel
+from src.database.models.rider_model import RiderModel
+from src.database.models.ride_model import RideModel
+from src.database.repositories.user_repository import UserRepository
+from src.database.repositories.driver_repository import DriverRepository
+from src.database.repositories.rider_repository import RiderRepository
+from src.database.repositories.ride_repository import RideRepository
 from src.models.users.driver import Driver
 from src.models.users.rider import Rider
 from src.models.ride.ride import Ride
-from src.database.models.base import get_session
-from src.database.repositories.user_repository import UserRepository
-from src.database.repositories.driver_repository import DriverRepository
-from src.database.repositories.ride_repository import RideRepository
 
 
 class RideSharingManager:
     def __init__(self):
-        # In-memory code
-        self.drivers: Dict[str, Driver] = {}
-        self.riders: Dict[str, Rider] = {}
-        self.rides: Dict[str, Ride] = {}
-        self.spatial_index: Index = None
-
-        # Database code
         self.db_session = get_session()
         self.user_repo = UserRepository(self.db_session)
         self.driver_repo = DriverRepository(self.db_session)
+        self.rider_repo = RiderRepository(self.db_session)
         self.ride_repo = RideRepository(self.db_session)
     
     
@@ -31,10 +31,7 @@ class RideSharingManager:
         rider (Rider): The rider object to be registered.
     """
     def register_rider(self, rider: Rider):
-        # In-memory
-        self.riders[rider.user_id] = rider
-
-        # Database
+        pritn(f"Registering rider {rider.user_name}...")
         self.user_repo.create_rider(rider)
         print(f"{rider.user_name} has been registered.")
     
@@ -44,19 +41,11 @@ class RideSharingManager:
     Args:
         rider_id (str): The ID of the rider.
     Returns:
-        Rider: The rider object if found, else None.
+        Optional[Tuple[UserModel, RiderModel]]: The tuple of user and rider models if found, else None.
     """
-    def get_rider(self, rider_id: str) -> Rider|None:
-        return self.riders.get(rider_id)
-    
-    
-    """
-    This function initializes the spatial index for driver locations.
-    Args:
-        operational_area (List[float]): The bounding box for the operational area [minX, minY, maxX, maxY].
-    """    
-    def initialize_spatial_index(self, operational_area: List[float]):
-        self.spatial_index = Index(bbox = operational_area)
+    def get_rider(self, rider_id: str) -> Optional[Tuple[UserModel, RiderModel]]:
+        print(f"Getting rider {rider_id} information...")
+        return self.rider_repo.get_rider(rider_id)
     
     
     """
@@ -65,18 +54,6 @@ class RideSharingManager:
         driver (Driver): The driver object.
     """    
     def register_driver(self, driver: Driver):
-        if self.spatial_index is None:
-            raise Exception("Spatial index not initialized.")
-        
-        # In-memory
-        self.drivers[driver.user_id] = driver
-        location = driver.current_location
-        self.spatial_index.insert(
-            item=driver,
-            bbox=[location.longitude, location.latitude, location.longitude, location.latitude]
-        )
-
-        # Database
         self.user_repo.create_driver(driver)
         print(f"Driver {driver.user_name} has been registered.")
         
@@ -84,9 +61,10 @@ class RideSharingManager:
     """
     This function retrieves a driver by their ID.
     Args:
-        driver_id (str): The ID of the driver.
+        Optional[Tuple[UserModel, RiderModel]]: The tuple of user and driver models if found, else None.
     """
-    def get_driver(self, driver_id: str) -> Driver|None:
+    def get_driver(self, driver_id: str) -> Optional[Tuple[UserModel, DriverModel]]:
+        print(f"Getting rider {driver_id} information...")
         return self.drivers.get(driver_id)
     
     
@@ -96,18 +74,20 @@ class RideSharingManager:
         ride (Ride): The ride object.
     """
     def add_ride(self, ride: Ride):
-        # In-memory
-        self.rides[ride.ride_id] = ride
-        # Database
+        print(f"Creating ride - {ride.ride_id}...")
         self.ride_repo.create_ride(ride)
+        print(f"Ride {ride.ride_id} has been created.")
     
     
     """
     This function retrieves a ride by its ID.
     Args:
         ride_id (str): The ID of the ride.
+    Returns:
+        Optional[RideModel]: The ride model if found, else None.
     """
-    def get_ride(self, ride_id: str) -> Ride:
-        return self.rides.get(ride_id)
+    def get_ride(self, ride_id: str) -> Optional[RideModel]:
+        print(f"Getting ride {ride_id} information...")
+        return self.ride_repo.get_ride(ride_id)
 
 ride_sharing_manager_object = RideSharingManager()

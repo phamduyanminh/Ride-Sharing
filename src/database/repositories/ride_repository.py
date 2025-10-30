@@ -1,10 +1,10 @@
-from database.models.rider_model import RiderModel
 from sqlalchemy.orm import Session
 from geoalchemy2.functions import ST_MakePoint, ST_SetSRID
 from geoalchemy2.elements import WKBElement
 from typing import Optional, List
 import uuid
 
+from src.database.models.rider_model import RiderModel
 from src.database.models.ride_model import RideModel, RideStatusEnum
 from src.models.ride.ride import Ride
 from src.models.location.location import Location
