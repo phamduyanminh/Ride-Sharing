@@ -93,6 +93,21 @@ This entity relationships define how entites interact with each other in the pro
 - `DROP DATABASE <database_name>;` - Drop a database
 - `\q` - Quit
 
+### Start and run the docker-compose
+
+- Start the docker-compose in detached mode: `docker-compose up -d`
+- Stop the docker-compose: `docker-compose down`
+- Stop the docker-compose and remove all data: `docker-compose down -v`
+
+### Access DB via Docker CLI/Terminal
+
+- Access the databse in docker-compose: `docker exec -it ride_sharing_postgres psql -U postgres -d ride_sharing`
+- View all tables: `\dt`
+- Describe a table: `\d <table_name>`
+- See all created rides: `SELECT ride_id, ride_status, distance_km FROM rides;`
+- See all created users: `SELECT user_name, user_type FROM users;`
+- Exit: `\q`
+
 ### TODO
 
 - [X] Write unit test
@@ -100,7 +115,7 @@ This entity relationships define how entites interact with each other in the pro
 - [X] Docker: compose up/down (research about this)
 - [X] Research how to setup docker with PostGIS
 - [X] PostgesSQL should be placed in models -> implementing through ORM 
-- [ ] Move all logic into database (request ride, update ride, cancel ride)
+- [X] Move all logic into database (request ride, update ride, cancel ride)
 - [ ] Each step in the simulation should be processed by user's input as enter
 - [ ] Setup debugging environment
 - [ ] Session should be able to either commit or rollback based on the entire request status (success or failure)
