@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 from geoalchemy2.functions import ST_MakePoint, ST_SetSRID
-from typing import Optional
+from typing import Optional, Tuple
 import uuid
 
 from src.database.models.user_model import UserModel, UserTypeEnum
@@ -51,6 +51,23 @@ class UserRepository:
         self.session.commit()
         return user
 
+
+    """
+    Get driver by id
+    Args:
+        driver_id (str): The driver id to be retrieved
+    Returns:
+        Optional[Tuple[UserModel, DriverModel]]: Tuple of user and driver models if found    
+    """
+    def get_driver(self, driver_id: str) -> Optional[Tuple[UserModel, DriverModel]]:
+        driver_result = (
+            self.session.query(UserModel, DriverModel)
+            .join(DriverModel, UserModel.user_id == DriverModel.user_id)
+            .filter(UserModel.user_id == uuid.UUID(driver_id))
+            .first()
+        )
+
+        return driver_result
     
     """
     Create new rider
@@ -85,7 +102,25 @@ class UserRepository:
         self.session.add(rider_record)
         self.session.commit()
         return user
-    
+
+
+    """
+    Get rider by id
+    Args:
+        rider_id (str): The rider id to be retrieved
+    Returns:
+        Optional[Tuple[UserModel, RiderModel]]: Tuple of user and rider models if found
+    """
+    def get_rider(self, rider_id: str) -> Optional[Tuple[UserModel, RiderModel]]:
+        rider_result = (
+            self.session.query(UserModel, RiderModel)
+            .join(RiderModel, UserModel.user_id == RiderModel.user_id)
+            .filter(UserModel.user_id == uuid.UUID(rider_id))
+            .first()
+        )
+
+        return rider_result
+
 
     """
     Update user location

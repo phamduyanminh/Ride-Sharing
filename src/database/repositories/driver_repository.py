@@ -1,7 +1,7 @@
 from geoalchemy2 import Geography
 from sqlalchemy.orm import Session
 from geoalchemy2.functions import ST_DWithin, ST_Distance, ST_MakePoint, ST_SetSRID, ST_Within
-from typing import List
+from typing import List, Optional, Tuple
 import uuid
 
 from src.database.models.user_model import UserModel
@@ -20,11 +20,12 @@ class DriverRepository:
     Returns:
         List[UserModel]: The list of available drivers
     """
-    def find_available_drivers_within_radius(self, location: Location, radius_km: float) -> List[UserModel]:
+    def find_available_drivers_within_radius(self, location: Location, radius_km: float) -> List[Tuple[UserModel, DriverModel]]:
         search_point = ST_SetSRID(ST_MakePoint(location.longitude, location.latitude), 4326)
         radius_meter = radius_km * 1000
-        driver = (
-            self.session.query(UserModel)
+
+        drivers = (
+            self.session.query(UserModel, DriverModel)
             .join(DriverModel, UserModel.user_id == DriverModel.user_id)
             .filter(DriverModel.is_available == True)
             .filter(
@@ -36,8 +37,9 @@ class DriverRepository:
             )
             .all()
         )
-        return driver
+        return drivers
     
+
     """
     Set driver availability
     Args:
@@ -54,4 +56,38 @@ class DriverRepository:
         
         driver.is_available = is_available
         self.session.commit()
+
+
+    """
+    Update driver's current ride
+    Args:
+        driver_id (str): The driver ID
+        ride_id (Optional[str]): The ride ID
+    """
+    def update_driver_current_ride(self, driver_id: str, ride_id: Optional[str]):
+        driver = self.session.query(DriverModel).filter(
+            DriverModel.user_id == uuid.UUID(driver_id)
+        ).first()
+
+        if driver is None:
+            raise ValueError("Driver not found")
         
+        driver.current_ride_id = uuid.UUID(ride_id) if ride_id else None
+        self.session.commit()
+
+    
+    """
+    Get driver by id with user information
+    Args:
+        driver_id (str): The driver id to be retrieved
+    Returns:
+        Optional[Tuple[UserModel, DriverModel]]: Tuple of user and driver models if found
+    """
+    def get_driver(self, driver_id: str) -> Optional[Tuple[UserModel, DriverModel]]:
+        driver_result = (
+            self.session.query(UserModel, DriverModel)
+            .join(DriverModel, UserModel.user_id == DriverModel.user_id)
+            .filter(UserModel.user_id == uuid.UUID(driver_id))
+            .first()
+        )
+        return driver_result

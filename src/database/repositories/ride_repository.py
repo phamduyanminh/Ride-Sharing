@@ -4,6 +4,7 @@ from geoalchemy2.elements import WKBElement
 from typing import Optional, List
 import uuid
 
+from src.database.models.rider_model import RiderModel
 from src.database.models.ride_model import RideModel, RideStatusEnum
 from src.models.ride.ride import Ride
 from src.models.location.location import Location
@@ -146,3 +147,57 @@ class RideRepository:
             )
             .all()
         )
+    
+
+    """
+    This function get all completed rides for a driver in database
+    Args:
+        driver_id (str): The driver id to be retrieved
+    Return:
+        List[RideModel]: The list of complete rides for the driver
+    """
+    def get_driver_rides_history(self, driver_id: str) -> Optional[List[RideModel]]:
+        return (
+            self.session.query(RideModel)
+            .filter(RideModel.driver_id == uuid.UUID(driver_id))
+            .filter(RideModel.ride_status == RideStatusEnum.COMPLETED)
+            .order_by(RideModel.created_at.desc())
+            .all()
+        )
+
+    
+    """
+    This function get all completed rides for a rider in database
+    Args:
+        rider_id (str): The rider id to be retrieved
+    Return:
+        List[RideModel]: The list of complete rides for the rider
+    """
+    def get_rider_rides_history(self, rider_id: str) -> Optional[List[RideModel]]:
+        return (
+            self.session.query(RideModel)
+            .filter(RideModel.rider_id == uuid.UUID(rider_id))
+            .filter(RideModel.ride_status == RideStatusEnum.COMPLETED)
+            .order_by(RideModel.created_at.desc())
+            .all()
+        )
+    
+
+    """
+    This function get current ride for a rider in database
+    Args:
+        rider_id (str): The rider id to be retrieved
+    Return:
+        RideModel: The current ride for the rider
+    """
+    def get_rider_current_ride(self, rider_id: str) -> Optional[RideModel]:
+      return (
+          self.session.query(RideModel)
+          .filter(RideModel.rider_id == uuid.UUID(rider_id))
+          .filter(RideModel.ride_status.in_([
+              RideStatusEnum.REQUESTED,
+              RideStatusEnum.PICKING_UP,
+              RideStatusEnum.IN_TRIP
+          ]))
+          .first()
+      )

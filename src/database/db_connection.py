@@ -11,7 +11,7 @@ def connect():
         # Create a cursor object
         cursor = connection.cursor()
         print("PostgreSQL database version:")
-        cursor.execute('Select version()')
+        cursor.execute('SELECT version()')
 
         db_version = cursor.fetchone()
         print(db_version)
@@ -24,5 +24,3 @@ def connect():
         if connection is not None:
             connection.close()
             print("Database connection closed.")
-        
-connect()

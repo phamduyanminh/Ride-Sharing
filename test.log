@@ -1,0 +1,667 @@
+INFO:sqlalchemy.engine.Engine:select pg_catalog.version()
+INFO:sqlalchemy.engine.Engine:[raw sql] {}
+Docker mode...
+2025-11-05 02:26:39,893 INFO sqlalchemy.engine.Engine select pg_catalog.version()
+2025-11-05 02:26:39,893 INFO sqlalchemy.engine.Engine [raw sql] {}
+INFO:sqlalchemy.engine.Engine:select current_schema()
+INFO:sqlalchemy.engine.Engine:[raw sql] {}
+2025-11-05 02:26:39,894 INFO sqlalchemy.engine.Engine select current_schema()
+2025-11-05 02:26:39,894 INFO sqlalchemy.engine.Engine [raw sql] {}
+2025-11-05 02:26:39,895 INFO sqlalchemy.engine.Engine show standard_conforming_strings
+2025-11-05 02:26:39,895 INFO sqlalchemy.engine.Engine [raw sql] {}
+INFO:sqlalchemy.engine.Engine:show standard_conforming_strings
+INFO:sqlalchemy.engine.Engine:[raw sql] {}
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+2025-11-05 02:26:39,895 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT users.user_id AS users_user_id, users.email AS users_email, users.user_name AS users_user_name, users.user_type AS users_user_type, ST_AsEWKB(users.current_location) AS users_current_location, users.created_at AS users_created_at, users.updated_at AS users_updated_at 
+FROM users 
+WHERE users.email = %(email_1)s 
+ LIMIT %(param_1)s
+INFO:sqlalchemy.engine.Engine:[generated in 0.00015s] {'email_1': 'td1@email.com', 'param_1': 1}
+2025-11-05 02:26:39,897 INFO sqlalchemy.engine.Engine SELECT users.user_id AS users_user_id, users.email AS users_email, users.user_name AS users_user_name, users.user_type AS users_user_type, ST_AsEWKB(users.current_location) AS users_current_location, users.created_at AS users_created_at, users.updated_at AS users_updated_at 
+FROM users 
+WHERE users.email = %(email_1)s 
+ LIMIT %(param_1)s
+2025-11-05 02:26:39,898 INFO sqlalchemy.engine.Engine [generated in 0.00015s] {'email_1': 'td1@email.com', 'param_1': 1}
+2025-11-05 02:26:39,910 INFO sqlalchemy.engine.Engine INSERT INTO users (user_id, email, user_name, user_type, current_location, created_at, updated_at) VALUES (%(user_id)s::UUID, %(email)s, %(user_name)s, %(user_type)s, ST_SetSRID(ST_MakePoint(%(ST_MakePoint_1)s, %(ST_MakePoint_2)s), %(ST_SetSRID_1)s), %(created_at)s, %(updated_at)s)
+2025-11-05 02:26:39,910 INFO sqlalchemy.engine.Engine [no key 0.00027s] {'user_id': UUID('ff5b9ccd-1046-4e71-a063-d9afe7dca94a'), 'email': 'td1@email.com', 'user_name': 'Minh', 'user_type': 'driver', 'ST_MakePoint_1': -79.64, 'ST_MakePoint_2': 43.59, 'ST_SetSRID_1': 4326, 'created_at': datetime.datetime(2025, 11, 5, 2, 26, 39, 910415), 'updated_at': datetime.datetime(2025, 11, 5, 2, 26, 39, 910419)}
+INFO:sqlalchemy.engine.Engine:INSERT INTO users (user_id, email, user_name, user_type, current_location, created_at, updated_at) VALUES (%(user_id)s::UUID, %(email)s, %(user_name)s, %(user_type)s, ST_SetSRID(ST_MakePoint(%(ST_MakePoint_1)s, %(ST_MakePoint_2)s), %(ST_SetSRID_1)s), %(created_at)s, %(updated_at)s)
+INFO:sqlalchemy.engine.Engine:[no key 0.00027s] {'user_id': UUID('ff5b9ccd-1046-4e71-a063-d9afe7dca94a'), 'email': 'td1@email.com', 'user_name': 'Minh', 'user_type': 'driver', 'ST_MakePoint_1': -79.64, 'ST_MakePoint_2': 43.59, 'ST_SetSRID_1': 4326, 'created_at': datetime.datetime(2025, 11, 5, 2, 26, 39, 910415), 'updated_at': datetime.datetime(2025, 11, 5, 2, 26, 39, 910419)}
+INFO:sqlalchemy.engine.Engine:INSERT INTO drivers (user_id, is_available, current_ride_id) VALUES (%(user_id)s::UUID, %(is_available)s, %(current_ride_id)s::UUID)
+INFO:sqlalchemy.engine.Engine:[generated in 0.00015s] {'user_id': UUID('ff5b9ccd-1046-4e71-a063-d9afe7dca94a'), 'is_available': True, 'current_ride_id': None}
+2025-11-05 02:26:39,912 INFO sqlalchemy.engine.Engine INSERT INTO drivers (user_id, is_available, current_ride_id) VALUES (%(user_id)s::UUID, %(is_available)s, %(current_ride_id)s::UUID)
+2025-11-05 02:26:39,912 INFO sqlalchemy.engine.Engine [generated in 0.00015s] {'user_id': UUID('ff5b9ccd-1046-4e71-a063-d9afe7dca94a'), 'is_available': True, 'current_ride_id': None}
+INFO:sqlalchemy.engine.Engine:COMMIT
+2025-11-05 02:26:39,914 INFO sqlalchemy.engine.Engine COMMIT
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+Driver Minh has been registered.
+2025-11-05 02:26:39,917 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT users.user_id AS users_user_id, users.email AS users_email, users.user_name AS users_user_name, users.user_type AS users_user_type, ST_AsEWKB(users.current_location) AS users_current_location, users.created_at AS users_created_at, users.updated_at AS users_updated_at 
+FROM users 
+WHERE users.email = %(email_1)s 
+ LIMIT %(param_1)s
+INFO:sqlalchemy.engine.Engine:[cached since 0.01994s ago] {'email_1': 'td2@email.com', 'param_1': 1}
+2025-11-05 02:26:39,917 INFO sqlalchemy.engine.Engine SELECT users.user_id AS users_user_id, users.email AS users_email, users.user_name AS users_user_name, users.user_type AS users_user_type, ST_AsEWKB(users.current_location) AS users_current_location, users.created_at AS users_created_at, users.updated_at AS users_updated_at 
+FROM users 
+WHERE users.email = %(email_1)s 
+ LIMIT %(param_1)s
+2025-11-05 02:26:39,917 INFO sqlalchemy.engine.Engine [cached since 0.01994s ago] {'email_1': 'td2@email.com', 'param_1': 1}
+2025-11-05 02:26:39,919 INFO sqlalchemy.engine.Engine INSERT INTO users (user_id, email, user_name, user_type, current_location, created_at, updated_at) VALUES (%(user_id)s::UUID, %(email)s, %(user_name)s, %(user_type)s, ST_SetSRID(ST_MakePoint(%(ST_MakePoint_1)s, %(ST_MakePoint_2)s), %(ST_SetSRID_1)s), %(created_at)s, %(updated_at)s)
+2025-11-05 02:26:39,919 INFO sqlalchemy.engine.Engine [no key 0.00014s] {'user_id': UUID('684f4582-17aa-4eba-80a5-06d301dbe9f4'), 'email': 'td2@email.com', 'user_name': 'Mike', 'user_type': 'driver', 'ST_MakePoint_1': -79.6, 'ST_MakePoint_2': 43.62, 'ST_SetSRID_1': 4326, 'created_at': datetime.datetime(2025, 11, 5, 2, 26, 39, 919537), 'updated_at': datetime.datetime(2025, 11, 5, 2, 26, 39, 919539)}
+INFO:sqlalchemy.engine.Engine:INSERT INTO users (user_id, email, user_name, user_type, current_location, created_at, updated_at) VALUES (%(user_id)s::UUID, %(email)s, %(user_name)s, %(user_type)s, ST_SetSRID(ST_MakePoint(%(ST_MakePoint_1)s, %(ST_MakePoint_2)s), %(ST_SetSRID_1)s), %(created_at)s, %(updated_at)s)
+INFO:sqlalchemy.engine.Engine:[no key 0.00014s] {'user_id': UUID('684f4582-17aa-4eba-80a5-06d301dbe9f4'), 'email': 'td2@email.com', 'user_name': 'Mike', 'user_type': 'driver', 'ST_MakePoint_1': -79.6, 'ST_MakePoint_2': 43.62, 'ST_SetSRID_1': 4326, 'created_at': datetime.datetime(2025, 11, 5, 2, 26, 39, 919537), 'updated_at': datetime.datetime(2025, 11, 5, 2, 26, 39, 919539)}
+INFO:sqlalchemy.engine.Engine:INSERT INTO drivers (user_id, is_available, current_ride_id) VALUES (%(user_id)s::UUID, %(is_available)s, %(current_ride_id)s::UUID)
+2025-11-05 02:26:39,920 INFO sqlalchemy.engine.Engine INSERT INTO drivers (user_id, is_available, current_ride_id) VALUES (%(user_id)s::UUID, %(is_available)s, %(current_ride_id)s::UUID)
+2025-11-05 02:26:39,920 INFO sqlalchemy.engine.Engine [cached since 0.00755s ago] {'user_id': UUID('684f4582-17aa-4eba-80a5-06d301dbe9f4'), 'is_available': True, 'current_ride_id': None}
+INFO:sqlalchemy.engine.Engine:[cached since 0.00755s ago] {'user_id': UUID('684f4582-17aa-4eba-80a5-06d301dbe9f4'), 'is_available': True, 'current_ride_id': None}
+INFO:sqlalchemy.engine.Engine:COMMIT
+2025-11-05 02:26:39,920 INFO sqlalchemy.engine.Engine COMMIT
+Driver Mike has been registered.
+2025-11-05 02:26:39,923 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT users.user_id AS users_user_id, users.email AS users_email, users.user_name AS users_user_name, users.user_type AS users_user_type, ST_AsEWKB(users.current_location) AS users_current_location, users.created_at AS users_created_at, users.updated_at AS users_updated_at 
+FROM users 
+WHERE users.email = %(email_1)s 
+ LIMIT %(param_1)s
+INFO:sqlalchemy.engine.Engine:[cached since 0.02606s ago] {'email_1': 'td3@email.com', 'param_1': 1}
+2025-11-05 02:26:39,923 INFO sqlalchemy.engine.Engine SELECT users.user_id AS users_user_id, users.email AS users_email, users.user_name AS users_user_name, users.user_type AS users_user_type, ST_AsEWKB(users.current_location) AS users_current_location, users.created_at AS users_created_at, users.updated_at AS users_updated_at 
+FROM users 
+WHERE users.email = %(email_1)s 
+ LIMIT %(param_1)s
+2025-11-05 02:26:39,923 INFO sqlalchemy.engine.Engine [cached since 0.02606s ago] {'email_1': 'td3@email.com', 'param_1': 1}
+INFO:sqlalchemy.engine.Engine:INSERT INTO users (user_id, email, user_name, user_type, current_location, created_at, updated_at) VALUES (%(user_id)s::UUID, %(email)s, %(user_name)s, %(user_type)s, ST_SetSRID(ST_MakePoint(%(ST_MakePoint_1)s, %(ST_MakePoint_2)s), %(ST_SetSRID_1)s), %(created_at)s, %(updated_at)s)
+2025-11-05 02:26:39,925 INFO sqlalchemy.engine.Engine INSERT INTO users (user_id, email, user_name, user_type, current_location, created_at, updated_at) VALUES (%(user_id)s::UUID, %(email)s, %(user_name)s, %(user_type)s, ST_SetSRID(ST_MakePoint(%(ST_MakePoint_1)s, %(ST_MakePoint_2)s), %(ST_SetSRID_1)s), %(created_at)s, %(updated_at)s)
+2025-11-05 02:26:39,925 INFO sqlalchemy.engine.Engine [no key 0.00013s] {'user_id': UUID('868c67e7-c4af-477a-a979-89e95dc6d34a'), 'email': 'td3@email.com', 'user_name': 'Martin', 'user_type': 'driver', 'ST_MakePoint_1': -79.7, 'ST_MakePoint_2': 43.58, 'ST_SetSRID_1': 4326, 'created_at': datetime.datetime(2025, 11, 5, 2, 26, 39, 925254), 'updated_at': datetime.datetime(2025, 11, 5, 2, 26, 39, 925256)}
+INFO:sqlalchemy.engine.Engine:[no key 0.00013s] {'user_id': UUID('868c67e7-c4af-477a-a979-89e95dc6d34a'), 'email': 'td3@email.com', 'user_name': 'Martin', 'user_type': 'driver', 'ST_MakePoint_1': -79.7, 'ST_MakePoint_2': 43.58, 'ST_SetSRID_1': 4326, 'created_at': datetime.datetime(2025, 11, 5, 2, 26, 39, 925254), 'updated_at': datetime.datetime(2025, 11, 5, 2, 26, 39, 925256)}
+2025-11-05 02:26:39,925 INFO sqlalchemy.engine.Engine INSERT INTO drivers (user_id, is_available, current_ride_id) VALUES (%(user_id)s::UUID, %(is_available)s, %(current_ride_id)s::UUID)
+2025-11-05 02:26:39,925 INFO sqlalchemy.engine.Engine [cached since 0.0132s ago] {'user_id': UUID('868c67e7-c4af-477a-a979-89e95dc6d34a'), 'is_available': True, 'current_ride_id': None}
+INFO:sqlalchemy.engine.Engine:INSERT INTO drivers (user_id, is_available, current_ride_id) VALUES (%(user_id)s::UUID, %(is_available)s, %(current_ride_id)s::UUID)
+INFO:sqlalchemy.engine.Engine:[cached since 0.0132s ago] {'user_id': UUID('868c67e7-c4af-477a-a979-89e95dc6d34a'), 'is_available': True, 'current_ride_id': None}
+INFO:sqlalchemy.engine.Engine:COMMIT
+2025-11-05 02:26:39,926 INFO sqlalchemy.engine.Engine COMMIT
+Driver Martin has been registered.
+2025-11-05 02:26:39,929 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+2025-11-05 02:26:39,929 INFO sqlalchemy.engine.Engine SELECT users.user_id AS users_user_id, users.email AS users_email, users.user_name AS users_user_name, users.user_type AS users_user_type, ST_AsEWKB(users.current_location) AS users_current_location, users.created_at AS users_created_at, users.updated_at AS users_updated_at 
+FROM users 
+WHERE users.email = %(email_1)s 
+ LIMIT %(param_1)s
+2025-11-05 02:26:39,929 INFO sqlalchemy.engine.Engine [cached since 0.0316s ago] {'email_1': 'td4@email.com', 'param_1': 1}
+INFO:sqlalchemy.engine.Engine:SELECT users.user_id AS users_user_id, users.email AS users_email, users.user_name AS users_user_name, users.user_type AS users_user_type, ST_AsEWKB(users.current_location) AS users_current_location, users.created_at AS users_created_at, users.updated_at AS users_updated_at 
+FROM users 
+WHERE users.email = %(email_1)s 
+ LIMIT %(param_1)s
+INFO:sqlalchemy.engine.Engine:[cached since 0.0316s ago] {'email_1': 'td4@email.com', 'param_1': 1}
+2025-11-05 02:26:39,931 INFO sqlalchemy.engine.Engine INSERT INTO users (user_id, email, user_name, user_type, current_location, created_at, updated_at) VALUES (%(user_id)s::UUID, %(email)s, %(user_name)s, %(user_type)s, ST_SetSRID(ST_MakePoint(%(ST_MakePoint_1)s, %(ST_MakePoint_2)s), %(ST_SetSRID_1)s), %(created_at)s, %(updated_at)s)
+2025-11-05 02:26:39,931 INFO sqlalchemy.engine.Engine [no key 0.00019s] {'user_id': UUID('055636ba-b873-4d2b-b248-1759aa421c05'), 'email': 'td4@email.com', 'user_name': 'Min', 'user_type': 'driver', 'ST_MakePoint_1': -79.68, 'ST_MakePoint_2': 43.55, 'ST_SetSRID_1': 4326, 'created_at': datetime.datetime(2025, 11, 5, 2, 26, 39, 931019), 'updated_at': datetime.datetime(2025, 11, 5, 2, 26, 39, 931022)}
+INFO:sqlalchemy.engine.Engine:INSERT INTO users (user_id, email, user_name, user_type, current_location, created_at, updated_at) VALUES (%(user_id)s::UUID, %(email)s, %(user_name)s, %(user_type)s, ST_SetSRID(ST_MakePoint(%(ST_MakePoint_1)s, %(ST_MakePoint_2)s), %(ST_SetSRID_1)s), %(created_at)s, %(updated_at)s)
+INFO:sqlalchemy.engine.Engine:[no key 0.00019s] {'user_id': UUID('055636ba-b873-4d2b-b248-1759aa421c05'), 'email': 'td4@email.com', 'user_name': 'Min', 'user_type': 'driver', 'ST_MakePoint_1': -79.68, 'ST_MakePoint_2': 43.55, 'ST_SetSRID_1': 4326, 'created_at': datetime.datetime(2025, 11, 5, 2, 26, 39, 931019), 'updated_at': datetime.datetime(2025, 11, 5, 2, 26, 39, 931022)}
+INFO:sqlalchemy.engine.Engine:INSERT INTO drivers (user_id, is_available, current_ride_id) VALUES (%(user_id)s::UUID, %(is_available)s, %(current_ride_id)s::UUID)
+INFO:sqlalchemy.engine.Engine:[cached since 0.01912s ago] {'user_id': UUID('055636ba-b873-4d2b-b248-1759aa421c05'), 'is_available': True, 'current_ride_id': None}
+2025-11-05 02:26:39,931 INFO sqlalchemy.engine.Engine INSERT INTO drivers (user_id, is_available, current_ride_id) VALUES (%(user_id)s::UUID, %(is_available)s, %(current_ride_id)s::UUID)
+2025-11-05 02:26:39,931 INFO sqlalchemy.engine.Engine [cached since 0.01912s ago] {'user_id': UUID('055636ba-b873-4d2b-b248-1759aa421c05'), 'is_available': True, 'current_ride_id': None}
+INFO:sqlalchemy.engine.Engine:COMMIT
+2025-11-05 02:26:39,932 INFO sqlalchemy.engine.Engine COMMIT
+Driver Min has been registered.
+2025-11-05 02:26:39,935 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+2025-11-05 02:26:39,936 INFO sqlalchemy.engine.Engine SELECT users.user_id AS users_user_id, users.email AS users_email, users.user_name AS users_user_name, users.user_type AS users_user_type, ST_AsEWKB(users.current_location) AS users_current_location, users.created_at AS users_created_at, users.updated_at AS users_updated_at 
+FROM users 
+WHERE users.email = %(email_1)s 
+ LIMIT %(param_1)s
+2025-11-05 02:26:39,936 INFO sqlalchemy.engine.Engine [cached since 0.03821s ago] {'email_1': 'td5@email.com', 'param_1': 1}
+INFO:sqlalchemy.engine.Engine:SELECT users.user_id AS users_user_id, users.email AS users_email, users.user_name AS users_user_name, users.user_type AS users_user_type, ST_AsEWKB(users.current_location) AS users_current_location, users.created_at AS users_created_at, users.updated_at AS users_updated_at 
+FROM users 
+WHERE users.email = %(email_1)s 
+ LIMIT %(param_1)s
+INFO:sqlalchemy.engine.Engine:[cached since 0.03821s ago] {'email_1': 'td5@email.com', 'param_1': 1}
+INFO:sqlalchemy.engine.Engine:INSERT INTO users (user_id, email, user_name, user_type, current_location, created_at, updated_at) VALUES (%(user_id)s::UUID, %(email)s, %(user_name)s, %(user_type)s, ST_SetSRID(ST_MakePoint(%(ST_MakePoint_1)s, %(ST_MakePoint_2)s), %(ST_SetSRID_1)s), %(created_at)s, %(updated_at)s)
+INFO:sqlalchemy.engine.Engine:[no key 0.00016s] {'user_id': UUID('301e6826-469e-4b96-bc9a-e1504b225d7f'), 'email': 'td5@email.com', 'user_name': 'Mart', 'user_type': 'driver', 'ST_MakePoint_1': -79.55, 'ST_MakePoint_2': 43.68, 'ST_SetSRID_1': 4326, 'created_at': datetime.datetime(2025, 11, 5, 2, 26, 39, 937773), 'updated_at': datetime.datetime(2025, 11, 5, 2, 26, 39, 937776)}
+2025-11-05 02:26:39,937 INFO sqlalchemy.engine.Engine INSERT INTO users (user_id, email, user_name, user_type, current_location, created_at, updated_at) VALUES (%(user_id)s::UUID, %(email)s, %(user_name)s, %(user_type)s, ST_SetSRID(ST_MakePoint(%(ST_MakePoint_1)s, %(ST_MakePoint_2)s), %(ST_SetSRID_1)s), %(created_at)s, %(updated_at)s)
+2025-11-05 02:26:39,937 INFO sqlalchemy.engine.Engine [no key 0.00016s] {'user_id': UUID('301e6826-469e-4b96-bc9a-e1504b225d7f'), 'email': 'td5@email.com', 'user_name': 'Mart', 'user_type': 'driver', 'ST_MakePoint_1': -79.55, 'ST_MakePoint_2': 43.68, 'ST_SetSRID_1': 4326, 'created_at': datetime.datetime(2025, 11, 5, 2, 26, 39, 937773), 'updated_at': datetime.datetime(2025, 11, 5, 2, 26, 39, 937776)}
+INFO:sqlalchemy.engine.Engine:INSERT INTO drivers (user_id, is_available, current_ride_id) VALUES (%(user_id)s::UUID, %(is_available)s, %(current_ride_id)s::UUID)
+INFO:sqlalchemy.engine.Engine:[cached since 0.02591s ago] {'user_id': UUID('301e6826-469e-4b96-bc9a-e1504b225d7f'), 'is_available': True, 'current_ride_id': None}
+2025-11-05 02:26:39,938 INFO sqlalchemy.engine.Engine INSERT INTO drivers (user_id, is_available, current_ride_id) VALUES (%(user_id)s::UUID, %(is_available)s, %(current_ride_id)s::UUID)
+2025-11-05 02:26:39,938 INFO sqlalchemy.engine.Engine [cached since 0.02591s ago] {'user_id': UUID('301e6826-469e-4b96-bc9a-e1504b225d7f'), 'is_available': True, 'current_ride_id': None}
+INFO:sqlalchemy.engine.Engine:COMMIT
+2025-11-05 02:26:39,939 INFO sqlalchemy.engine.Engine COMMIT
+Driver Mart has been registered.
+2025-11-05 02:26:39,942 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT users.user_id AS users_user_id, users.email AS users_email, users.user_name AS users_user_name, users.user_type AS users_user_type, ST_AsEWKB(users.current_location) AS users_current_location, users.created_at AS users_created_at, users.updated_at AS users_updated_at 
+FROM users 
+WHERE users.email = %(email_1)s 
+ LIMIT %(param_1)s
+INFO:sqlalchemy.engine.Engine:[cached since 0.04521s ago] {'email_1': 'td6@email.com', 'param_1': 1}
+2025-11-05 02:26:39,943 INFO sqlalchemy.engine.Engine SELECT users.user_id AS users_user_id, users.email AS users_email, users.user_name AS users_user_name, users.user_type AS users_user_type, ST_AsEWKB(users.current_location) AS users_current_location, users.created_at AS users_created_at, users.updated_at AS users_updated_at 
+FROM users 
+WHERE users.email = %(email_1)s 
+ LIMIT %(param_1)s
+2025-11-05 02:26:39,943 INFO sqlalchemy.engine.Engine [cached since 0.04521s ago] {'email_1': 'td6@email.com', 'param_1': 1}
+2025-11-05 02:26:39,944 INFO sqlalchemy.engine.Engine INSERT INTO users (user_id, email, user_name, user_type, current_location, created_at, updated_at) VALUES (%(user_id)s::UUID, %(email)s, %(user_name)s, %(user_type)s, ST_SetSRID(ST_MakePoint(%(ST_MakePoint_1)s, %(ST_MakePoint_2)s), %(ST_SetSRID_1)s), %(created_at)s, %(updated_at)s)
+2025-11-05 02:26:39,944 INFO sqlalchemy.engine.Engine [no key 0.00015s] {'user_id': UUID('d9026fbf-c9cc-4f4b-a1da-a9f40bf58819'), 'email': 'td6@email.com', 'user_name': 'Kevin', 'user_type': 'driver', 'ST_MakePoint_1': -79.75, 'ST_MakePoint_2': 43.61, 'ST_SetSRID_1': 4326, 'created_at': datetime.datetime(2025, 11, 5, 2, 26, 39, 944657), 'updated_at': datetime.datetime(2025, 11, 5, 2, 26, 39, 944659)}
+INFO:sqlalchemy.engine.Engine:INSERT INTO users (user_id, email, user_name, user_type, current_location, created_at, updated_at) VALUES (%(user_id)s::UUID, %(email)s, %(user_name)s, %(user_type)s, ST_SetSRID(ST_MakePoint(%(ST_MakePoint_1)s, %(ST_MakePoint_2)s), %(ST_SetSRID_1)s), %(created_at)s, %(updated_at)s)
+INFO:sqlalchemy.engine.Engine:[no key 0.00015s] {'user_id': UUID('d9026fbf-c9cc-4f4b-a1da-a9f40bf58819'), 'email': 'td6@email.com', 'user_name': 'Kevin', 'user_type': 'driver', 'ST_MakePoint_1': -79.75, 'ST_MakePoint_2': 43.61, 'ST_SetSRID_1': 4326, 'created_at': datetime.datetime(2025, 11, 5, 2, 26, 39, 944657), 'updated_at': datetime.datetime(2025, 11, 5, 2, 26, 39, 944659)}
+INFO:sqlalchemy.engine.Engine:INSERT INTO drivers (user_id, is_available, current_ride_id) VALUES (%(user_id)s::UUID, %(is_available)s, %(current_ride_id)s::UUID)
+2025-11-05 02:26:39,945 INFO sqlalchemy.engine.Engine INSERT INTO drivers (user_id, is_available, current_ride_id) VALUES (%(user_id)s::UUID, %(is_available)s, %(current_ride_id)s::UUID)
+INFO:sqlalchemy.engine.Engine:[cached since 0.03286s ago] {'user_id': UUID('d9026fbf-c9cc-4f4b-a1da-a9f40bf58819'), 'is_available': True, 'current_ride_id': None}
+2025-11-05 02:26:39,945 INFO sqlalchemy.engine.Engine [cached since 0.03286s ago] {'user_id': UUID('d9026fbf-c9cc-4f4b-a1da-a9f40bf58819'), 'is_available': True, 'current_ride_id': None}
+INFO:sqlalchemy.engine.Engine:COMMIT
+2025-11-05 02:26:39,947 INFO sqlalchemy.engine.Engine COMMIT
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+Driver Kevin has been registered.
+2025-11-05 02:26:39,950 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-11-05 02:26:39,951 INFO sqlalchemy.engine.Engine SELECT users.user_id AS users_user_id, users.email AS users_email, users.user_name AS users_user_name, users.user_type AS users_user_type, ST_AsEWKB(users.current_location) AS users_current_location, users.created_at AS users_created_at, users.updated_at AS users_updated_at 
+INFO:sqlalchemy.engine.Engine:SELECT users.user_id AS users_user_id, users.email AS users_email, users.user_name AS users_user_name, users.user_type AS users_user_type, ST_AsEWKB(users.current_location) AS users_current_location, users.created_at AS users_created_at, users.updated_at AS users_updated_at 
+FROM users 
+WHERE users.email = %(email_1)s 
+ LIMIT %(param_1)s
+INFO:sqlalchemy.engine.Engine:[cached since 0.05345s ago] {'email_1': 'td7@email.com', 'param_1': 1}
+FROM users 
+WHERE users.email = %(email_1)s 
+ LIMIT %(param_1)s
+2025-11-05 02:26:39,951 INFO sqlalchemy.engine.Engine [cached since 0.05345s ago] {'email_1': 'td7@email.com', 'param_1': 1}
+2025-11-05 02:26:39,952 INFO sqlalchemy.engine.Engine INSERT INTO users (user_id, email, user_name, user_type, current_location, created_at, updated_at) VALUES (%(user_id)s::UUID, %(email)s, %(user_name)s, %(user_type)s, ST_SetSRID(ST_MakePoint(%(ST_MakePoint_1)s, %(ST_MakePoint_2)s), %(ST_SetSRID_1)s), %(created_at)s, %(updated_at)s)
+2025-11-05 02:26:39,953 INFO sqlalchemy.engine.Engine [no key 0.00014s] {'user_id': UUID('0d3a7574-29a5-4f15-bbfc-1ee27ab24878'), 'email': 'td7@email.com', 'user_name': 'Micheal', 'user_type': 'driver', 'ST_MakePoint_1': -79.62, 'ST_MakePoint_2': 43.66, 'ST_SetSRID_1': 4326, 'created_at': datetime.datetime(2025, 11, 5, 2, 26, 39, 952881), 'updated_at': datetime.datetime(2025, 11, 5, 2, 26, 39, 952884)}
+INFO:sqlalchemy.engine.Engine:INSERT INTO users (user_id, email, user_name, user_type, current_location, created_at, updated_at) VALUES (%(user_id)s::UUID, %(email)s, %(user_name)s, %(user_type)s, ST_SetSRID(ST_MakePoint(%(ST_MakePoint_1)s, %(ST_MakePoint_2)s), %(ST_SetSRID_1)s), %(created_at)s, %(updated_at)s)
+INFO:sqlalchemy.engine.Engine:[no key 0.00014s] {'user_id': UUID('0d3a7574-29a5-4f15-bbfc-1ee27ab24878'), 'email': 'td7@email.com', 'user_name': 'Micheal', 'user_type': 'driver', 'ST_MakePoint_1': -79.62, 'ST_MakePoint_2': 43.66, 'ST_SetSRID_1': 4326, 'created_at': datetime.datetime(2025, 11, 5, 2, 26, 39, 952881), 'updated_at': datetime.datetime(2025, 11, 5, 2, 26, 39, 952884)}
+INFO:sqlalchemy.engine.Engine:INSERT INTO drivers (user_id, is_available, current_ride_id) VALUES (%(user_id)s::UUID, %(is_available)s, %(current_ride_id)s::UUID)
+INFO:sqlalchemy.engine.Engine:[cached since 0.04094s ago] {'user_id': UUID('0d3a7574-29a5-4f15-bbfc-1ee27ab24878'), 'is_available': True, 'current_ride_id': None}
+2025-11-05 02:26:39,953 INFO sqlalchemy.engine.Engine INSERT INTO drivers (user_id, is_available, current_ride_id) VALUES (%(user_id)s::UUID, %(is_available)s, %(current_ride_id)s::UUID)
+2025-11-05 02:26:39,953 INFO sqlalchemy.engine.Engine [cached since 0.04094s ago] {'user_id': UUID('0d3a7574-29a5-4f15-bbfc-1ee27ab24878'), 'is_available': True, 'current_ride_id': None}
+INFO:sqlalchemy.engine.Engine:COMMIT
+2025-11-05 02:26:39,954 INFO sqlalchemy.engine.Engine COMMIT
+Driver Micheal has been registered.
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+2025-11-05 02:26:39,957 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-11-05 02:26:39,957 INFO sqlalchemy.engine.Engine SELECT users.user_id AS users_user_id, users.email AS users_email, users.user_name AS users_user_name, users.user_type AS users_user_type, ST_AsEWKB(users.current_location) AS users_current_location, users.created_at AS users_created_at, users.updated_at AS users_updated_at 
+FROM users 
+WHERE users.email = %(email_1)s 
+ LIMIT %(param_1)s
+INFO:sqlalchemy.engine.Engine:SELECT users.user_id AS users_user_id, users.email AS users_email, users.user_name AS users_user_name, users.user_type AS users_user_type, ST_AsEWKB(users.current_location) AS users_current_location, users.created_at AS users_created_at, users.updated_at AS users_updated_at 
+FROM users 
+WHERE users.email = %(email_1)s 
+ LIMIT %(param_1)s
+INFO:sqlalchemy.engine.Engine:[cached since 0.05951s ago] {'email_1': 'td8@email.com', 'param_1': 1}
+2025-11-05 02:26:39,957 INFO sqlalchemy.engine.Engine [cached since 0.05951s ago] {'email_1': 'td8@email.com', 'param_1': 1}
+INFO:sqlalchemy.engine.Engine:INSERT INTO users (user_id, email, user_name, user_type, current_location, created_at, updated_at) VALUES (%(user_id)s::UUID, %(email)s, %(user_name)s, %(user_type)s, ST_SetSRID(ST_MakePoint(%(ST_MakePoint_1)s, %(ST_MakePoint_2)s), %(ST_SetSRID_1)s), %(created_at)s, %(updated_at)s)
+INFO:sqlalchemy.engine.Engine:[no key 0.00013s] {'user_id': UUID('f3de32db-5742-4a77-9671-9b7976810d03'), 'email': 'td8@email.com', 'user_name': 'Mi', 'user_type': 'driver', 'ST_MakePoint_1': -79.58, 'ST_MakePoint_2': 43.52, 'ST_SetSRID_1': 4326, 'created_at': datetime.datetime(2025, 11, 5, 2, 26, 39, 958866), 'updated_at': datetime.datetime(2025, 11, 5, 2, 26, 39, 958868)}
+2025-11-05 02:26:39,958 INFO sqlalchemy.engine.Engine INSERT INTO users (user_id, email, user_name, user_type, current_location, created_at, updated_at) VALUES (%(user_id)s::UUID, %(email)s, %(user_name)s, %(user_type)s, ST_SetSRID(ST_MakePoint(%(ST_MakePoint_1)s, %(ST_MakePoint_2)s), %(ST_SetSRID_1)s), %(created_at)s, %(updated_at)s)
+2025-11-05 02:26:39,958 INFO sqlalchemy.engine.Engine [no key 0.00013s] {'user_id': UUID('f3de32db-5742-4a77-9671-9b7976810d03'), 'email': 'td8@email.com', 'user_name': 'Mi', 'user_type': 'driver', 'ST_MakePoint_1': -79.58, 'ST_MakePoint_2': 43.52, 'ST_SetSRID_1': 4326, 'created_at': datetime.datetime(2025, 11, 5, 2, 26, 39, 958866), 'updated_at': datetime.datetime(2025, 11, 5, 2, 26, 39, 958868)}
+INFO:sqlalchemy.engine.Engine:INSERT INTO drivers (user_id, is_available, current_ride_id) VALUES (%(user_id)s::UUID, %(is_available)s, %(current_ride_id)s::UUID)
+INFO:sqlalchemy.engine.Engine:[cached since 0.04683s ago] {'user_id': UUID('f3de32db-5742-4a77-9671-9b7976810d03'), 'is_available': True, 'current_ride_id': None}
+2025-11-05 02:26:39,959 INFO sqlalchemy.engine.Engine INSERT INTO drivers (user_id, is_available, current_ride_id) VALUES (%(user_id)s::UUID, %(is_available)s, %(current_ride_id)s::UUID)
+2025-11-05 02:26:39,959 INFO sqlalchemy.engine.Engine [cached since 0.04683s ago] {'user_id': UUID('f3de32db-5742-4a77-9671-9b7976810d03'), 'is_available': True, 'current_ride_id': None}
+INFO:sqlalchemy.engine.Engine:COMMIT
+2025-11-05 02:26:39,960 INFO sqlalchemy.engine.Engine COMMIT
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+Driver Mi has been registered.
+2025-11-05 02:26:39,962 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-11-05 02:26:39,963 INFO sqlalchemy.engine.Engine SELECT users.user_id AS users_user_id, users.email AS users_email, users.user_name AS users_user_name, users.user_type AS users_user_type, ST_AsEWKB(users.current_location) AS users_current_location, users.created_at AS users_created_at, users.updated_at AS users_updated_at 
+FROM users 
+WHERE users.email = %(email_1)s 
+ LIMIT %(param_1)s
+2025-11-05 02:26:39,963 INFO sqlalchemy.engine.Engine [cached since 0.0653s ago] {'email_1': 'td9@email.com', 'param_1': 1}
+INFO:sqlalchemy.engine.Engine:SELECT users.user_id AS users_user_id, users.email AS users_email, users.user_name AS users_user_name, users.user_type AS users_user_type, ST_AsEWKB(users.current_location) AS users_current_location, users.created_at AS users_created_at, users.updated_at AS users_updated_at 
+FROM users 
+WHERE users.email = %(email_1)s 
+ LIMIT %(param_1)s
+INFO:sqlalchemy.engine.Engine:[cached since 0.0653s ago] {'email_1': 'td9@email.com', 'param_1': 1}
+INFO:sqlalchemy.engine.Engine:INSERT INTO users (user_id, email, user_name, user_type, current_location, created_at, updated_at) VALUES (%(user_id)s::UUID, %(email)s, %(user_name)s, %(user_type)s, ST_SetSRID(ST_MakePoint(%(ST_MakePoint_1)s, %(ST_MakePoint_2)s), %(ST_SetSRID_1)s), %(created_at)s, %(updated_at)s)
+INFO:sqlalchemy.engine.Engine:[no key 0.00011s] {'user_id': UUID('a7cde0f8-8fc9-49a9-9c55-79efdac170d7'), 'email': 'td9@email.com', 'user_name': 'Mark', 'user_type': 'driver', 'ST_MakePoint_1': -79.72, 'ST_MakePoint_2': 43.69, 'ST_SetSRID_1': 4326, 'created_at': datetime.datetime(2025, 11, 5, 2, 26, 39, 964446), 'updated_at': datetime.datetime(2025, 11, 5, 2, 26, 39, 964448)}
+2025-11-05 02:26:39,964 INFO sqlalchemy.engine.Engine INSERT INTO users (user_id, email, user_name, user_type, current_location, created_at, updated_at) VALUES (%(user_id)s::UUID, %(email)s, %(user_name)s, %(user_type)s, ST_SetSRID(ST_MakePoint(%(ST_MakePoint_1)s, %(ST_MakePoint_2)s), %(ST_SetSRID_1)s), %(created_at)s, %(updated_at)s)
+2025-11-05 02:26:39,964 INFO sqlalchemy.engine.Engine [no key 0.00011s] {'user_id': UUID('a7cde0f8-8fc9-49a9-9c55-79efdac170d7'), 'email': 'td9@email.com', 'user_name': 'Mark', 'user_type': 'driver', 'ST_MakePoint_1': -79.72, 'ST_MakePoint_2': 43.69, 'ST_SetSRID_1': 4326, 'created_at': datetime.datetime(2025, 11, 5, 2, 26, 39, 964446), 'updated_at': datetime.datetime(2025, 11, 5, 2, 26, 39, 964448)}
+2025-11-05 02:26:39,965 INFO sqlalchemy.engine.Engine INSERT INTO drivers (user_id, is_available, current_ride_id) VALUES (%(user_id)s::UUID, %(is_available)s, %(current_ride_id)s::UUID)
+2025-11-05 02:26:39,965 INFO sqlalchemy.engine.Engine [cached since 0.05238s ago] {'user_id': UUID('a7cde0f8-8fc9-49a9-9c55-79efdac170d7'), 'is_available': True, 'current_ride_id': None}
+INFO:sqlalchemy.engine.Engine:INSERT INTO drivers (user_id, is_available, current_ride_id) VALUES (%(user_id)s::UUID, %(is_available)s, %(current_ride_id)s::UUID)
+INFO:sqlalchemy.engine.Engine:[cached since 0.05238s ago] {'user_id': UUID('a7cde0f8-8fc9-49a9-9c55-79efdac170d7'), 'is_available': True, 'current_ride_id': None}
+INFO:sqlalchemy.engine.Engine:COMMIT
+2025-11-05 02:26:39,965 INFO sqlalchemy.engine.Engine COMMIT
+Driver Mark has been registered.
+Registering rider Pham...
+2025-11-05 02:26:39,968 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+2025-11-05 02:26:39,969 INFO sqlalchemy.engine.Engine SELECT users.user_id AS users_user_id, users.email AS users_email, users.user_name AS users_user_name, users.user_type AS users_user_type, ST_AsEWKB(users.current_location) AS users_current_location, users.created_at AS users_created_at, users.updated_at AS users_updated_at 
+FROM users 
+INFO:sqlalchemy.engine.Engine:SELECT users.user_id AS users_user_id, users.email AS users_email, users.user_name AS users_user_name, users.user_type AS users_user_type, ST_AsEWKB(users.current_location) AS users_current_location, users.created_at AS users_created_at, users.updated_at AS users_updated_at 
+FROM users 
+WHERE users.email = %(email_1)s 
+ LIMIT %(param_1)s
+INFO:sqlalchemy.engine.Engine:[cached since 0.07128s ago] {'email_1': 'tr1@email.com', 'param_1': 1}
+WHERE users.email = %(email_1)s 
+ LIMIT %(param_1)s
+2025-11-05 02:26:39,969 INFO sqlalchemy.engine.Engine [cached since 0.07128s ago] {'email_1': 'tr1@email.com', 'param_1': 1}
+2025-11-05 02:26:39,970 INFO sqlalchemy.engine.Engine INSERT INTO users (user_id, email, user_name, user_type, current_location, created_at, updated_at) VALUES (%(user_id)s::UUID, %(email)s, %(user_name)s, %(user_type)s, ST_SetSRID(ST_MakePoint(%(ST_MakePoint_1)s, %(ST_MakePoint_2)s), %(ST_SetSRID_1)s), %(created_at)s, %(updated_at)s)
+2025-11-05 02:26:39,970 INFO sqlalchemy.engine.Engine [no key 0.00015s] {'user_id': UUID('e6e41d75-172f-4ea5-b907-68263a32fcaf'), 'email': 'tr1@email.com', 'user_name': 'Pham', 'user_type': 'rider', 'ST_MakePoint_1': -79.65, 'ST_MakePoint_2': 43.6, 'ST_SetSRID_1': 4326, 'created_at': datetime.datetime(2025, 11, 5, 2, 26, 39, 970795), 'updated_at': datetime.datetime(2025, 11, 5, 2, 26, 39, 970797)}
+INFO:sqlalchemy.engine.Engine:INSERT INTO users (user_id, email, user_name, user_type, current_location, created_at, updated_at) VALUES (%(user_id)s::UUID, %(email)s, %(user_name)s, %(user_type)s, ST_SetSRID(ST_MakePoint(%(ST_MakePoint_1)s, %(ST_MakePoint_2)s), %(ST_SetSRID_1)s), %(created_at)s, %(updated_at)s)
+INFO:sqlalchemy.engine.Engine:[no key 0.00015s] {'user_id': UUID('e6e41d75-172f-4ea5-b907-68263a32fcaf'), 'email': 'tr1@email.com', 'user_name': 'Pham', 'user_type': 'rider', 'ST_MakePoint_1': -79.65, 'ST_MakePoint_2': 43.6, 'ST_SetSRID_1': 4326, 'created_at': datetime.datetime(2025, 11, 5, 2, 26, 39, 970795), 'updated_at': datetime.datetime(2025, 11, 5, 2, 26, 39, 970797)}
+INFO:sqlalchemy.engine.Engine:INSERT INTO riders (user_id, current_ride_id) VALUES (%(user_id)s::UUID, %(current_ride_id)s::UUID)
+INFO:sqlalchemy.engine.Engine:[generated in 0.00013s] {'user_id': UUID('e6e41d75-172f-4ea5-b907-68263a32fcaf'), 'current_ride_id': None}
+2025-11-05 02:26:39,972 INFO sqlalchemy.engine.Engine INSERT INTO riders (user_id, current_ride_id) VALUES (%(user_id)s::UUID, %(current_ride_id)s::UUID)
+2025-11-05 02:26:39,972 INFO sqlalchemy.engine.Engine [generated in 0.00013s] {'user_id': UUID('e6e41d75-172f-4ea5-b907-68263a32fcaf'), 'current_ride_id': None}
+2025-11-05 02:26:39,974 INFO sqlalchemy.engine.Engine COMMIT
+INFO:sqlalchemy.engine.Engine:COMMIT
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+Pham has been registered.
+Registering rider Fam...
+2025-11-05 02:26:39,977 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT users.user_id AS users_user_id, users.email AS users_email, users.user_name AS users_user_name, users.user_type AS users_user_type, ST_AsEWKB(users.current_location) AS users_current_location, users.created_at AS users_created_at, users.updated_at AS users_updated_at 
+FROM users 
+WHERE users.email = %(email_1)s 
+ LIMIT %(param_1)s
+INFO:sqlalchemy.engine.Engine:[cached since 0.08034s ago] {'email_1': 'tr2@email.com', 'param_1': 1}
+2025-11-05 02:26:39,978 INFO sqlalchemy.engine.Engine SELECT users.user_id AS users_user_id, users.email AS users_email, users.user_name AS users_user_name, users.user_type AS users_user_type, ST_AsEWKB(users.current_location) AS users_current_location, users.created_at AS users_created_at, users.updated_at AS users_updated_at 
+FROM users 
+WHERE users.email = %(email_1)s 
+ LIMIT %(param_1)s
+2025-11-05 02:26:39,978 INFO sqlalchemy.engine.Engine [cached since 0.08034s ago] {'email_1': 'tr2@email.com', 'param_1': 1}
+INFO:sqlalchemy.engine.Engine:INSERT INTO users (user_id, email, user_name, user_type, current_location, created_at, updated_at) VALUES (%(user_id)s::UUID, %(email)s, %(user_name)s, %(user_type)s, ST_SetSRID(ST_MakePoint(%(ST_MakePoint_1)s, %(ST_MakePoint_2)s), %(ST_SetSRID_1)s), %(created_at)s, %(updated_at)s)
+2025-11-05 02:26:39,979 INFO sqlalchemy.engine.Engine INSERT INTO users (user_id, email, user_name, user_type, current_location, created_at, updated_at) VALUES (%(user_id)s::UUID, %(email)s, %(user_name)s, %(user_type)s, ST_SetSRID(ST_MakePoint(%(ST_MakePoint_1)s, %(ST_MakePoint_2)s), %(ST_SetSRID_1)s), %(created_at)s, %(updated_at)s)
+INFO:sqlalchemy.engine.Engine:[no key 0.00016s] {'user_id': UUID('c1ece3a2-1253-4ab7-850f-39db50e6cd21'), 'email': 'tr2@email.com', 'user_name': 'Fam', 'user_type': 'rider', 'ST_MakePoint_1': -79.62, 'ST_MakePoint_2': 43.59, 'ST_SetSRID_1': 4326, 'created_at': datetime.datetime(2025, 11, 5, 2, 26, 39, 979756), 'updated_at': datetime.datetime(2025, 11, 5, 2, 26, 39, 979758)}
+2025-11-05 02:26:39,979 INFO sqlalchemy.engine.Engine [no key 0.00016s] {'user_id': UUID('c1ece3a2-1253-4ab7-850f-39db50e6cd21'), 'email': 'tr2@email.com', 'user_name': 'Fam', 'user_type': 'rider', 'ST_MakePoint_1': -79.62, 'ST_MakePoint_2': 43.59, 'ST_SetSRID_1': 4326, 'created_at': datetime.datetime(2025, 11, 5, 2, 26, 39, 979756), 'updated_at': datetime.datetime(2025, 11, 5, 2, 26, 39, 979758)}
+2025-11-05 02:26:39,980 INFO sqlalchemy.engine.Engine INSERT INTO riders (user_id, current_ride_id) VALUES (%(user_id)s::UUID, %(current_ride_id)s::UUID)
+2025-11-05 02:26:39,980 INFO sqlalchemy.engine.Engine [cached since 0.008618s ago] {'user_id': UUID('c1ece3a2-1253-4ab7-850f-39db50e6cd21'), 'current_ride_id': None}
+INFO:sqlalchemy.engine.Engine:INSERT INTO riders (user_id, current_ride_id) VALUES (%(user_id)s::UUID, %(current_ride_id)s::UUID)
+INFO:sqlalchemy.engine.Engine:[cached since 0.008618s ago] {'user_id': UUID('c1ece3a2-1253-4ab7-850f-39db50e6cd21'), 'current_ride_id': None}
+2025-11-05 02:26:39,981 INFO sqlalchemy.engine.Engine COMMIT
+INFO:sqlalchemy.engine.Engine:COMMIT
+Fam has been registered.
+2025-11-05 02:26:39,984 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+2025-11-05 02:26:39,985 INFO sqlalchemy.engine.Engine SELECT users.user_id AS users_user_id, users.email AS users_email, users.user_name AS users_user_name, users.user_type AS users_user_type, ST_AsEWKB(users.current_location) AS users_current_location, users.created_at AS users_created_at, users.updated_at AS users_updated_at, riders.user_id AS riders_user_id, riders.current_ride_id AS riders_current_ride_id 
+FROM users JOIN riders ON users.user_id = riders.user_id 
+WHERE users.user_id = %(user_id_1)s::UUID 
+ LIMIT %(param_1)s
+2025-11-05 02:26:39,985 INFO sqlalchemy.engine.Engine [generated in 0.00012s] {'user_id_1': UUID('e6e41d75-172f-4ea5-b907-68263a32fcaf'), 'param_1': 1}
+INFO:sqlalchemy.engine.Engine:SELECT users.user_id AS users_user_id, users.email AS users_email, users.user_name AS users_user_name, users.user_type AS users_user_type, ST_AsEWKB(users.current_location) AS users_current_location, users.created_at AS users_created_at, users.updated_at AS users_updated_at, riders.user_id AS riders_user_id, riders.current_ride_id AS riders_current_ride_id 
+FROM users JOIN riders ON users.user_id = riders.user_id 
+WHERE users.user_id = %(user_id_1)s::UUID 
+ LIMIT %(param_1)s
+INFO:sqlalchemy.engine.Engine:[generated in 0.00012s] {'user_id_1': UUID('e6e41d75-172f-4ea5-b907-68263a32fcaf'), 'param_1': 1}
+Ride 472a93b5-8020-4744-8c58-951910d4ca53 has been requested.
+2025-11-05 02:26:39,987 INFO sqlalchemy.engine.Engine INSERT INTO rides (ride_id, rider_id, driver_id, ride_status, start_location, end_location, distance_km, created_at, updated_at) VALUES (%(ride_id)s::UUID, %(rider_id)s::UUID, %(driver_id)s::UUID, %(ride_status)s, ST_SetSRID(ST_MakePoint(%(ST_MakePoint_1)s, %(ST_MakePoint_2)s), %(ST_SetSRID_1)s), ST_SetSRID(ST_MakePoint(%(ST_MakePoint_3)s, %(ST_MakePoint_4)s), %(ST_SetSRID_2)s), %(distance_km)s, %(created_at)s, %(updated_at)s)
+2025-11-05 02:26:39,988 INFO sqlalchemy.engine.Engine [no key 0.00019s] {'ride_id': UUID('472a93b5-8020-4744-8c58-951910d4ca53'), 'rider_id': UUID('e6e41d75-172f-4ea5-b907-68263a32fcaf'), 'driver_id': None, 'ride_status': 'REQUESTED', 'ST_MakePoint_1': -79.65, 'ST_MakePoint_2': 43.6, 'ST_SetSRID_1': 4326, 'ST_MakePoint_3': -79.59, 'ST_MakePoint_4': 43.65, 'ST_SetSRID_2': 4326, 'distance_km': 7.364395670809108, 'created_at': datetime.datetime(2025, 11, 5, 2, 26, 39, 987862), 'updated_at': datetime.datetime(2025, 11, 5, 2, 26, 39, 987864)}
+INFO:sqlalchemy.engine.Engine:INSERT INTO rides (ride_id, rider_id, driver_id, ride_status, start_location, end_location, distance_km, created_at, updated_at) VALUES (%(ride_id)s::UUID, %(rider_id)s::UUID, %(driver_id)s::UUID, %(ride_status)s, ST_SetSRID(ST_MakePoint(%(ST_MakePoint_1)s, %(ST_MakePoint_2)s), %(ST_SetSRID_1)s), ST_SetSRID(ST_MakePoint(%(ST_MakePoint_3)s, %(ST_MakePoint_4)s), %(ST_SetSRID_2)s), %(distance_km)s, %(created_at)s, %(updated_at)s)
+INFO:sqlalchemy.engine.Engine:[no key 0.00019s] {'ride_id': UUID('472a93b5-8020-4744-8c58-951910d4ca53'), 'rider_id': UUID('e6e41d75-172f-4ea5-b907-68263a32fcaf'), 'driver_id': None, 'ride_status': 'REQUESTED', 'ST_MakePoint_1': -79.65, 'ST_MakePoint_2': 43.6, 'ST_SetSRID_1': 4326, 'ST_MakePoint_3': -79.59, 'ST_MakePoint_4': 43.65, 'ST_SetSRID_2': 4326, 'distance_km': 7.364395670809108, 'created_at': datetime.datetime(2025, 11, 5, 2, 26, 39, 987862), 'updated_at': datetime.datetime(2025, 11, 5, 2, 26, 39, 987864)}
+INFO:sqlalchemy.engine.Engine:COMMIT
+2025-11-05 02:26:39,989 INFO sqlalchemy.engine.Engine COMMIT
+2025-11-05 02:26:39,993 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT riders.user_id AS riders_user_id, riders.current_ride_id AS riders_current_ride_id 
+FROM riders 
+WHERE riders.user_id = %(user_id_1)s::UUID 
+ LIMIT %(param_1)s
+INFO:sqlalchemy.engine.Engine:[generated in 0.00014s] {'user_id_1': UUID('e6e41d75-172f-4ea5-b907-68263a32fcaf'), 'param_1': 1}
+2025-11-05 02:26:39,993 INFO sqlalchemy.engine.Engine SELECT riders.user_id AS riders_user_id, riders.current_ride_id AS riders_current_ride_id 
+FROM riders 
+WHERE riders.user_id = %(user_id_1)s::UUID 
+ LIMIT %(param_1)s
+2025-11-05 02:26:39,994 INFO sqlalchemy.engine.Engine [generated in 0.00014s] {'user_id_1': UUID('e6e41d75-172f-4ea5-b907-68263a32fcaf'), 'param_1': 1}
+2025-11-05 02:26:39,995 INFO sqlalchemy.engine.Engine UPDATE riders SET current_ride_id=%(current_ride_id)s::UUID WHERE riders.user_id = %(riders_user_id)s::UUID
+2025-11-05 02:26:39,995 INFO sqlalchemy.engine.Engine [generated in 0.00013s] {'current_ride_id': UUID('472a93b5-8020-4744-8c58-951910d4ca53'), 'riders_user_id': UUID('e6e41d75-172f-4ea5-b907-68263a32fcaf')}
+INFO:sqlalchemy.engine.Engine:UPDATE riders SET current_ride_id=%(current_ride_id)s::UUID WHERE riders.user_id = %(riders_user_id)s::UUID
+INFO:sqlalchemy.engine.Engine:[generated in 0.00013s] {'current_ride_id': UUID('472a93b5-8020-4744-8c58-951910d4ca53'), 'riders_user_id': UUID('e6e41d75-172f-4ea5-b907-68263a32fcaf')}
+INFO:sqlalchemy.engine.Engine:COMMIT
+2025-11-05 02:26:39,996 INFO sqlalchemy.engine.Engine COMMIT
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+Rider Pham has requested a ride.
+System is processing ride...
+2025-11-05 02:26:39,999 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT rides.ride_id AS rides_ride_id, rides.rider_id AS rides_rider_id, rides.driver_id AS rides_driver_id, rides.ride_status AS rides_ride_status, ST_AsEWKB(rides.start_location) AS rides_start_location, ST_AsEWKB(rides.end_location) AS rides_end_location, rides.distance_km AS rides_distance_km, rides.created_at AS rides_created_at, rides.updated_at AS rides_updated_at 
+FROM rides 
+WHERE rides.ride_id = %(ride_id_1)s::UUID 
+ LIMIT %(param_1)s
+INFO:sqlalchemy.engine.Engine:[generated in 0.00012s] {'ride_id_1': UUID('472a93b5-8020-4744-8c58-951910d4ca53'), 'param_1': 1}
+2025-11-05 02:26:40,000 INFO sqlalchemy.engine.Engine SELECT rides.ride_id AS rides_ride_id, rides.rider_id AS rides_rider_id, rides.driver_id AS rides_driver_id, rides.ride_status AS rides_ride_status, ST_AsEWKB(rides.start_location) AS rides_start_location, ST_AsEWKB(rides.end_location) AS rides_end_location, rides.distance_km AS rides_distance_km, rides.created_at AS rides_created_at, rides.updated_at AS rides_updated_at 
+FROM rides 
+WHERE rides.ride_id = %(ride_id_1)s::UUID 
+ LIMIT %(param_1)s
+2025-11-05 02:26:40,000 INFO sqlalchemy.engine.Engine [generated in 0.00012s] {'ride_id_1': UUID('472a93b5-8020-4744-8c58-951910d4ca53'), 'param_1': 1}
+Searching for drivers within 3km...
+2025-11-05 02:26:40,004 INFO sqlalchemy.engine.Engine SELECT users.user_id AS users_user_id, users.email AS users_email, users.user_name AS users_user_name, users.user_type AS users_user_type, ST_AsEWKB(users.current_location) AS users_current_location, users.created_at AS users_created_at, users.updated_at AS users_updated_at, drivers.user_id AS drivers_user_id, drivers.is_available AS drivers_is_available, drivers.current_ride_id AS drivers_current_ride_id 
+FROM users JOIN drivers ON users.user_id = drivers.user_id 
+WHERE drivers.is_available = true AND ST_DWithin(CAST(users.current_location AS geography(GEOMETRY,-1)), CAST(ST_SetSRID(ST_MakePoint(%(ST_MakePoint_1)s, %(ST_MakePoint_2)s), %(ST_SetSRID_1)s) AS geography(GEOMETRY,-1)), %(ST_DWithin_1)s)
+2025-11-05 02:26:40,004 INFO sqlalchemy.engine.Engine [no key 0.00022s] {'ST_MakePoint_1': -79.65, 'ST_MakePoint_2': 43.6, 'ST_SetSRID_1': 4326, 'ST_DWithin_1': 3000.0}
+INFO:sqlalchemy.engine.Engine:SELECT users.user_id AS users_user_id, users.email AS users_email, users.user_name AS users_user_name, users.user_type AS users_user_type, ST_AsEWKB(users.current_location) AS users_current_location, users.created_at AS users_created_at, users.updated_at AS users_updated_at, drivers.user_id AS drivers_user_id, drivers.is_available AS drivers_is_available, drivers.current_ride_id AS drivers_current_ride_id 
+FROM users JOIN drivers ON users.user_id = drivers.user_id 
+WHERE drivers.is_available = true AND ST_DWithin(CAST(users.current_location AS geography(GEOMETRY,-1)), CAST(ST_SetSRID(ST_MakePoint(%(ST_MakePoint_1)s, %(ST_MakePoint_2)s), %(ST_SetSRID_1)s) AS geography(GEOMETRY,-1)), %(ST_DWithin_1)s)
+INFO:sqlalchemy.engine.Engine:[no key 0.00022s] {'ST_MakePoint_1': -79.65, 'ST_MakePoint_2': 43.6, 'ST_SetSRID_1': 4326, 'ST_DWithin_1': 3000.0}
+Found 1 drivers within 3.0 km.
+Driver Minh has accepted the ride.
+2025-11-05 02:26:40,040 INFO sqlalchemy.engine.Engine SELECT rides.ride_id AS rides_ride_id, rides.rider_id AS rides_rider_id, rides.driver_id AS rides_driver_id, rides.ride_status AS rides_ride_status, ST_AsEWKB(rides.start_location) AS rides_start_location, ST_AsEWKB(rides.end_location) AS rides_end_location, rides.distance_km AS rides_distance_km, rides.created_at AS rides_created_at, rides.updated_at AS rides_updated_at 
+FROM rides 
+WHERE rides.ride_id = %(ride_id_1)s::UUID 
+ LIMIT %(param_1)s
+2025-11-05 02:26:40,040 INFO sqlalchemy.engine.Engine [cached since 0.04089s ago] {'ride_id_1': UUID('472a93b5-8020-4744-8c58-951910d4ca53'), 'param_1': 1}
+INFO:sqlalchemy.engine.Engine:SELECT rides.ride_id AS rides_ride_id, rides.rider_id AS rides_rider_id, rides.driver_id AS rides_driver_id, rides.ride_status AS rides_ride_status, ST_AsEWKB(rides.start_location) AS rides_start_location, ST_AsEWKB(rides.end_location) AS rides_end_location, rides.distance_km AS rides_distance_km, rides.created_at AS rides_created_at, rides.updated_at AS rides_updated_at 
+FROM rides 
+WHERE rides.ride_id = %(ride_id_1)s::UUID 
+ LIMIT %(param_1)s
+INFO:sqlalchemy.engine.Engine:[cached since 0.04089s ago] {'ride_id_1': UUID('472a93b5-8020-4744-8c58-951910d4ca53'), 'param_1': 1}
+INFO:sqlalchemy.engine.Engine:UPDATE rides SET driver_id=%(driver_id)s::UUID, ride_status=%(ride_status)s, updated_at=%(updated_at)s WHERE rides.ride_id = %(rides_ride_id)s::UUID
+INFO:sqlalchemy.engine.Engine:[generated in 0.00020s] {'driver_id': UUID('ff5b9ccd-1046-4e71-a063-d9afe7dca94a'), 'ride_status': 'PICKING_UP', 'updated_at': datetime.datetime(2025, 11, 5, 2, 26, 40, 42614), 'rides_ride_id': UUID('472a93b5-8020-4744-8c58-951910d4ca53')}
+2025-11-05 02:26:40,042 INFO sqlalchemy.engine.Engine UPDATE rides SET driver_id=%(driver_id)s::UUID, ride_status=%(ride_status)s, updated_at=%(updated_at)s WHERE rides.ride_id = %(rides_ride_id)s::UUID
+2025-11-05 02:26:40,042 INFO sqlalchemy.engine.Engine [generated in 0.00020s] {'driver_id': UUID('ff5b9ccd-1046-4e71-a063-d9afe7dca94a'), 'ride_status': 'PICKING_UP', 'updated_at': datetime.datetime(2025, 11, 5, 2, 26, 40, 42614), 'rides_ride_id': UUID('472a93b5-8020-4744-8c58-951910d4ca53')}
+2025-11-05 02:26:40,043 INFO sqlalchemy.engine.Engine COMMIT
+INFO:sqlalchemy.engine.Engine:COMMIT
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+2025-11-05 02:26:40,047 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT users.user_id AS users_user_id, users.email AS users_email, users.user_name AS users_user_name, users.user_type AS users_user_type, ST_AsEWKB(users.current_location) AS users_current_location, users.created_at AS users_created_at, users.updated_at AS users_updated_at 
+FROM users 
+WHERE users.user_id = %(pk_1)s::UUID
+INFO:sqlalchemy.engine.Engine:[generated in 0.00012s] {'pk_1': UUID('ff5b9ccd-1046-4e71-a063-d9afe7dca94a')}
+2025-11-05 02:26:40,047 INFO sqlalchemy.engine.Engine SELECT users.user_id AS users_user_id, users.email AS users_email, users.user_name AS users_user_name, users.user_type AS users_user_type, ST_AsEWKB(users.current_location) AS users_current_location, users.created_at AS users_created_at, users.updated_at AS users_updated_at 
+FROM users 
+WHERE users.user_id = %(pk_1)s::UUID
+2025-11-05 02:26:40,047 INFO sqlalchemy.engine.Engine [generated in 0.00012s] {'pk_1': UUID('ff5b9ccd-1046-4e71-a063-d9afe7dca94a')}
+INFO:sqlalchemy.engine.Engine:SELECT drivers.user_id AS drivers_user_id, drivers.is_available AS drivers_is_available, drivers.current_ride_id AS drivers_current_ride_id 
+FROM drivers 
+WHERE drivers.user_id = %(user_id_1)s::UUID 
+ LIMIT %(param_1)s
+INFO:sqlalchemy.engine.Engine:[generated in 0.00011s] {'user_id_1': UUID('ff5b9ccd-1046-4e71-a063-d9afe7dca94a'), 'param_1': 1}
+2025-11-05 02:26:40,049 INFO sqlalchemy.engine.Engine SELECT drivers.user_id AS drivers_user_id, drivers.is_available AS drivers_is_available, drivers.current_ride_id AS drivers_current_ride_id 
+FROM drivers 
+WHERE drivers.user_id = %(user_id_1)s::UUID 
+ LIMIT %(param_1)s
+2025-11-05 02:26:40,049 INFO sqlalchemy.engine.Engine [generated in 0.00011s] {'user_id_1': UUID('ff5b9ccd-1046-4e71-a063-d9afe7dca94a'), 'param_1': 1}
+INFO:sqlalchemy.engine.Engine:UPDATE drivers SET is_available=%(is_available)s WHERE drivers.user_id = %(drivers_user_id)s::UUID
+INFO:sqlalchemy.engine.Engine:[generated in 0.00010s] {'is_available': False, 'drivers_user_id': UUID('ff5b9ccd-1046-4e71-a063-d9afe7dca94a')}
+2025-11-05 02:26:40,050 INFO sqlalchemy.engine.Engine UPDATE drivers SET is_available=%(is_available)s WHERE drivers.user_id = %(drivers_user_id)s::UUID
+2025-11-05 02:26:40,050 INFO sqlalchemy.engine.Engine [generated in 0.00010s] {'is_available': False, 'drivers_user_id': UUID('ff5b9ccd-1046-4e71-a063-d9afe7dca94a')}
+INFO:sqlalchemy.engine.Engine:COMMIT
+2025-11-05 02:26:40,050 INFO sqlalchemy.engine.Engine COMMIT
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+2025-11-05 02:26:40,054 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-11-05 02:26:40,054 INFO sqlalchemy.engine.Engine SELECT users.user_id AS users_user_id, users.email AS users_email, users.user_name AS users_user_name, users.user_type AS users_user_type, ST_AsEWKB(users.current_location) AS users_current_location, users.created_at AS users_created_at, users.updated_at AS users_updated_at 
+FROM users 
+WHERE users.user_id = %(pk_1)s::UUID
+INFO:sqlalchemy.engine.Engine:SELECT users.user_id AS users_user_id, users.email AS users_email, users.user_name AS users_user_name, users.user_type AS users_user_type, ST_AsEWKB(users.current_location) AS users_current_location, users.created_at AS users_created_at, users.updated_at AS users_updated_at 
+FROM users 
+WHERE users.user_id = %(pk_1)s::UUID
+INFO:sqlalchemy.engine.Engine:[cached since 0.006927s ago] {'pk_1': UUID('ff5b9ccd-1046-4e71-a063-d9afe7dca94a')}
+2025-11-05 02:26:40,054 INFO sqlalchemy.engine.Engine [cached since 0.006927s ago] {'pk_1': UUID('ff5b9ccd-1046-4e71-a063-d9afe7dca94a')}
+INFO:sqlalchemy.engine.Engine:SELECT drivers.user_id AS drivers_user_id, drivers.is_available AS drivers_is_available, drivers.current_ride_id AS drivers_current_ride_id 
+FROM drivers 
+WHERE drivers.user_id = %(user_id_1)s::UUID 
+ LIMIT %(param_1)s
+INFO:sqlalchemy.engine.Engine:[cached since 0.006908s ago] {'user_id_1': UUID('ff5b9ccd-1046-4e71-a063-d9afe7dca94a'), 'param_1': 1}
+2025-11-05 02:26:40,056 INFO sqlalchemy.engine.Engine SELECT drivers.user_id AS drivers_user_id, drivers.is_available AS drivers_is_available, drivers.current_ride_id AS drivers_current_ride_id 
+FROM drivers 
+WHERE drivers.user_id = %(user_id_1)s::UUID 
+ LIMIT %(param_1)s
+2025-11-05 02:26:40,056 INFO sqlalchemy.engine.Engine [cached since 0.006908s ago] {'user_id_1': UUID('ff5b9ccd-1046-4e71-a063-d9afe7dca94a'), 'param_1': 1}
+INFO:sqlalchemy.engine.Engine:UPDATE drivers SET current_ride_id=%(current_ride_id)s::UUID WHERE drivers.user_id = %(drivers_user_id)s::UUID
+INFO:sqlalchemy.engine.Engine:[generated in 0.00012s] {'current_ride_id': UUID('472a93b5-8020-4744-8c58-951910d4ca53'), 'drivers_user_id': UUID('ff5b9ccd-1046-4e71-a063-d9afe7dca94a')}
+2025-11-05 02:26:40,057 INFO sqlalchemy.engine.Engine UPDATE drivers SET current_ride_id=%(current_ride_id)s::UUID WHERE drivers.user_id = %(drivers_user_id)s::UUID
+2025-11-05 02:26:40,057 INFO sqlalchemy.engine.Engine [generated in 0.00012s] {'current_ride_id': UUID('472a93b5-8020-4744-8c58-951910d4ca53'), 'drivers_user_id': UUID('ff5b9ccd-1046-4e71-a063-d9afe7dca94a')}
+INFO:sqlalchemy.engine.Engine:COMMIT
+2025-11-05 02:26:40,058 INFO sqlalchemy.engine.Engine COMMIT
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+2025-11-05 02:26:40,061 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT rides.ride_id AS rides_ride_id, rides.rider_id AS rides_rider_id, rides.driver_id AS rides_driver_id, rides.ride_status AS rides_ride_status, ST_AsEWKB(rides.start_location) AS rides_start_location, ST_AsEWKB(rides.end_location) AS rides_end_location, rides.distance_km AS rides_distance_km, rides.created_at AS rides_created_at, rides.updated_at AS rides_updated_at 
+FROM rides 
+WHERE rides.ride_id = %(ride_id_1)s::UUID 
+ LIMIT %(param_1)s
+INFO:sqlalchemy.engine.Engine:[cached since 0.06193s ago] {'ride_id_1': UUID('472a93b5-8020-4744-8c58-951910d4ca53'), 'param_1': 1}
+2025-11-05 02:26:40,061 INFO sqlalchemy.engine.Engine SELECT rides.ride_id AS rides_ride_id, rides.rider_id AS rides_rider_id, rides.driver_id AS rides_driver_id, rides.ride_status AS rides_ride_status, ST_AsEWKB(rides.start_location) AS rides_start_location, ST_AsEWKB(rides.end_location) AS rides_end_location, rides.distance_km AS rides_distance_km, rides.created_at AS rides_created_at, rides.updated_at AS rides_updated_at 
+FROM rides 
+WHERE rides.ride_id = %(ride_id_1)s::UUID 
+ LIMIT %(param_1)s
+2025-11-05 02:26:40,061 INFO sqlalchemy.engine.Engine [cached since 0.06193s ago] {'ride_id_1': UUID('472a93b5-8020-4744-8c58-951910d4ca53'), 'param_1': 1}
+INFO:sqlalchemy.engine.Engine:SELECT users.user_id AS users_user_id, users.email AS users_email, users.user_name AS users_user_name, users.user_type AS users_user_type, ST_AsEWKB(users.current_location) AS users_current_location, users.created_at AS users_created_at, users.updated_at AS users_updated_at, drivers.user_id AS drivers_user_id, drivers.is_available AS drivers_is_available, drivers.current_ride_id AS drivers_current_ride_id 
+FROM users JOIN drivers ON users.user_id = drivers.user_id 
+WHERE users.user_id = %(user_id_1)s::UUID 
+ LIMIT %(param_1)s
+INFO:sqlalchemy.engine.Engine:[generated in 0.00013s] {'user_id_1': UUID('ff5b9ccd-1046-4e71-a063-d9afe7dca94a'), 'param_1': 1}
+Getting driver ff5b9ccd-1046-4e71-a063-d9afe7dca94a information...
+2025-11-05 02:26:40,064 INFO sqlalchemy.engine.Engine SELECT users.user_id AS users_user_id, users.email AS users_email, users.user_name AS users_user_name, users.user_type AS users_user_type, ST_AsEWKB(users.current_location) AS users_current_location, users.created_at AS users_created_at, users.updated_at AS users_updated_at, drivers.user_id AS drivers_user_id, drivers.is_available AS drivers_is_available, drivers.current_ride_id AS drivers_current_ride_id 
+FROM users JOIN drivers ON users.user_id = drivers.user_id 
+WHERE users.user_id = %(user_id_1)s::UUID 
+ LIMIT %(param_1)s
+2025-11-05 02:26:40,064 INFO sqlalchemy.engine.Engine [generated in 0.00013s] {'user_id_1': UUID('ff5b9ccd-1046-4e71-a063-d9afe7dca94a'), 'param_1': 1}
+INFO:sqlalchemy.engine.Engine:SELECT rides.ride_id AS rides_ride_id, rides.rider_id AS rides_rider_id, rides.driver_id AS rides_driver_id, rides.ride_status AS rides_ride_status, ST_AsEWKB(rides.start_location) AS rides_start_location, ST_AsEWKB(rides.end_location) AS rides_end_location, rides.distance_km AS rides_distance_km, rides.created_at AS rides_created_at, rides.updated_at AS rides_updated_at 
+FROM rides 
+WHERE rides.ride_id = %(ride_id_1)s::UUID 
+ LIMIT %(param_1)s
+INFO:sqlalchemy.engine.Engine:[cached since 0.0657s ago] {'ride_id_1': UUID('472a93b5-8020-4744-8c58-951910d4ca53'), 'param_1': 1}
+2025-11-05 02:26:40,065 INFO sqlalchemy.engine.Engine SELECT rides.ride_id AS rides_ride_id, rides.rider_id AS rides_rider_id, rides.driver_id AS rides_driver_id, rides.ride_status AS rides_ride_status, ST_AsEWKB(rides.start_location) AS rides_start_location, ST_AsEWKB(rides.end_location) AS rides_end_location, rides.distance_km AS rides_distance_km, rides.created_at AS rides_created_at, rides.updated_at AS rides_updated_at 
+FROM rides 
+WHERE rides.ride_id = %(ride_id_1)s::UUID 
+ LIMIT %(param_1)s
+2025-11-05 02:26:40,065 INFO sqlalchemy.engine.Engine [cached since 0.0657s ago] {'ride_id_1': UUID('472a93b5-8020-4744-8c58-951910d4ca53'), 'param_1': 1}
+INFO:sqlalchemy.engine.Engine:SELECT rides.ride_id AS rides_ride_id, rides.rider_id AS rides_rider_id, rides.driver_id AS rides_driver_id, rides.ride_status AS rides_ride_status, ST_AsEWKB(rides.start_location) AS rides_start_location, ST_AsEWKB(rides.end_location) AS rides_end_location, rides.distance_km AS rides_distance_km, rides.created_at AS rides_created_at, rides.updated_at AS rides_updated_at 
+FROM rides 
+WHERE rides.ride_id = %(ride_id_1)s::UUID 
+ LIMIT %(param_1)s
+2025-11-05 02:26:40,066 INFO sqlalchemy.engine.Engine SELECT rides.ride_id AS rides_ride_id, rides.rider_id AS rides_rider_id, rides.driver_id AS rides_driver_id, rides.ride_status AS rides_ride_status, ST_AsEWKB(rides.start_location) AS rides_start_location, ST_AsEWKB(rides.end_location) AS rides_end_location, rides.distance_km AS rides_distance_km, rides.created_at AS rides_created_at, rides.updated_at AS rides_updated_at 
+INFO:sqlalchemy.engine.Engine:[cached since 0.06641s ago] {'ride_id_1': UUID('472a93b5-8020-4744-8c58-951910d4ca53'), 'param_1': 1}
+FROM rides 
+WHERE rides.ride_id = %(ride_id_1)s::UUID 
+ LIMIT %(param_1)s
+2025-11-05 02:26:40,066 INFO sqlalchemy.engine.Engine [cached since 0.06641s ago] {'ride_id_1': UUID('472a93b5-8020-4744-8c58-951910d4ca53'), 'param_1': 1}
+INFO:sqlalchemy.engine.Engine:UPDATE rides SET ride_status=%(ride_status)s, updated_at=%(updated_at)s WHERE rides.ride_id = %(rides_ride_id)s::UUID
+INFO:sqlalchemy.engine.Engine:[generated in 0.00014s] {'ride_status': 'IN_TRIP', 'updated_at': datetime.datetime(2025, 11, 5, 2, 26, 40, 67250), 'rides_ride_id': UUID('472a93b5-8020-4744-8c58-951910d4ca53')}
+2025-11-05 02:26:40,067 INFO sqlalchemy.engine.Engine UPDATE rides SET ride_status=%(ride_status)s, updated_at=%(updated_at)s WHERE rides.ride_id = %(rides_ride_id)s::UUID
+2025-11-05 02:26:40,067 INFO sqlalchemy.engine.Engine [generated in 0.00014s] {'ride_status': 'IN_TRIP', 'updated_at': datetime.datetime(2025, 11, 5, 2, 26, 40, 67250), 'rides_ride_id': UUID('472a93b5-8020-4744-8c58-951910d4ca53')}
+2025-11-05 02:26:40,067 INFO sqlalchemy.engine.Engine COMMIT
+INFO:sqlalchemy.engine.Engine:COMMIT
+2025-11-05 02:26:40,072 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT rides.ride_id AS rides_ride_id, rides.rider_id AS rides_rider_id, rides.driver_id AS rides_driver_id, rides.ride_status AS rides_ride_status, ST_AsEWKB(rides.start_location) AS rides_start_location, ST_AsEWKB(rides.end_location) AS rides_end_location, rides.distance_km AS rides_distance_km, rides.created_at AS rides_created_at, rides.updated_at AS rides_updated_at 
+FROM rides 
+WHERE rides.ride_id = %(pk_1)s::UUID
+INFO:sqlalchemy.engine.Engine:[generated in 0.00014s] {'pk_1': UUID('472a93b5-8020-4744-8c58-951910d4ca53')}
+2025-11-05 02:26:40,072 INFO sqlalchemy.engine.Engine SELECT rides.ride_id AS rides_ride_id, rides.rider_id AS rides_rider_id, rides.driver_id AS rides_driver_id, rides.ride_status AS rides_ride_status, ST_AsEWKB(rides.start_location) AS rides_start_location, ST_AsEWKB(rides.end_location) AS rides_end_location, rides.distance_km AS rides_distance_km, rides.created_at AS rides_created_at, rides.updated_at AS rides_updated_at 
+FROM rides 
+WHERE rides.ride_id = %(pk_1)s::UUID
+2025-11-05 02:26:40,072 INFO sqlalchemy.engine.Engine [generated in 0.00014s] {'pk_1': UUID('472a93b5-8020-4744-8c58-951910d4ca53')}
+INFO:sqlalchemy.engine.Engine:SELECT users.user_id AS users_user_id, users.email AS users_email, users.user_name AS users_user_name, users.user_type AS users_user_type, ST_AsEWKB(users.current_location) AS users_current_location, users.created_at AS users_created_at, users.updated_at AS users_updated_at 
+FROM users 
+2025-11-05 02:26:40,075 INFO sqlalchemy.engine.Engine SELECT users.user_id AS users_user_id, users.email AS users_email, users.user_name AS users_user_name, users.user_type AS users_user_type, ST_AsEWKB(users.current_location) AS users_current_location, users.created_at AS users_created_at, users.updated_at AS users_updated_at 
+WHERE users.user_id = %(user_id_1)s::UUID 
+ LIMIT %(param_1)s
+INFO:sqlalchemy.engine.Engine:[generated in 0.00021s] {'user_id_1': UUID('ff5b9ccd-1046-4e71-a063-d9afe7dca94a'), 'param_1': 1}
+FROM users 
+WHERE users.user_id = %(user_id_1)s::UUID 
+ LIMIT %(param_1)s
+2025-11-05 02:26:40,075 INFO sqlalchemy.engine.Engine [generated in 0.00021s] {'user_id_1': UUID('ff5b9ccd-1046-4e71-a063-d9afe7dca94a'), 'param_1': 1}
+INFO:sqlalchemy.engine.Engine:UPDATE users SET current_location=ST_SetSRID(ST_MakePoint(%(ST_MakePoint_1)s, %(ST_MakePoint_2)s), %(ST_SetSRID_1)s), updated_at=%(updated_at)s WHERE users.user_id = %(users_user_id)s::UUID
+INFO:sqlalchemy.engine.Engine:[no key 0.00017s] {'ST_MakePoint_1': -79.65, 'ST_MakePoint_2': 43.6, 'ST_SetSRID_1': 4326, 'updated_at': datetime.datetime(2025, 11, 5, 2, 26, 40, 77208), 'users_user_id': UUID('ff5b9ccd-1046-4e71-a063-d9afe7dca94a')}
+2025-11-05 02:26:40,077 INFO sqlalchemy.engine.Engine UPDATE users SET current_location=ST_SetSRID(ST_MakePoint(%(ST_MakePoint_1)s, %(ST_MakePoint_2)s), %(ST_SetSRID_1)s), updated_at=%(updated_at)s WHERE users.user_id = %(users_user_id)s::UUID
+2025-11-05 02:26:40,077 INFO sqlalchemy.engine.Engine [no key 0.00017s] {'ST_MakePoint_1': -79.65, 'ST_MakePoint_2': 43.6, 'ST_SetSRID_1': 4326, 'updated_at': datetime.datetime(2025, 11, 5, 2, 26, 40, 77208), 'users_user_id': UUID('ff5b9ccd-1046-4e71-a063-d9afe7dca94a')}
+INFO:sqlalchemy.engine.Engine:COMMIT
+2025-11-05 02:26:40,078 INFO sqlalchemy.engine.Engine COMMIT
+Ride 472a93b5-8020-4744-8c58-951910d4ca53 has been started!
+2025-11-05 02:26:40,081 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT rides.ride_id AS rides_ride_id, rides.rider_id AS rides_rider_id, rides.driver_id AS rides_driver_id, rides.ride_status AS rides_ride_status, ST_AsEWKB(rides.start_location) AS rides_start_location, ST_AsEWKB(rides.end_location) AS rides_end_location, rides.distance_km AS rides_distance_km, rides.created_at AS rides_created_at, rides.updated_at AS rides_updated_at 
+FROM rides 
+WHERE rides.ride_id = %(pk_1)s::UUID
+INFO:sqlalchemy.engine.Engine:[cached since 0.009489s ago] {'pk_1': UUID('472a93b5-8020-4744-8c58-951910d4ca53')}
+2025-11-05 02:26:40,082 INFO sqlalchemy.engine.Engine SELECT rides.ride_id AS rides_ride_id, rides.rider_id AS rides_rider_id, rides.driver_id AS rides_driver_id, rides.ride_status AS rides_ride_status, ST_AsEWKB(rides.start_location) AS rides_start_location, ST_AsEWKB(rides.end_location) AS rides_end_location, rides.distance_km AS rides_distance_km, rides.created_at AS rides_created_at, rides.updated_at AS rides_updated_at 
+FROM rides 
+WHERE rides.ride_id = %(pk_1)s::UUID
+2025-11-05 02:26:40,082 INFO sqlalchemy.engine.Engine [cached since 0.009489s ago] {'pk_1': UUID('472a93b5-8020-4744-8c58-951910d4ca53')}
+INFO:sqlalchemy.engine.Engine:SELECT rides.ride_id AS rides_ride_id, rides.rider_id AS rides_rider_id, rides.driver_id AS rides_driver_id, rides.ride_status AS rides_ride_status, ST_AsEWKB(rides.start_location) AS rides_start_location, ST_AsEWKB(rides.end_location) AS rides_end_location, rides.distance_km AS rides_distance_km, rides.created_at AS rides_created_at, rides.updated_at AS rides_updated_at 
+FROM rides 
+WHERE rides.ride_id = %(ride_id_1)s::UUID 
+ LIMIT %(param_1)s
+INFO:sqlalchemy.engine.Engine:[cached since 0.08356s ago] {'ride_id_1': UUID('472a93b5-8020-4744-8c58-951910d4ca53'), 'param_1': 1}
+Getting ride 472a93b5-8020-4744-8c58-951910d4ca53 information...
+2025-11-05 02:26:40,083 INFO sqlalchemy.engine.Engine SELECT rides.ride_id AS rides_ride_id, rides.rider_id AS rides_rider_id, rides.driver_id AS rides_driver_id, rides.ride_status AS rides_ride_status, ST_AsEWKB(rides.start_location) AS rides_start_location, ST_AsEWKB(rides.end_location) AS rides_end_location, rides.distance_km AS rides_distance_km, rides.created_at AS rides_created_at, rides.updated_at AS rides_updated_at 
+FROM rides 
+WHERE rides.ride_id = %(ride_id_1)s::UUID 
+ LIMIT %(param_1)s
+2025-11-05 02:26:40,083 INFO sqlalchemy.engine.Engine [cached since 0.08356s ago] {'ride_id_1': UUID('472a93b5-8020-4744-8c58-951910d4ca53'), 'param_1': 1}
+INFO:sqlalchemy.engine.Engine:SELECT users.user_id AS users_user_id, users.email AS users_email, users.user_name AS users_user_name, users.user_type AS users_user_type, ST_AsEWKB(users.current_location) AS users_current_location, users.created_at AS users_created_at, users.updated_at AS users_updated_at, drivers.user_id AS drivers_user_id, drivers.is_available AS drivers_is_available, drivers.current_ride_id AS drivers_current_ride_id 
+FROM users JOIN drivers ON users.user_id = drivers.user_id 
+WHERE users.user_id = %(user_id_1)s::UUID 
+2025-11-05 02:26:40,084 INFO sqlalchemy.engine.Engine SELECT users.user_id AS users_user_id, users.email AS users_email, users.user_name AS users_user_name, users.user_type AS users_user_type, ST_AsEWKB(users.current_location) AS users_current_location, users.created_at AS users_created_at, users.updated_at AS users_updated_at, drivers.user_id AS drivers_user_id, drivers.is_available AS drivers_is_available, drivers.current_ride_id AS drivers_current_ride_id 
+ LIMIT %(param_1)s
+INFO:sqlalchemy.engine.Engine:[cached since 0.02013s ago] {'user_id_1': UUID('ff5b9ccd-1046-4e71-a063-d9afe7dca94a'), 'param_1': 1}
+FROM users JOIN drivers ON users.user_id = drivers.user_id 
+WHERE users.user_id = %(user_id_1)s::UUID 
+ LIMIT %(param_1)s
+2025-11-05 02:26:40,084 INFO sqlalchemy.engine.Engine [cached since 0.02013s ago] {'user_id_1': UUID('ff5b9ccd-1046-4e71-a063-d9afe7dca94a'), 'param_1': 1}
+2025-11-05 02:26:40,085 INFO sqlalchemy.engine.Engine SELECT rides.ride_id AS rides_ride_id, rides.rider_id AS rides_rider_id, rides.driver_id AS rides_driver_id, rides.ride_status AS rides_ride_status, ST_AsEWKB(rides.start_location) AS rides_start_location, ST_AsEWKB(rides.end_location) AS rides_end_location, rides.distance_km AS rides_distance_km, rides.created_at AS rides_created_at, rides.updated_at AS rides_updated_at 
+FROM rides 
+WHERE rides.ride_id = %(ride_id_1)s::UUID 
+ LIMIT %(param_1)s
+2025-11-05 02:26:40,085 INFO sqlalchemy.engine.Engine [cached since 0.08554s ago] {'ride_id_1': UUID('472a93b5-8020-4744-8c58-951910d4ca53'), 'param_1': 1}
+INFO:sqlalchemy.engine.Engine:SELECT rides.ride_id AS rides_ride_id, rides.rider_id AS rides_rider_id, rides.driver_id AS rides_driver_id, rides.ride_status AS rides_ride_status, ST_AsEWKB(rides.start_location) AS rides_start_location, ST_AsEWKB(rides.end_location) AS rides_end_location, rides.distance_km AS rides_distance_km, rides.created_at AS rides_created_at, rides.updated_at AS rides_updated_at 
+FROM rides 
+WHERE rides.ride_id = %(ride_id_1)s::UUID 
+ LIMIT %(param_1)s
+INFO:sqlalchemy.engine.Engine:[cached since 0.08554s ago] {'ride_id_1': UUID('472a93b5-8020-4744-8c58-951910d4ca53'), 'param_1': 1}
+2025-11-05 02:26:40,086 INFO sqlalchemy.engine.Engine SELECT rides.ride_id AS rides_ride_id, rides.rider_id AS rides_rider_id, rides.driver_id AS rides_driver_id, rides.ride_status AS rides_ride_status, ST_AsEWKB(rides.start_location) AS rides_start_location, ST_AsEWKB(rides.end_location) AS rides_end_location, rides.distance_km AS rides_distance_km, rides.created_at AS rides_created_at, rides.updated_at AS rides_updated_at 
+FROM rides 
+WHERE rides.ride_id = %(ride_id_1)s::UUID 
+ LIMIT %(param_1)s
+2025-11-05 02:26:40,086 INFO sqlalchemy.engine.Engine [cached since 0.08681s ago] {'ride_id_1': UUID('472a93b5-8020-4744-8c58-951910d4ca53'), 'param_1': 1}
+INFO:sqlalchemy.engine.Engine:SELECT rides.ride_id AS rides_ride_id, rides.rider_id AS rides_rider_id, rides.driver_id AS rides_driver_id, rides.ride_status AS rides_ride_status, ST_AsEWKB(rides.start_location) AS rides_start_location, ST_AsEWKB(rides.end_location) AS rides_end_location, rides.distance_km AS rides_distance_km, rides.created_at AS rides_created_at, rides.updated_at AS rides_updated_at 
+FROM rides 
+WHERE rides.ride_id = %(ride_id_1)s::UUID 
+ LIMIT %(param_1)s
+INFO:sqlalchemy.engine.Engine:[cached since 0.08681s ago] {'ride_id_1': UUID('472a93b5-8020-4744-8c58-951910d4ca53'), 'param_1': 1}
+INFO:sqlalchemy.engine.Engine:UPDATE rides SET ride_status=%(ride_status)s, updated_at=%(updated_at)s WHERE rides.ride_id = %(rides_ride_id)s::UUID
+INFO:sqlalchemy.engine.Engine:[cached since 0.02035s ago] {'ride_status': 'COMPLETED', 'updated_at': datetime.datetime(2025, 11, 5, 2, 26, 40, 87453), 'rides_ride_id': UUID('472a93b5-8020-4744-8c58-951910d4ca53')}
+2025-11-05 02:26:40,087 INFO sqlalchemy.engine.Engine UPDATE rides SET ride_status=%(ride_status)s, updated_at=%(updated_at)s WHERE rides.ride_id = %(rides_ride_id)s::UUID
+2025-11-05 02:26:40,087 INFO sqlalchemy.engine.Engine [cached since 0.02035s ago] {'ride_status': 'COMPLETED', 'updated_at': datetime.datetime(2025, 11, 5, 2, 26, 40, 87453), 'rides_ride_id': UUID('472a93b5-8020-4744-8c58-951910d4ca53')}
+2025-11-05 02:26:40,088 INFO sqlalchemy.engine.Engine COMMIT
+INFO:sqlalchemy.engine.Engine:COMMIT
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+2025-11-05 02:26:40,091 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT rides.ride_id AS rides_ride_id, rides.rider_id AS rides_rider_id, rides.driver_id AS rides_driver_id, rides.ride_status AS rides_ride_status, ST_AsEWKB(rides.start_location) AS rides_start_location, ST_AsEWKB(rides.end_location) AS rides_end_location, rides.distance_km AS rides_distance_km, rides.created_at AS rides_created_at, rides.updated_at AS rides_updated_at 
+FROM rides 
+WHERE rides.ride_id = %(pk_1)s::UUID
+INFO:sqlalchemy.engine.Engine:[cached since 0.01913s ago] {'pk_1': UUID('472a93b5-8020-4744-8c58-951910d4ca53')}
+2025-11-05 02:26:40,091 INFO sqlalchemy.engine.Engine SELECT rides.ride_id AS rides_ride_id, rides.rider_id AS rides_rider_id, rides.driver_id AS rides_driver_id, rides.ride_status AS rides_ride_status, ST_AsEWKB(rides.start_location) AS rides_start_location, ST_AsEWKB(rides.end_location) AS rides_end_location, rides.distance_km AS rides_distance_km, rides.created_at AS rides_created_at, rides.updated_at AS rides_updated_at 
+FROM rides 
+WHERE rides.ride_id = %(pk_1)s::UUID
+2025-11-05 02:26:40,091 INFO sqlalchemy.engine.Engine [cached since 0.01913s ago] {'pk_1': UUID('472a93b5-8020-4744-8c58-951910d4ca53')}
+2025-11-05 02:26:40,093 INFO sqlalchemy.engine.Engine SELECT users.user_id AS users_user_id, users.email AS users_email, users.user_name AS users_user_name, users.user_type AS users_user_type, ST_AsEWKB(users.current_location) AS users_current_location, users.created_at AS users_created_at, users.updated_at AS users_updated_at 
+FROM users 
+WHERE users.user_id = %(user_id_1)s::UUID 
+ LIMIT %(param_1)s
+2025-11-05 02:26:40,093 INFO sqlalchemy.engine.Engine [cached since 0.01872s ago] {'user_id_1': UUID('ff5b9ccd-1046-4e71-a063-d9afe7dca94a'), 'param_1': 1}
+INFO:sqlalchemy.engine.Engine:SELECT users.user_id AS users_user_id, users.email AS users_email, users.user_name AS users_user_name, users.user_type AS users_user_type, ST_AsEWKB(users.current_location) AS users_current_location, users.created_at AS users_created_at, users.updated_at AS users_updated_at 
+FROM users 
+WHERE users.user_id = %(user_id_1)s::UUID 
+ LIMIT %(param_1)s
+INFO:sqlalchemy.engine.Engine:[cached since 0.01872s ago] {'user_id_1': UUID('ff5b9ccd-1046-4e71-a063-d9afe7dca94a'), 'param_1': 1}
+2025-11-05 02:26:40,094 INFO sqlalchemy.engine.Engine UPDATE users SET current_location=ST_SetSRID(ST_MakePoint(%(ST_MakePoint_1)s, %(ST_MakePoint_2)s), %(ST_SetSRID_1)s), updated_at=%(updated_at)s WHERE users.user_id = %(users_user_id)s::UUID
+2025-11-05 02:26:40,094 INFO sqlalchemy.engine.Engine [no key 0.00012s] {'ST_MakePoint_1': -79.59, 'ST_MakePoint_2': 43.65, 'ST_SetSRID_1': 4326, 'updated_at': datetime.datetime(2025, 11, 5, 2, 26, 40, 94746), 'users_user_id': UUID('ff5b9ccd-1046-4e71-a063-d9afe7dca94a')}
+INFO:sqlalchemy.engine.Engine:UPDATE users SET current_location=ST_SetSRID(ST_MakePoint(%(ST_MakePoint_1)s, %(ST_MakePoint_2)s), %(ST_SetSRID_1)s), updated_at=%(updated_at)s WHERE users.user_id = %(users_user_id)s::UUID
+INFO:sqlalchemy.engine.Engine:[no key 0.00012s] {'ST_MakePoint_1': -79.59, 'ST_MakePoint_2': 43.65, 'ST_SetSRID_1': 4326, 'updated_at': datetime.datetime(2025, 11, 5, 2, 26, 40, 94746), 'users_user_id': UUID('ff5b9ccd-1046-4e71-a063-d9afe7dca94a')}
+2025-11-05 02:26:40,095 INFO sqlalchemy.engine.Engine COMMIT
+INFO:sqlalchemy.engine.Engine:COMMIT
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+2025-11-05 02:26:40,098 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT rides.ride_id AS rides_ride_id, rides.rider_id AS rides_rider_id, rides.driver_id AS rides_driver_id, rides.ride_status AS rides_ride_status, ST_AsEWKB(rides.start_location) AS rides_start_location, ST_AsEWKB(rides.end_location) AS rides_end_location, rides.distance_km AS rides_distance_km, rides.created_at AS rides_created_at, rides.updated_at AS rides_updated_at 
+FROM rides 
+WHERE rides.ride_id = %(pk_1)s::UUID
+INFO:sqlalchemy.engine.Engine:[cached since 0.02604s ago] {'pk_1': UUID('472a93b5-8020-4744-8c58-951910d4ca53')}
+2025-11-05 02:26:40,098 INFO sqlalchemy.engine.Engine SELECT rides.ride_id AS rides_ride_id, rides.rider_id AS rides_rider_id, rides.driver_id AS rides_driver_id, rides.ride_status AS rides_ride_status, ST_AsEWKB(rides.start_location) AS rides_start_location, ST_AsEWKB(rides.end_location) AS rides_end_location, rides.distance_km AS rides_distance_km, rides.created_at AS rides_created_at, rides.updated_at AS rides_updated_at 
+FROM rides 
+WHERE rides.ride_id = %(pk_1)s::UUID
+2025-11-05 02:26:40,098 INFO sqlalchemy.engine.Engine [cached since 0.02604s ago] {'pk_1': UUID('472a93b5-8020-4744-8c58-951910d4ca53')}
+2025-11-05 02:26:40,099 INFO sqlalchemy.engine.Engine SELECT riders.user_id AS riders_user_id, riders.current_ride_id AS riders_current_ride_id 
+FROM riders 
+WHERE riders.user_id = %(user_id_1)s::UUID 
+ LIMIT %(param_1)s
+2025-11-05 02:26:40,100 INFO sqlalchemy.engine.Engine [cached since 0.1062s ago] {'user_id_1': UUID('e6e41d75-172f-4ea5-b907-68263a32fcaf'), 'param_1': 1}
+INFO:sqlalchemy.engine.Engine:SELECT riders.user_id AS riders_user_id, riders.current_ride_id AS riders_current_ride_id 
+FROM riders 
+WHERE riders.user_id = %(user_id_1)s::UUID 
+ LIMIT %(param_1)s
+INFO:sqlalchemy.engine.Engine:[cached since 0.1062s ago] {'user_id_1': UUID('e6e41d75-172f-4ea5-b907-68263a32fcaf'), 'param_1': 1}
+INFO:sqlalchemy.engine.Engine:UPDATE riders SET current_ride_id=%(current_ride_id)s::UUID WHERE riders.user_id = %(riders_user_id)s::UUID
+INFO:sqlalchemy.engine.Engine:[cached since 0.1053s ago] {'current_ride_id': None, 'riders_user_id': UUID('e6e41d75-172f-4ea5-b907-68263a32fcaf')}
+2025-11-05 02:26:40,100 INFO sqlalchemy.engine.Engine UPDATE riders SET current_ride_id=%(current_ride_id)s::UUID WHERE riders.user_id = %(riders_user_id)s::UUID
+2025-11-05 02:26:40,100 INFO sqlalchemy.engine.Engine [cached since 0.1053s ago] {'current_ride_id': None, 'riders_user_id': UUID('e6e41d75-172f-4ea5-b907-68263a32fcaf')}
+2025-11-05 02:26:40,101 INFO sqlalchemy.engine.Engine COMMIT
+INFO:sqlalchemy.engine.Engine:COMMIT
+2025-11-05 02:26:40,104 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+2025-11-05 02:26:40,104 INFO sqlalchemy.engine.Engine SELECT rides.ride_id AS rides_ride_id, rides.rider_id AS rides_rider_id, rides.driver_id AS rides_driver_id, rides.ride_status AS rides_ride_status, ST_AsEWKB(rides.start_location) AS rides_start_location, ST_AsEWKB(rides.end_location) AS rides_end_location, rides.distance_km AS rides_distance_km, rides.created_at AS rides_created_at, rides.updated_at AS rides_updated_at 
+FROM rides 
+WHERE rides.ride_id = %(pk_1)s::UUID
+2025-11-05 02:26:40,104 INFO sqlalchemy.engine.Engine [cached since 0.03143s ago] {'pk_1': UUID('472a93b5-8020-4744-8c58-951910d4ca53')}
+INFO:sqlalchemy.engine.Engine:SELECT rides.ride_id AS rides_ride_id, rides.rider_id AS rides_rider_id, rides.driver_id AS rides_driver_id, rides.ride_status AS rides_ride_status, ST_AsEWKB(rides.start_location) AS rides_start_location, ST_AsEWKB(rides.end_location) AS rides_end_location, rides.distance_km AS rides_distance_km, rides.created_at AS rides_created_at, rides.updated_at AS rides_updated_at 
+FROM rides 
+WHERE rides.ride_id = %(pk_1)s::UUID
+INFO:sqlalchemy.engine.Engine:[cached since 0.03143s ago] {'pk_1': UUID('472a93b5-8020-4744-8c58-951910d4ca53')}
+2025-11-05 02:26:40,105 INFO sqlalchemy.engine.Engine SELECT drivers.user_id AS drivers_user_id, drivers.is_available AS drivers_is_available, drivers.current_ride_id AS drivers_current_ride_id 
+FROM drivers 
+WHERE drivers.user_id = %(user_id_1)s::UUID 
+ LIMIT %(param_1)s
+2025-11-05 02:26:40,105 INFO sqlalchemy.engine.Engine [cached since 0.05589s ago] {'user_id_1': UUID('ff5b9ccd-1046-4e71-a063-d9afe7dca94a'), 'param_1': 1}
+INFO:sqlalchemy.engine.Engine:SELECT drivers.user_id AS drivers_user_id, drivers.is_available AS drivers_is_available, drivers.current_ride_id AS drivers_current_ride_id 
+FROM drivers 
+WHERE drivers.user_id = %(user_id_1)s::UUID 
+ LIMIT %(param_1)s
+INFO:sqlalchemy.engine.Engine:[cached since 0.05589s ago] {'user_id_1': UUID('ff5b9ccd-1046-4e71-a063-d9afe7dca94a'), 'param_1': 1}
+INFO:sqlalchemy.engine.Engine:UPDATE drivers SET current_ride_id=%(current_ride_id)s::UUID WHERE drivers.user_id = %(drivers_user_id)s::UUID
+INFO:sqlalchemy.engine.Engine:[cached since 0.04818s ago] {'current_ride_id': None, 'drivers_user_id': UUID('ff5b9ccd-1046-4e71-a063-d9afe7dca94a')}
+2025-11-05 02:26:40,105 INFO sqlalchemy.engine.Engine UPDATE drivers SET current_ride_id=%(current_ride_id)s::UUID WHERE drivers.user_id = %(drivers_user_id)s::UUID
+2025-11-05 02:26:40,105 INFO sqlalchemy.engine.Engine [cached since 0.04818s ago] {'current_ride_id': None, 'drivers_user_id': UUID('ff5b9ccd-1046-4e71-a063-d9afe7dca94a')}
+2025-11-05 02:26:40,106 INFO sqlalchemy.engine.Engine COMMIT
+INFO:sqlalchemy.engine.Engine:COMMIT
+2025-11-05 02:26:40,109 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT rides.ride_id AS rides_ride_id, rides.rider_id AS rides_rider_id, rides.driver_id AS rides_driver_id, rides.ride_status AS rides_ride_status, ST_AsEWKB(rides.start_location) AS rides_start_location, ST_AsEWKB(rides.end_location) AS rides_end_location, rides.distance_km AS rides_distance_km, rides.created_at AS rides_created_at, rides.updated_at AS rides_updated_at 
+FROM rides 
+WHERE rides.ride_id = %(pk_1)s::UUID
+INFO:sqlalchemy.engine.Engine:[cached since 0.03711s ago] {'pk_1': UUID('472a93b5-8020-4744-8c58-951910d4ca53')}
+2025-11-05 02:26:40,109 INFO sqlalchemy.engine.Engine SELECT rides.ride_id AS rides_ride_id, rides.rider_id AS rides_rider_id, rides.driver_id AS rides_driver_id, rides.ride_status AS rides_ride_status, ST_AsEWKB(rides.start_location) AS rides_start_location, ST_AsEWKB(rides.end_location) AS rides_end_location, rides.distance_km AS rides_distance_km, rides.created_at AS rides_created_at, rides.updated_at AS rides_updated_at 
+FROM rides 
+WHERE rides.ride_id = %(pk_1)s::UUID
+2025-11-05 02:26:40,109 INFO sqlalchemy.engine.Engine [cached since 0.03711s ago] {'pk_1': UUID('472a93b5-8020-4744-8c58-951910d4ca53')}
+INFO:sqlalchemy.engine.Engine:SELECT drivers.user_id AS drivers_user_id, drivers.is_available AS drivers_is_available, drivers.current_ride_id AS drivers_current_ride_id 
+FROM drivers 
+WHERE drivers.user_id = %(user_id_1)s::UUID 
+ LIMIT %(param_1)s
+INFO:sqlalchemy.engine.Engine:[cached since 0.06258s ago] {'user_id_1': UUID('ff5b9ccd-1046-4e71-a063-d9afe7dca94a'), 'param_1': 1}
+2025-11-05 02:26:40,111 INFO sqlalchemy.engine.Engine SELECT drivers.user_id AS drivers_user_id, drivers.is_available AS drivers_is_available, drivers.current_ride_id AS drivers_current_ride_id 
+FROM drivers 
+WHERE drivers.user_id = %(user_id_1)s::UUID 
+ LIMIT %(param_1)s
+2025-11-05 02:26:40,111 INFO sqlalchemy.engine.Engine [cached since 0.06258s ago] {'user_id_1': UUID('ff5b9ccd-1046-4e71-a063-d9afe7dca94a'), 'param_1': 1}
+2025-11-05 02:26:40,112 INFO sqlalchemy.engine.Engine UPDATE drivers SET is_available=%(is_available)s WHERE drivers.user_id = %(drivers_user_id)s::UUID
+INFO:sqlalchemy.engine.Engine:UPDATE drivers SET is_available=%(is_available)s WHERE drivers.user_id = %(drivers_user_id)s::UUID
+INFO:sqlalchemy.engine.Engine:[cached since 0.06258s ago] {'is_available': True, 'drivers_user_id': UUID('ff5b9ccd-1046-4e71-a063-d9afe7dca94a')}
+2025-11-05 02:26:40,112 INFO sqlalchemy.engine.Engine [cached since 0.06258s ago] {'is_available': True, 'drivers_user_id': UUID('ff5b9ccd-1046-4e71-a063-d9afe7dca94a')}
+INFO:sqlalchemy.engine.Engine:COMMIT
+2025-11-05 02:26:40,113 INFO sqlalchemy.engine.Engine COMMIT
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+Ride 472a93b5-8020-4744-8c58-951910d4ca53 has been completed!
+2025-11-05 02:26:40,117 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-11-05 02:26:40,117 INFO sqlalchemy.engine.Engine SELECT rides.ride_id AS rides_ride_id, rides.rider_id AS rides_rider_id, rides.driver_id AS rides_driver_id, rides.ride_status AS rides_ride_status, ST_AsEWKB(rides.start_location) AS rides_start_location, ST_AsEWKB(rides.end_location) AS rides_end_location, rides.distance_km AS rides_distance_km, rides.created_at AS rides_created_at, rides.updated_at AS rides_updated_at 
+INFO:sqlalchemy.engine.Engine:SELECT rides.ride_id AS rides_ride_id, rides.rider_id AS rides_rider_id, rides.driver_id AS rides_driver_id, rides.ride_status AS rides_ride_status, ST_AsEWKB(rides.start_location) AS rides_start_location, ST_AsEWKB(rides.end_location) AS rides_end_location, rides.distance_km AS rides_distance_km, rides.created_at AS rides_created_at, rides.updated_at AS rides_updated_at 
+FROM rides 
+WHERE rides.ride_id = %(pk_1)s::UUID
+INFO:sqlalchemy.engine.Engine:[cached since 0.04471s ago] {'pk_1': UUID('472a93b5-8020-4744-8c58-951910d4ca53')}
+FROM rides 
+WHERE rides.ride_id = %(pk_1)s::UUID
+2025-11-05 02:26:40,117 INFO sqlalchemy.engine.Engine [cached since 0.04471s ago] {'pk_1': UUID('472a93b5-8020-4744-8c58-951910d4ca53')}
+Getting driver ff5b9ccd-1046-4e71-a063-d9afe7dca94a information...
+2025-11-05 02:26:40,118 INFO sqlalchemy.engine.Engine SELECT users.user_id AS users_user_id, users.email AS users_email, users.user_name AS users_user_name, users.user_type AS users_user_type, ST_AsEWKB(users.current_location) AS users_current_location, users.created_at AS users_created_at, users.updated_at AS users_updated_at, drivers.user_id AS drivers_user_id, drivers.is_available AS drivers_is_available, drivers.current_ride_id AS drivers_current_ride_id 
+FROM users JOIN drivers ON users.user_id = drivers.user_id 
+WHERE users.user_id = %(user_id_1)s::UUID 
+ LIMIT %(param_1)s
+2025-11-05 02:26:40,118 INFO sqlalchemy.engine.Engine [cached since 0.05421s ago] {'user_id_1': UUID('ff5b9ccd-1046-4e71-a063-d9afe7dca94a'), 'param_1': 1}
+INFO:sqlalchemy.engine.Engine:SELECT users.user_id AS users_user_id, users.email AS users_email, users.user_name AS users_user_name, users.user_type AS users_user_type, ST_AsEWKB(users.current_location) AS users_current_location, users.created_at AS users_created_at, users.updated_at AS users_updated_at, drivers.user_id AS drivers_user_id, drivers.is_available AS drivers_is_available, drivers.current_ride_id AS drivers_current_ride_id 
+FROM users JOIN drivers ON users.user_id = drivers.user_id 
+WHERE users.user_id = %(user_id_1)s::UUID 
+ LIMIT %(param_1)s
+INFO:sqlalchemy.engine.Engine:[cached since 0.05421s ago] {'user_id_1': UUID('ff5b9ccd-1046-4e71-a063-d9afe7dca94a'), 'param_1': 1}
+2025-11-05 02:26:40,120 INFO sqlalchemy.engine.Engine SELECT rides.ride_id AS rides_ride_id, rides.rider_id AS rides_rider_id, rides.driver_id AS rides_driver_id, rides.ride_status AS rides_ride_status, ST_AsEWKB(rides.start_location) AS rides_start_location, ST_AsEWKB(rides.end_location) AS rides_end_location, rides.distance_km AS rides_distance_km, rides.created_at AS rides_created_at, rides.updated_at AS rides_updated_at 
+FROM rides 
+WHERE rides.rider_id = %(rider_id_1)s::UUID AND rides.ride_status IN (%(ride_status_1_1)s, %(ride_status_1_2)s, %(ride_status_1_3)s) 
+ LIMIT %(param_1)s
+2025-11-05 02:26:40,120 INFO sqlalchemy.engine.Engine [generated in 0.00018s] {'rider_id_1': UUID('e6e41d75-172f-4ea5-b907-68263a32fcaf'), 'param_1': 1, 'ride_status_1_1': 'REQUESTED', 'ride_status_1_2': 'PICKING_UP', 'ride_status_1_3': 'IN_TRIP'}
+INFO:sqlalchemy.engine.Engine:SELECT rides.ride_id AS rides_ride_id, rides.rider_id AS rides_rider_id, rides.driver_id AS rides_driver_id, rides.ride_status AS rides_ride_status, ST_AsEWKB(rides.start_location) AS rides_start_location, ST_AsEWKB(rides.end_location) AS rides_end_location, rides.distance_km AS rides_distance_km, rides.created_at AS rides_created_at, rides.updated_at AS rides_updated_at 
+FROM rides 
+WHERE rides.rider_id = %(rider_id_1)s::UUID AND rides.ride_status IN (%(ride_status_1_1)s, %(ride_status_1_2)s, %(ride_status_1_3)s) 
+ LIMIT %(param_1)s
+INFO:sqlalchemy.engine.Engine:[generated in 0.00018s] {'rider_id_1': UUID('e6e41d75-172f-4ea5-b907-68263a32fcaf'), 'param_1': 1, 'ride_status_1_1': 'REQUESTED', 'ride_status_1_2': 'PICKING_UP', 'ride_status_1_3': 'IN_TRIP'}

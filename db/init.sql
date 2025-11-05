@@ -1,6 +1,3 @@
-CREATE DATABASE ride_sharing;
-CREATE EXTENSION IF NOT EXISTS postgis;
-
 CREATE TYPE user_type AS ENUM ('driver', 'rider');
 CREATE TYPE ride_status AS ENUM ('NEW', 'REQUESTED', 'PICKING_UP', 'IN_TRIP', 'COMPLETED', 'CANCELLED');
 

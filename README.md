@@ -46,7 +46,7 @@ Due to the reason the Euclidean Distance formula treats earth like a flat surfac
 > 
 > - **Spatial Index:** Spatial Index is a technique used to efficiently store and retrieve spatial data like points, lines, and polygons based on the location. Instead of searching through all the data, a spatial index creates a map that helps quickly identify relevant data for a query, significantly speeding up spatial operations like finding all available drivers within a certain radius.
 
-Brute-Force Search is simple to implement; however, it will become very slow as the number of drivers increases. Meanwhile, Spatial Index method remains fast even if you have many drivers. Therefore, Spatial Index is the chosen method for the finding available nearby drivers. 
+Brute-Force Search is simple to implement; however, it will become very slow as the number of drivers increases. Meanwhile, Spatial Index method remains fast even if you have many drivers. Therefore, Spatial Index is the chosen method for the finding available nearby drivers.
 
 
 ## System Design
@@ -57,7 +57,7 @@ Our project system will have 4 main entities. Each represent a Python class:
 - `User`: The base enity hold common information of the app users.
   - **Attributes**: `user_id`, `email`, `user_name`
 - `Rider`: A user who requests a ride. This class inherits from `User` class.
-  - **Attirbutes**: `current_location`
+  - **Attributes**: `current_location`
 - `Driver`: A user who provides riding service. This class inherits from `User` class.
   - **Attributes**: `current_location`, `is_available`
 - `Ride`: Represent a trip from starting point to destination. This entity will connect with `Rider` and `Driver`.
@@ -93,6 +93,21 @@ This entity relationships define how entites interact with each other in the pro
 - `DROP DATABASE <database_name>;` - Drop a database
 - `\q` - Quit
 
+### Start and run the docker-compose
+
+- Start the docker-compose in detached mode: `docker-compose up -d`
+- Stop the docker-compose: `docker-compose down`
+- Stop the docker-compose and remove all data: `docker-compose down -v`
+
+### Access DB via Docker CLI/Terminal
+
+- Access the databse in docker-compose: `docker exec -it ride_sharing_postgres psql -U postgres -d ride_sharing`
+- View all tables: `\dt`
+- Describe a table: `\d <table_name>`
+- See all created rides: `SELECT ride_id, ride_status, distance_km FROM rides;`
+- See all created users: `SELECT user_name, user_type FROM users;`
+- Exit: `\q`
+
 ### TODO
 
 - [X] Write unit test
@@ -100,16 +115,12 @@ This entity relationships define how entites interact with each other in the pro
 - [X] Docker: compose up/down (research about this)
 - [X] Research how to setup docker with PostGIS
 - [X] PostgesSQL should be placed in models -> implementing through ORM 
-- [ ] Move all logic into database (request ride, update ride, cancel ride)
+- [X] Move all logic into database (request ride, update ride, cancel ride)
 - [ ] Each step in the simulation should be processed by user's input as enter
 - [ ] Setup debugging environment
 - [ ] Session should be able to either commit or rollback based on the entire request status (success or failure)
   - [ ] Each request should have its own session
   - [ ] Each session should have a database transaction
-- [ ] Create a config to store flag for using in-memory or database
-  - [ ] In-memory flag
-  - [ ] Database flag
-  - [ ] Or both
 
 ### Future Implementations
 

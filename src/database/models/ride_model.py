@@ -19,7 +19,7 @@ class RideModel(Base):
     
     ride_id = Column(UUID(as_uuid=True), primary_key=True)
     rider_id = Column(UUID(as_uuid=True), ForeignKey('users.user_id'), nullable=False)
-    driver_id = Column(UUID(as_uuid=True), ForeignKey('users.user_id'))
+    driver_id = Column(UUID(as_uuid=True), ForeignKey('users.user_id'), nullable=True)
     ride_status = Column(Enum(RideStatusEnum), default=RideStatusEnum.NEW)
     start_location = Column(Geometry('POINT', srid=4326), nullable=False)
     end_location = Column(Geometry('POINT', srid=4326), nullable=False)
