@@ -14,7 +14,6 @@ from src.database.repositories.driver_repository import DriverRepository
 from src.database.repositories.rider_repository import RiderRepository
 from src.database.repositories.user_repository import UserRepository
 from src.core.ride_sharing_manager import ride_sharing_manager_object
-from src.database.models.base import get_session
 from src.models.users.driver import Driver
 from src.models.users.rider import Rider
 from src.models.ride.ride import Ride
@@ -55,7 +54,7 @@ class RideSystem:
         )
         new_ride.request_ride()
 
-        ride_model = self.ride_repo.create_ride(new_ride)
+        self.ride_repo.create_ride(new_ride)
         self.rider_repo.update_rider_current_ride(rider.user_id, new_ride.ride_id)
         print(f"Rider {rider.user_name} has requested a ride.")
 
