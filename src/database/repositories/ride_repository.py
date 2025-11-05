@@ -181,3 +181,23 @@ class RideRepository:
             .order_by(RideModel.created_at.desc())
             .all()
         )
+    
+
+    """
+    This function get current ride for a rider in database
+    Args:
+        rider_id (str): The rider id to be retrieved
+    Return:
+        RideModel: The current ride for the rider
+    """
+    def get_rider_current_ride(self, rider_id: str) -> Optional[RideModel]:
+      return (
+          self.session.query(RideModel)
+          .filter(RideModel.rider_id == uuid.UUID(rider_id))
+          .filter(RideModel.ride_status.in_([
+              RideStatusEnum.REQUESTED,
+              RideStatusEnum.PICKING_UP,
+              RideStatusEnum.IN_TRIP
+          ]))
+          .first()
+      )

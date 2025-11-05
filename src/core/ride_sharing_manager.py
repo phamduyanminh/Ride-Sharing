@@ -1,4 +1,3 @@
-from pickle import TUPLE
 from typing import Optional, Tuple
 from sqlalchemy.orm import Session
 
@@ -31,7 +30,7 @@ class RideSharingManager:
         rider (Rider): The rider object to be registered.
     """
     def register_rider(self, rider: Rider):
-        pritn(f"Registering rider {rider.user_name}...")
+        print(f"Registering rider {rider.user_name}...")
         self.user_repo.create_rider(rider)
         print(f"{rider.user_name} has been registered.")
     
@@ -61,11 +60,11 @@ class RideSharingManager:
     """
     This function retrieves a driver by their ID.
     Args:
-        Optional[Tuple[UserModel, RiderModel]]: The tuple of user and driver models if found, else None.
+        Optional[Tuple[UserModel, DriverModel]]: The tuple of user and driver models if found, else None.
     """
     def get_driver(self, driver_id: str) -> Optional[Tuple[UserModel, DriverModel]]:
-        print(f"Getting rider {driver_id} information...")
-        return self.drivers.get(driver_id)
+        print(f"Getting driver {driver_id} information...")
+        return self.driver_repo.get_driver(driver_id)
     
     
     """
