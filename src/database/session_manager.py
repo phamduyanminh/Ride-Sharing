@@ -1,8 +1,9 @@
 import logging
 from contextlib import contextmanager
-from sqlalchemy.orm import Session
 from src.database.models.base import get_session
 
+
+logger = logging.getLogger(__name__)
 
 @contextmanager
 def session_scope():
@@ -11,8 +12,9 @@ def session_scope():
     try:
         yield session
         session.commit()
-    except Exception:
-        logging.info(f"An error occurred during session_scope: {Exception}")
+        logger.debug("Session committed successfully.")
+    except Exception as e:
+        logger.error(f"An error occurred during session_scope: {e}")
         session.rollback()
         raise
     finally:
