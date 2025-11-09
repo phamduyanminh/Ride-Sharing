@@ -17,7 +17,15 @@ def get_engine():
 
         if database_url:
               print("Docker mode...")
-              _engine = create_engine(database_url, echo=True)
+              _engine = create_engine(
+                database_url, 
+                echo=True,
+                pool_size = 5,
+                max_overflow = 10,
+                pool_timeout = 30,
+                pool_recycle = 3600,
+                pool_pre_ping = True,
+                )
         else:
             print("Local mode...")
             params = config()
@@ -25,7 +33,15 @@ def get_engine():
                 f"postgresql://{params['user']}:{params['password']}"
                 f"@{params['host']}:{params['port']}/{params['database']}"
             )
-            _engine = create_engine(connection_string, echo=True)
+            _engine = create_engine(
+                connection_string, 
+                echo=True,
+                pool_size = 5,
+                max_overflow = 10,
+                pool_timeout = 30,
+                pool_recycle = 3600,
+                pool_pre_ping = True,
+                )
 
     return _engine
 
