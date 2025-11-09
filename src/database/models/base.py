@@ -5,8 +5,18 @@ from sqlalchemy.orm import Session, sessionmaker
 
 from src.database.config.config import config
 
+
 Base = declarative_base()
 _engine = None
+
+ENGINE_CONFIG = {
+    'echo': True,
+    'pool_size': 5,
+    'max_overflow': 10,
+    'pool_timeout': 30,
+    'pool_recycle': 3600,
+    'pool_pre_ping': True,
+}
 
 # Create a db engine from config
 def get_engine():
@@ -19,12 +29,7 @@ def get_engine():
               print("Docker mode...")
               _engine = create_engine(
                 database_url, 
-                echo=True,
-                pool_size = 5,
-                max_overflow = 10,
-                pool_timeout = 30,
-                pool_recycle = 3600,
-                pool_pre_ping = True,
+                **ENGINE_CONFIG
                 )
         else:
             print("Local mode...")
@@ -35,12 +40,7 @@ def get_engine():
             )
             _engine = create_engine(
                 connection_string, 
-                echo=True,
-                pool_size = 5,
-                max_overflow = 10,
-                pool_timeout = 30,
-                pool_recycle = 3600,
-                pool_pre_ping = True,
+                **ENGINE_CONFIG
                 )
 
     return _engine
