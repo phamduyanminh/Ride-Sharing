@@ -27,7 +27,7 @@ class DriverRepository:
         drivers = (
             self.session.query(UserModel, DriverModel)
             .join(DriverModel, UserModel.user_id == DriverModel.user_id)
-            .filter(DriverModel.is_available == True)
+            .filter(DriverModel.is_available)
             .filter(
                 ST_DWithin(
                     UserModel.current_location.cast(Geography),
@@ -55,7 +55,6 @@ class DriverRepository:
             raise ValueError("Driver not found")
         
         driver.is_available = is_available
-        self.session.commit()
 
 
     """
@@ -73,7 +72,6 @@ class DriverRepository:
             raise ValueError("Driver not found")
         
         driver.current_ride_id = uuid.UUID(ride_id) if ride_id else None
-        self.session.commit()
 
     
     """
