@@ -10,8 +10,6 @@ from src.models.ride.ride import Ride
 from src.models.location.location import Location
 
 class RideRepository:
-    def __init__(self, session: Session):
-        self.session = session
     
     def location(self, location: Location) -> WKBElement:
         return ST_SetSRID(ST_MakePoint(location.longitude, location.latitude), 4326)
@@ -20,11 +18,12 @@ class RideRepository:
     """
     This function create ride and add in database
     Args:
+        session (Session): The database session
         ride (Ride): The ride object to be created
     Return:
         RideModel: The created ride model
     """
-    def create_ride(self, ride: Ride) -> RideModel:
+    def create_ride(self, session: Session, ride: Ride) -> RideModel:
         new_ride = RideModel(
             ride_id = uuid.UUID(ride.ride_id),
             rider_id = uuid.UUID(ride.rider.user_id),
@@ -34,21 +33,21 @@ class RideRepository:
             end_location = self.location(ride.end_location),
             distance_km = ride.distance
         )
-        self.session.add(new_ride)
-        self.session.commit()
+        session.add(new_ride)
         return new_ride
 
 
     """
     This function get ride from database based on given ride id
     Args:
+        session (Session): The database session
         ride_id (str): The ride id to be retrieved
     Return:
         RideModel: The retrieved ride model
     """
-    def get_ride(self, ride_id: str) -> Optional[RideModel]:
+    def get_ride(self, session: Session, ride_id: str) -> Optional[RideModel]:
         return (
-            self.session.query(RideModel)
+            session.query(RideModel)
             .filter_by(ride_id = uuid.UUID(ride_id))
             .first()
         )
@@ -57,67 +56,71 @@ class RideRepository:
     """
     This function update the ride status
     Args:
+        session (Session): The database session
         ride_id (str): The ride id to be updated
         new_status (RideStatusEnum): The new status
         current_status (Optional[RideStatusEnum]): The current status to be checked
     Return:
         RideModel: The updated ride model
     """
-    def update_status(self, ride_id: str, new_status: RideStatusEnum, current_status: set[RideStatusEnum]) -> RideModel:
-        ride = self.get_ride(ride_id)
+    def update_status(self, session: Session, ride_id: str, new_status: RideStatusEnum, current_status: set[RideStatusEnum]) -> RideModel:
+        ride = self.get_ride(session, ride_id)
         if not ride:
             raise ValueError("Cannot find ride")
         if current_status and ride.ride_status not in current_status:
             raise ValueError(f"Invalid ride status transition: current status is {ride.ride_status}, expected one of {list(current_status)}")
         
-        ride.ride_status = new_status
-        self.session.commit()        
+        ride.ride_status = new_status      
         return ride
 
 
     """
     This function start a ride and update in database
     Args:
+        session (Session): The database session
         ride_id (str): The ride id to be started
     Return:
         RideModel: The started ride model
     """
-    def start_ride(self, ride_id: str) -> RideModel:
-        return self.update_status(ride_id, RideStatusEnum.IN_TRIP, current_status={RideStatusEnum.PICKING_UP})
+    def start_ride(self, session: Session, ride_id: str) -> RideModel:
+        return self.update_status(session, ride_id, RideStatusEnum.IN_TRIP, current_status={RideStatusEnum.PICKING_UP})
 
 
     """
     This function complete a ride and update in the database
     Args:
+        session (Session): The database session
         ride_id (str): The ride id to be completed
     Return:
         RideModel: The completed ride model
     """
-    def complete_ride(self, ride_id: str) -> RideModel:
-        return self.update_status(ride_id, RideStatusEnum.COMPLETED, current_status={RideStatusEnum.IN_TRIP})
+    def complete_ride(self, session: Session, ride_id: str) -> RideModel:
+        return self.update_status(session, ride_id, RideStatusEnum.COMPLETED, current_status={RideStatusEnum.IN_TRIP})
 
 
     """
     This function cancel a ride and update in database
     Args:
+        session (Session): The database session
         ride_id (str): The ride id to be cancelled
     Return:
         RideModel: The cancelled ride model
     """
-    def cancel_ride(self, ride_id: str) -> RideModel:
-        return self.update_status(ride_id, RideStatusEnum.CANCELLED, current_status={RideStatusEnum.REQUESTED, RideStatusEnum.PICKING_UP})
+    def cancel_ride(self, session: Session, ride_id: str) -> RideModel:
+        return self.update_status(session, ride_id, RideStatusEnum.CANCELLED, current_status={RideStatusEnum.REQUESTED, RideStatusEnum.PICKING_UP})
 
     
     """
     This function assign ride to driver and update in database
     Args:
+        session (Session): The database session
         ride_id (str): The ride id to assign the driver to
         driver_id (str): The driver id to be assigned
     Return:
         RideModel: The updated ride model with assigned driver
     """
-    def assign_driver(self, ride_id: str, driver_id: str) -> RideModel:
-        ride = self.get_ride(ride_id)
+    def assign_driver(self, session: Session, ride_id: str, driver_id: str) -> RideModel:
+        ride = self.get_ride(session, ride_id)
 
         if not ride:
             raise ValueError("Cannot find ride")
@@ -126,18 +129,19 @@ class RideRepository:
         
         ride.driver_id = uuid.UUID(driver_id)
         ride.ride_status = RideStatusEnum.PICKING_UP
-        self.session.commit()
         return ride
     
 
     """
     This function get all active rides from database
+    Args:
+        session (Session): The database session
     Return:
         List[RideModel]: The list of active rides
     """
-    def get_active_rides(self) -> List[RideModel]:
+    def get_active_rides(self, session: Session) -> List[RideModel]:
         return(
-            self.session.query(RideModel)
+            session.query(RideModel)
             .filter(
                 RideModel.ride_status.in_([
                     RideStatusEnum.REQUESTED,
@@ -152,13 +156,14 @@ class RideRepository:
     """
     This function get all completed rides for a driver in database
     Args:
+        session (Session): The database session
         driver_id (str): The driver id to be retrieved
     Return:
         List[RideModel]: The list of complete rides for the driver
     """
-    def get_driver_rides_history(self, driver_id: str) -> Optional[List[RideModel]]:
+    def get_driver_rides_history(self, session: Session, driver_id: str) -> Optional[List[RideModel]]:
         return (
-            self.session.query(RideModel)
+            session.query(RideModel)
             .filter(RideModel.driver_id == uuid.UUID(driver_id))
             .filter(RideModel.ride_status == RideStatusEnum.COMPLETED)
             .order_by(RideModel.created_at.desc())
@@ -169,13 +174,14 @@ class RideRepository:
     """
     This function get all completed rides for a rider in database
     Args:
+        session (Session): The database session
         rider_id (str): The rider id to be retrieved
     Return:
         List[RideModel]: The list of complete rides for the rider
     """
-    def get_rider_rides_history(self, rider_id: str) -> Optional[List[RideModel]]:
+    def get_rider_rides_history(self, session: Session, rider_id: str) -> Optional[List[RideModel]]:
         return (
-            self.session.query(RideModel)
+            session.query(RideModel)
             .filter(RideModel.rider_id == uuid.UUID(rider_id))
             .filter(RideModel.ride_status == RideStatusEnum.COMPLETED)
             .order_by(RideModel.created_at.desc())
@@ -186,13 +192,14 @@ class RideRepository:
     """
     This function get current ride for a rider in database
     Args:
+        session (Session): The database session
         rider_id (str): The rider id to be retrieved
     Return:
         RideModel: The current ride for the rider
     """
-    def get_rider_current_ride(self, rider_id: str) -> Optional[RideModel]:
+    def get_rider_current_ride(self, session: Session, rider_id: str) -> Optional[RideModel]:
       return (
-          self.session.query(RideModel)
+          session.query(RideModel)
           .filter(RideModel.rider_id == uuid.UUID(rider_id))
           .filter(RideModel.ride_status.in_([
               RideStatusEnum.REQUESTED,
