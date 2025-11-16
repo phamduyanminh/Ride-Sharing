@@ -10,6 +10,7 @@ class RiderRepository:
     """
     Get rider by id with user information
     Args:
+        session (Session): The database session
         rider_id (str): The rider id to be retrieved
     Returns:
         Optional[Tuple[UserModel, RiderModel]]: Tuple of user and rider models if found
@@ -27,6 +28,7 @@ class RiderRepository:
     """
     Update rider's current ride
     Args:
+        session (Session): The database session
         rider_id (str): The rider ID
         ride_id (Optional[str]): The ride ID
     """

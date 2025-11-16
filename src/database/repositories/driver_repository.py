@@ -13,6 +13,7 @@ class DriverRepository:
     """
     Find available drivers within a radius
     Args:
+        session (Session): The database session
         location (Location): The location to search for drivers
         radius_km (float): The radius in kilometers
     Returns:
@@ -41,6 +42,7 @@ class DriverRepository:
     """
     Set driver availability
     Args:
+        session (Session): The database session
         driver_id (str): The driver ID
         is_available (bool): The availability status
     """
@@ -58,6 +60,7 @@ class DriverRepository:
     """
     Update driver's current ride
     Args:
+        session (Session): The database session
         driver_id (str): The driver ID
         ride_id (Optional[str]): The ride ID
     """
@@ -75,6 +78,7 @@ class DriverRepository:
     """
     Get driver by id with user information
     Args:
+        session (Session): The database session
         driver_id (str): The driver id to be retrieved
     Returns:
         Optional[Tuple[UserModel, DriverModel]]: Tuple of user and driver models if found
