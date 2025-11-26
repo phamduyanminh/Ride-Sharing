@@ -1,6 +1,4 @@
 from typing import Optional, Tuple
-from sqlalchemy.orm import Session
-
 
 from src.database.session_manager import session_scope
 from src.database.models.user_model import UserModel
@@ -45,7 +43,7 @@ class RideSharingManager:
     """
     def get_rider(self, rider_id: str) -> Optional[Tuple[UserModel, RiderModel]]:
         print(f"Getting rider {rider_id} information...")
-        with session_scope() as session: 
+        with session_scope() as session:
             return self.rider_repo.get_rider(session, rider_id)
     
     
@@ -57,7 +55,7 @@ class RideSharingManager:
     def register_driver(self, driver: Driver):
         print(f"Registering driver {driver.user_name}...")
         with session_scope() as session:
-            self.user_repo.create_driver(session,driver)
+            self.user_repo.create_driver(session, driver)
         print(f"Driver {driver.user_name} has been registered.")
         
     
