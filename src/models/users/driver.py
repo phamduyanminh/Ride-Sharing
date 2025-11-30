@@ -10,7 +10,7 @@ if TYPE_CHECKING:
 
 class Driver(User):
     def __init__(self, email: str, user_name: str, longitude: float, latitude: float, user_id: str = None):
-        super().__init__(email, user_name) 
+        super().__init__(email, user_name, user_id) 
         self.current_location: Location = Location(latitude, longitude)
         self.is_available: bool = True
         self.current_ride: Ride | None = None

@@ -3,6 +3,8 @@ from geoalchemy2.functions import ST_MakePoint, ST_SetSRID
 from typing import Optional, Tuple
 import uuid
 
+
+from src.database.repositories.utils import to_uuid
 from src.database.models.user_model import UserModel, UserTypeEnum
 from src.database.models.driver_model import DriverModel
 from src.database.models.rider_model import RiderModel
@@ -27,7 +29,7 @@ class UserRepository:
             return existing_user
 
         user = UserModel(
-            user_id = uuid.UUID(driver.user_id),
+            user_id = to_uuid(driver.user_id),
             email = driver.email,
             user_name = driver.user_name,
             user_type = UserTypeEnum.driver,
@@ -41,7 +43,7 @@ class UserRepository:
         )
 
         driver_record = DriverModel(
-            user_id = uuid.UUID(driver.user_id),
+            user_id = to_uuid(driver.user_id),
             is_available = driver.is_available
         )
 
@@ -62,7 +64,7 @@ class UserRepository:
         driver_result = (
             session.query(UserModel, DriverModel)
             .join(DriverModel, UserModel.user_id == DriverModel.user_id)
-            .filter(UserModel.user_id == uuid.UUID(driver_id))
+            .filter(UserModel.user_id == to_uuid(driver_id))
             .first()
         )
 
@@ -84,7 +86,7 @@ class UserRepository:
             return existing_rider
 
         user = UserModel(
-            user_id=uuid.UUID(rider.user_id),
+            user_id=to_uuid(rider.user_id),
             email=rider.email,
             user_name=rider.user_name,
             user_type=UserTypeEnum.rider,
@@ -96,7 +98,7 @@ class UserRepository:
         
         # Create rider record
         rider_record = RiderModel(
-            user_id=uuid.UUID(rider.user_id)
+            user_id=to_uuid(rider.user_id)
         )
         
         session.add(user)
@@ -116,7 +118,7 @@ class UserRepository:
         rider_result = (
             session.query(UserModel, RiderModel)
             .join(RiderModel, UserModel.user_id == RiderModel.user_id)
-            .filter(UserModel.user_id == uuid.UUID(rider_id))
+            .filter(UserModel.user_id == to_uuid(rider_id))
             .first()
         )
 
@@ -131,7 +133,7 @@ class UserRepository:
         location (Location): The new location
     """
     def update_location(self, session: Session, user_id: str, location: Location):
-        user = session.query(UserModel).filter_by(user_id=uuid.UUID(user_id)).first()
+        user = session.query(UserModel).filter_by(user_id=to_uuid(user_id)).first()
         if not user:
             raise ValueError("User not found")
     

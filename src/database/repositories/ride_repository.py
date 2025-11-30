@@ -4,7 +4,8 @@ from geoalchemy2.elements import WKBElement
 from typing import Optional, List
 import uuid
 
-from src.database.models.rider_model import RiderModel
+
+from src.database.repositories.utils import to_uuid
 from src.database.models.ride_model import RideModel, RideStatusEnum
 from src.models.ride.ride import Ride
 from src.models.location.location import Location
@@ -25,9 +26,9 @@ class RideRepository:
     """
     def create_ride(self, session: Session, ride: Ride) -> RideModel:
         new_ride = RideModel(
-            ride_id = uuid.UUID(ride.ride_id),
-            rider_id = uuid.UUID(ride.rider.user_id),
-            driver_id = uuid.UUID(ride.driver.user_id) if ride.driver else None,
+            ride_id = to_uuid(ride.ride_id),
+            rider_id = to_uuid(ride.rider.user_id),
+            driver_id = to_uuid(ride.driver.user_id) if ride.driver else None,
             ride_status = RideStatusEnum[ride.ride_status.name],
             start_location = self.location(ride.start_location),
             end_location = self.location(ride.end_location),
@@ -48,7 +49,7 @@ class RideRepository:
     def get_ride(self, session: Session, ride_id: str) -> Optional[RideModel]:
         return (
             session.query(RideModel)
-            .filter_by(ride_id = uuid.UUID(ride_id))
+            .filter_by(ride_id = to_uuid(ride_id))
             .first()
         )
 
@@ -127,7 +128,7 @@ class RideRepository:
         if ride.ride_status != RideStatusEnum.REQUESTED:
             raise ValueError("Cannot assign driver to a ride that is not in REQUESTED status")
         
-        ride.driver_id = uuid.UUID(driver_id)
+        ride.driver_id = to_uuid(driver_id)
         ride.ride_status = RideStatusEnum.PICKING_UP
         return ride
     
@@ -164,7 +165,7 @@ class RideRepository:
     def get_driver_rides_history(self, session: Session, driver_id: str) -> Optional[List[RideModel]]:
         return (
             session.query(RideModel)
-            .filter(RideModel.driver_id == uuid.UUID(driver_id))
+            .filter(RideModel.driver_id == to_uuid(driver_id))
             .filter(RideModel.ride_status == RideStatusEnum.COMPLETED)
             .order_by(RideModel.created_at.desc())
             .all()
@@ -182,7 +183,7 @@ class RideRepository:
     def get_rider_rides_history(self, session: Session, rider_id: str) -> Optional[List[RideModel]]:
         return (
             session.query(RideModel)
-            .filter(RideModel.rider_id == uuid.UUID(rider_id))
+            .filter(RideModel.rider_id == to_uuid(rider_id))
             .filter(RideModel.ride_status == RideStatusEnum.COMPLETED)
             .order_by(RideModel.created_at.desc())
             .all()
@@ -198,13 +199,13 @@ class RideRepository:
         RideModel: The current ride for the rider
     """
     def get_rider_current_ride(self, session: Session, rider_id: str) -> Optional[RideModel]:
-      return (
-          session.query(RideModel)
-          .filter(RideModel.rider_id == uuid.UUID(rider_id))
-          .filter(RideModel.ride_status.in_([
-              RideStatusEnum.REQUESTED,
-              RideStatusEnum.PICKING_UP,
-              RideStatusEnum.IN_TRIP
-          ]))
-          .first()
-      )
+        return (
+            session.query(RideModel)
+            .filter(RideModel.rider_id == to_uuid(rider_id))
+            .filter(RideModel.ride_status.in_([
+                RideStatusEnum.REQUESTED,
+                RideStatusEnum.PICKING_UP,
+                RideStatusEnum.IN_TRIP
+            ]))
+            .first()
+        )
