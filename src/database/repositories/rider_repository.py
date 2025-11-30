@@ -2,6 +2,8 @@ from sqlalchemy.orm import Session
 from typing import Optional, Tuple
 import uuid
 
+
+from src.database.repositories.utils import to_uuid
 from src.database.models.user_model import UserModel
 from src.database.models.rider_model import RiderModel
 
@@ -19,7 +21,7 @@ class RiderRepository:
         rider_result = (
             session.query(UserModel, RiderModel)
             .join(RiderModel, UserModel.user_id == RiderModel.user_id)
-            .filter(UserModel.user_id == uuid.UUID(rider_id))
+            .filter(UserModel.user_id == to_uuid(rider_id))
             .first()
         )
         return rider_result
@@ -34,10 +36,10 @@ class RiderRepository:
     """
     def update_rider_current_ride(self, session: Session, rider_id: str, ride_id: Optional[str]):
         rider = session.query(RiderModel).filter(
-            RiderModel.user_id == uuid.UUID(rider_id)
+            RiderModel.user_id == to_uuid(rider_id)
         ).first()
 
         if rider is None:
             raise ValueError("Rider not found")
         
-        rider.current_ride_id = uuid.UUID(ride_id) if ride_id else None
+        rider.current_ride_id = to_uuid(ride_id) if ride_id else None

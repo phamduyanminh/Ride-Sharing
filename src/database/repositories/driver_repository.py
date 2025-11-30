@@ -4,6 +4,8 @@ from geoalchemy2.functions import ST_DWithin, ST_MakePoint, ST_SetSRID
 from typing import List, Optional, Tuple
 import uuid
 
+
+from src.database.repositories.utils import to_uuid
 from src.database.models.user_model import UserModel
 from src.database.models.driver_model import DriverModel
 from src.models.location.location import Location
@@ -48,7 +50,7 @@ class DriverRepository:
     """
     def set_availability(self, session: Session, driver_id: str, is_available: bool):
         driver = session.query(DriverModel).filter_by(
-            user_id = uuid.UUID(driver_id)
+            user_id = to_uuid(driver_id)
             ).first()
         
         if driver is None:
@@ -66,13 +68,13 @@ class DriverRepository:
     """
     def update_driver_current_ride(self, session: Session, driver_id: str, ride_id: Optional[str]):
         driver = session.query(DriverModel).filter(
-            DriverModel.user_id == uuid.UUID(driver_id)
+            DriverModel.user_id == to_uuid(driver_id)
         ).first()
 
         if driver is None:
             raise ValueError("Driver not found")
         
-        driver.current_ride_id = uuid.UUID(ride_id) if ride_id else None
+        driver.current_ride_id = to_uuid(ride_id) if ride_id else None
 
     
     """
@@ -87,7 +89,7 @@ class DriverRepository:
         driver_result = (
             session.query(UserModel, DriverModel)
             .join(DriverModel, UserModel.user_id == DriverModel.user_id)
-            .filter(UserModel.user_id == uuid.UUID(driver_id))
+            .filter(UserModel.user_id == to_uuid(driver_id))
             .first()
         )
         return driver_result

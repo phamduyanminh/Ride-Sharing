@@ -1,7 +1,6 @@
 from typing import Optional, Tuple
-from sqlalchemy.orm import Session
 
-from src.database.models.base import get_session
+from src.database.session_manager import session_scope
 from src.database.models.user_model import UserModel
 from src.database.models.driver_model import DriverModel
 from src.database.models.rider_model import RiderModel
@@ -17,11 +16,10 @@ from src.models.ride.ride import Ride
 
 class RideSharingManager:
     def __init__(self):
-        self.db_session = get_session()
-        self.user_repo = UserRepository(self.db_session)
-        self.driver_repo = DriverRepository(self.db_session)
-        self.rider_repo = RiderRepository(self.db_session)
-        self.ride_repo = RideRepository(self.db_session)
+        self.user_repo = UserRepository()
+        self.driver_repo = DriverRepository()
+        self.rider_repo = RiderRepository()
+        self.ride_repo = RideRepository()
     
     
     """
@@ -31,7 +29,8 @@ class RideSharingManager:
     """
     def register_rider(self, rider: Rider):
         print(f"Registering rider {rider.user_name}...")
-        self.user_repo.create_rider(rider)
+        with session_scope() as session:
+            self.user_repo.create_rider(session, rider)
         print(f"{rider.user_name} has been registered.")
     
     
@@ -44,7 +43,8 @@ class RideSharingManager:
     """
     def get_rider(self, rider_id: str) -> Optional[Tuple[UserModel, RiderModel]]:
         print(f"Getting rider {rider_id} information...")
-        return self.rider_repo.get_rider(rider_id)
+        with session_scope() as session:
+            return self.rider_repo.get_rider(session, rider_id)
     
     
     """
@@ -53,7 +53,9 @@ class RideSharingManager:
         driver (Driver): The driver object.
     """    
     def register_driver(self, driver: Driver):
-        self.user_repo.create_driver(driver)
+        print(f"Registering driver {driver.user_name}...")
+        with session_scope() as session:
+            self.user_repo.create_driver(session, driver)
         print(f"Driver {driver.user_name} has been registered.")
         
     
@@ -64,7 +66,8 @@ class RideSharingManager:
     """
     def get_driver(self, driver_id: str) -> Optional[Tuple[UserModel, DriverModel]]:
         print(f"Getting driver {driver_id} information...")
-        return self.driver_repo.get_driver(driver_id)
+        with session_scope() as session:
+            return self.driver_repo.get_driver(session, driver_id)
     
     
     """
@@ -74,8 +77,9 @@ class RideSharingManager:
     """
     def add_ride(self, ride: Ride):
         print(f"Creating ride - {ride.ride_id}...")
-        self.ride_repo.create_ride(ride)
-        print(f"Ride {ride.ride_id} has been created.")
+        with session_scope() as session:
+            self.ride_repo.create_ride(session, ride)
+            print(f"Ride {ride.ride_id} has been created.")
     
     
     """
@@ -87,6 +91,7 @@ class RideSharingManager:
     """
     def get_ride(self, ride_id: str) -> Optional[RideModel]:
         print(f"Getting ride {ride_id} information...")
-        return self.ride_repo.get_ride(ride_id)
+        with session_scope() as session:
+            return self.ride_repo.get_ride(session, ride_id)
 
 ride_sharing_manager_object = RideSharingManager()

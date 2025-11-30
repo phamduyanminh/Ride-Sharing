@@ -83,6 +83,20 @@ This entity relationships define how entites interact with each other in the pro
 
 - `.\.venv\Scripts\Activate.ps1`
 
+### Start and run the docker-compose
+
+- Start the docker-compose in detached mode: `docker-compose up -d`
+- Run test-case step-by-step: `docker-compose run app`
+- Run test-case step-by-step without user input: `docker-compose run -d -e AUTO_CONTINUE=true app`
+- Stop the docker-compose: `docker-compose down`
+- Stop the docker-compose and remove all data: `docker-compose down -v`
+
+### SQL information
+
+- username: postgres
+- password: bunz3120
+- database: ride_sharing
+
 ### Basics SQL Shell commands
 
 - `\l` - List all databases
@@ -93,20 +107,68 @@ This entity relationships define how entites interact with each other in the pro
 - `DROP DATABASE <database_name>;` - Drop a database
 - `\q` - Quit
 
-### Start and run the docker-compose
-
-- Start the docker-compose in detached mode: `docker-compose up -d`
-- Stop the docker-compose: `docker-compose down`
-- Stop the docker-compose and remove all data: `docker-compose down -v`
-
 ### Access DB via Docker CLI/Terminal
 
 - Access the databse in docker-compose: `docker exec -it ride_sharing_postgres psql -U postgres -d ride_sharing`
-- View all tables: `\dt`
-- Describe a table: `\d <table_name>`
 - See all created rides: `SELECT ride_id, ride_status, distance_km FROM rides;`
 - See all created users: `SELECT user_name, user_type FROM users;`
-- Exit: `\q`
+- See information of drivers:
+  `SELECT 
+      u.user_id,
+      u.email,
+      u.user_name,
+      u.user_type,
+      ST_X(u.current_location) AS longitude,
+      ST_Y(u.current_location) AS latitude,
+      ST_AsText(u.current_location) AS location_wkt,
+      u.created_at,
+      u.updated_at,
+      d.is_available,
+      d.current_ride_id
+  FROM users u
+  JOIN drivers d ON u.user_id = d.user_id
+  ORDER BY u.user_name;`
+- See information of riders:
+  `SELECT 
+      u.user_id,
+      u.email,
+      u.user_name,
+      u.user_type,
+      ST_X(u.current_location) AS longitude,
+      ST_Y(u.current_location) AS latitude,
+      ST_AsText(u.current_location) AS location_wkt,
+      u.created_at,
+      u.updated_at,
+      r.current_ride_id
+  FROM users u
+  JOIN riders r ON u.user_id = r.user_id
+  ORDER BY u.user_name;
+  ride_sharing=# SELECT 
+      u.user_id,
+      u.email,
+      u.user_name,
+      u.user_type,
+      ST_X(u.current_location) AS longitude,
+      ST_Y(u.current_location) AS latitude,
+      ST_AsText(u.current_location) AS location_wkt,
+      u.created_at,
+      u.updated_at,
+      r.current_ride_id
+  FROM users u
+  JOIN riders r ON u.user_id = r.user_id
+  ORDER BY u.user_name;`
+- See history ride of a rider: 
+  `SELECT 
+      r.ride_id,
+      r.ride_status,
+      r.distance_km,
+      r.created_at,
+      u_driver.user_name AS driver_name
+  FROM rides r
+  JOIN users u_rider ON r.rider_id = u_rider.user_id
+  LEFT JOIN users u_driver ON r.driver_id = u_driver.user_id
+  WHERE u_rider.user_name = 'Pham'
+  ORDER BY r.created_at DESC;`
 
 ### TODO
 

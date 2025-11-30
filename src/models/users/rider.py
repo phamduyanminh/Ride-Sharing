@@ -8,8 +8,8 @@ if TYPE_CHECKING:
     from ..ride.ride import Ride
 
 class Rider(User):
-    def __init__(self, email: str, user_name: str, longitude: float, latitude: float):
-        super().__init__(email, user_name)
+    def __init__(self, email: str, user_name: str, longitude: float, latitude: float, user_id: str = None):
+        super().__init__(email, user_name, user_id)
         self.current_location = Location(latitude, longitude)
         self.current_ride: Ride | None = None
         self.ride_history: List[Ride] = [] 

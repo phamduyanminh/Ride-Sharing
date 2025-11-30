@@ -1,19 +1,18 @@
 from __future__ import annotations
-from typing import List
 import random
-from geoalchemy2 import WKBElement
 from geoalchemy2.shape import to_shape
-from typing import List, Optional, Tuple
+from sqlalchemy.orm import Session
+from typing import Tuple, List
 
 
-from src.database.models.ride_model import RideModel, RideStatusEnum
-from src.database.models.user_model import UserModel
-from src.database.models.driver_model import DriverModel
+from src.database.session_manager import session_scope
 from src.database.repositories.ride_repository import RideRepository
 from src.database.repositories.driver_repository import DriverRepository
 from src.database.repositories.rider_repository import RiderRepository
 from src.database.repositories.user_repository import UserRepository
-from src.core.ride_sharing_manager import ride_sharing_manager_object
+from src.database.models.ride_model import RideModel, RideStatusEnum
+from src.database.models.user_model import UserModel
+from src.database.models.driver_model import DriverModel
 from src.models.users.driver import Driver
 from src.models.users.rider import Rider
 from src.models.ride.ride import Ride
@@ -23,11 +22,10 @@ KM_PER_DEGREE = 111.0
 
 class RideSystem:
     def __init__(self):
-        self.session = ride_sharing_manager_object.db_session
-        self.ride_repo = RideRepository(self.session)  
-        self.user_repo = UserRepository(self.session)
-        self.driver_repo = DriverRepository(self.session)
-        self.rider_repo = RiderRepository(self.session)
+        self.ride_repo = RideRepository()  
+        self.user_repo = UserRepository()
+        self.driver_repo = DriverRepository()
+        self.rider_repo = RiderRepository()
 
     
     """ 
@@ -39,29 +37,25 @@ class RideSystem:
         RideModel: The created ride model
     """
     def request_ride(self, rider: Rider, destination: Location) -> RideModel:
-        rider_result = self.rider_repo.get_rider(rider.user_id)
-        if rider_result:
-            _, rider_model = rider_result
-            if rider_model.current_ride_id is not None:
-                raise ValueError("Rider already has an ongoing ride!")
+        with session_scope() as session:
+            rider_result = self.rider_repo.get_rider(session, rider.user_id)
+            if rider_result:
+                _, rider_model = rider_result
+                if rider_model.current_ride_id is not None:
+                    raise ValueError("Rider already has an ongoing ride!")
+            
+            distance = rider.current_location.calculate_distance_in_km(destination)
+            new_ride = Ride(
+                rider=rider,
+                start_location=rider.current_location,
+                end_location=destination,
+                distance=distance
+            )
+            new_ride.request_ride()
 
-        distance = rider.current_location.calculate_distance_in_km(destination)
-        new_ride = Ride(
-            rider=rider,
-            start_location=rider.current_location,
-            end_location=destination,
-            distance=distance
-        )
-        new_ride.request_ride()
-
-        self.ride_repo.create_ride(new_ride)
-        self.rider_repo.update_rider_current_ride(rider.user_id, new_ride.ride_id)
-        print(f"Rider {rider.user_name} has requested a ride.")
-
-        self.process_ride_request(new_ride.ride_id)
-
-        updated_ride_model = self.ride_repo.get_ride(new_ride.ride_id)
-        return updated_ride_model
+            ride_model = self.ride_repo.create_ride(session, new_ride)
+            self.rider_repo.update_rider_current_ride(session, rider.user_id, new_ride.ride_id)
+            return ride_model
      
 
     """
@@ -70,20 +64,21 @@ class RideSystem:
         ride_id (str): The ride id to be started
     """
     def start_ride(self, ride_id: str):
-        ride_model = self.ride_repo.get_ride(ride_id)
+        with session_scope() as session:
+            ride_model = self.ride_repo.get_ride(session, ride_id)
 
-        if not ride_model:
-            raise ValueError(f"Ride with ID {ride_id} not found!")
+            if not ride_model:
+                raise ValueError(f"Ride with ID {ride_id} not found!")
 
-        if not ride_model.driver_id:
-            raise ValueError(f"Cannot start a ride without a driver for ride {ride_id}!")
+            if not ride_model.driver_id:
+                raise ValueError(f"Cannot start a ride without a driver for ride {ride_id}!")
 
-        self.ride_repo.start_ride(ride_id)
+            self.ride_repo.start_ride(session, ride_id)
 
-        start_point = to_shape(ride_model.start_location)
-        start_location = Location(latitude=start_point.y, longitude=start_point.x)
-        self.user_repo.update_location(str(ride_model.driver_id), start_location)
-        print(f"Ride {ride_id} has been started!")
+            start_point = to_shape(ride_model.start_location)
+            start_location = Location(latitude=start_point.y, longitude=start_point.x)
+            self.user_repo.update_location(session, str(ride_model.driver_id), start_location)
+            print(f"Ride {ride_id} has been started!")
     
 
     """
@@ -92,23 +87,24 @@ class RideSystem:
         ride_id (str): The ride to be cancelled
     """
     def cancel_ride(self, ride_id: str):
-        ride_model = self.ride_repo.get_ride(ride_id)
+        with session_scope() as session:
+            ride_model = self.ride_repo.get_ride(session, ride_id)
 
-        if not ride_model:
-            raise ValueError(f"Ride with ID {ride_id} not found!")
-        
-        if ride_model.ride_status not in [RideStatusEnum.REQUESTED, RideStatusEnum.PICKING_UP]:
-            raise ValueError(f"Cannot cancel a ride that is not in requested or picking-up status!")
-        
-        self.ride_repo.cancel_ride(ride_id)
+            if not ride_model:
+                raise ValueError(f"Ride with ID {ride_id} not found!")
+            
+            if ride_model.ride_status not in [RideStatusEnum.REQUESTED, RideStatusEnum.PICKING_UP]:
+                raise ValueError("Cannot cancel a ride that is not in requested or picking-up status!")
+            
+            self.ride_repo.cancel_ride(session, ride_id)
 
-        self.rider_repo.update_rider_current_ride(str(ride_model.rider_id), None)
+            self.rider_repo.update_rider_current_ride(session, str(ride_model.rider_id), None)
 
-        if ride_model.driver_id:
-            self.driver_repo.update_driver_current_ride(str(ride_model.driver_id), None)
-            self.driver_repo.set_availability(str(ride_model.driver_id), True)
+            if ride_model.driver_id:
+                self.driver_repo.update_driver_current_ride(session, str(ride_model.driver_id), None)
+                self.driver_repo.set_availability(session, str(ride_model.driver_id), True)
 
-        print(f"Ride {ride_id} has been cancelled!")
+            print(f"Ride {ride_id} has been cancelled!")
     
 
     """ 
@@ -117,27 +113,28 @@ class RideSystem:
         ride_id (str): The ride has been completed
     """
     def complete_ride(self, ride_id: str):
-        ride_model = self.ride_repo.get_ride(ride_id)
+        with session_scope() as session:
+            ride_model = self.ride_repo.get_ride(session, ride_id)
 
-        if not ride_model:
-            raise ValueError(f"Ride with ID {ride_id} not found!")
+            if not ride_model:
+                raise ValueError(f"Ride with ID {ride_id} not found!")
 
-        if not ride_model.driver_id:
-            raise ValueError("No driver to complete this ride!")
-        if not ride_model.rider_id:
-            raise ValueError("No rider to complete this ride!")
+            if not ride_model.driver_id:
+                raise ValueError("No driver to complete this ride!")
+            if not ride_model.rider_id:
+                raise ValueError("No rider to complete this ride!")
 
-        self.ride_repo.complete_ride(ride_id)
+            self.ride_repo.complete_ride(session, ride_id)
 
-        end_point = to_shape(ride_model.end_location)
-        end_location = Location(latitude=end_point.y, longitude=end_point.x)
-        self.user_repo.update_location(str(ride_model.driver_id), end_location)
+            end_point = to_shape(ride_model.end_location)
+            end_location = Location(latitude=end_point.y, longitude=end_point.x)
+            self.user_repo.update_location(session, str(ride_model.driver_id), end_location)
 
-        self.rider_repo.update_rider_current_ride(str(ride_model.rider_id), None)
-        self.driver_repo.update_driver_current_ride(str(ride_model.driver_id), None)
-        self.driver_repo.set_availability(str(ride_model.driver_id), True)
+            self.rider_repo.update_rider_current_ride(session, str(ride_model.rider_id), None)
+            self.driver_repo.update_driver_current_ride(session, str(ride_model.driver_id), None)
+            self.driver_repo.set_availability(session, str(ride_model.driver_id), True)
 
-        print(f"Ride {ride_id} has been completed!")
+            print(f"Ride {ride_id} has been completed!")
     
 
     """ 
@@ -146,32 +143,33 @@ class RideSystem:
         ride (str): The ride id to be processed
     """
     def process_ride_request(self, ride_id: str):
-        print(f"System is processing ride...")
+        print("System is processing ride...")
         
-        ride_model = self.ride_repo.get_ride(ride_id)
-        if not ride_model:
-            raise ValueError(f"Ride with ID {ride_id} not found!")
+        with session_scope() as session:
+            ride_model = self.ride_repo.get_ride(session, ride_id)
+            if not ride_model:
+                raise ValueError(f"Ride with ID {ride_id} not found!")
 
-        assigned_driver = None
-        suitable_drivers = self.find_suitable_drivers(ride_model)
-        if not suitable_drivers:
-            print("No drivers found in the operational area.")
-        else:
-            assigned_driver_tuple = random.choice(suitable_drivers)
-            driver_user, driver_model = assigned_driver_tuple
-            print(f"Driver {driver_user.user_name} has accepted the ride.")
-            assigned_driver = (driver_user, driver_model)
-        
-        if assigned_driver:
-            driver_user, driver_model = assigned_driver
-            self.ride_repo.assign_driver(ride_id, str(driver_user.user_id))
+            assigned_driver = None
+            suitable_drivers = self.find_suitable_drivers(session, ride_model)
+            if not suitable_drivers:
+                print("No drivers found in the operational area.")
+            else:
+                assigned_driver_tuple = random.choice(suitable_drivers)
+                driver_user, driver_model = assigned_driver_tuple
+                print(f"Driver {driver_user.user_name} has accepted the ride.")
+                assigned_driver = (driver_user, driver_model)
+            
+            if assigned_driver:
+                driver_user, driver_model = assigned_driver
+                self.ride_repo.assign_driver(session, ride_id, str(driver_user.user_id))
 
-            self.driver_repo.set_availability(str(driver_user.user_id), False)
-            self.driver_repo.update_driver_current_ride(str(driver_user.user_id), ride_id)
-        else:
-            print(f"No available drivers accepted the ride. The ride will be cancelled.")
-            self.ride_repo.cancel_ride(ride_id)
-            self.rider_repo.update_rider_current_ride(str(ride_model.rider_id), None)
+                self.driver_repo.set_availability(session, str(driver_user.user_id), False)
+                self.driver_repo.update_driver_current_ride(session, str(driver_user.user_id), ride_id)
+            else:
+                print("No available drivers accepted the ride. The ride will be cancelled.")
+                self.ride_repo.cancel_ride(session, ride_id)
+                self.rider_repo.update_rider_current_ride(session, str(ride_model.rider_id), None)
 
     
     """
@@ -181,16 +179,17 @@ class RideSystem:
     Returns:
         List[Tuple[UserModel, DriverModel]]: List of suitable driver tuples
     """
-    def find_suitable_drivers(self, ride_model: RideModel) -> List[Tuple[UserModel, DriverModel]]:
+    def find_suitable_drivers(self, session: Session, ride_model: RideModel) -> List[Tuple[UserModel, DriverModel]]:
         print("Searching for drivers within 3km...")
+        
         start_point = to_shape(ride_model.start_location)
         rider_location = Location(latitude=start_point.y, longitude=start_point.x)
 
-        drivers = self.search_driver_in_radius_km(rider_location, 3.0)
+        drivers = self.search_driver_in_radius_km(session, rider_location, 3.0)
         
         if not drivers:
             print("No drivers found. Expanding search to 6km...")
-            drivers = self.search_driver_in_radius_km(rider_location, 6.0)
+            drivers = self.search_driver_in_radius_km(session, rider_location, 6.0)
         
         return drivers
 
@@ -203,8 +202,8 @@ class RideSystem:
     Returns:
         List[Tuple[UserModel, DriverModel]]: List of available driver tuples
     """
-    def search_driver_in_radius_km(self, rider_location: Location, radius_km: float) -> List[Tuple[UserModel, DriverModel]]:
-        drivers = self.driver_repo.find_available_drivers_within_radius(rider_location, radius_km)
+    def search_driver_in_radius_km(self, session: Session, rider_location: Location, radius_km: float) -> List[Tuple[UserModel, DriverModel]]:
+        drivers = self.driver_repo.find_available_drivers_within_radius(session, rider_location, radius_km)
         print(f"Found {len(drivers)} drivers within {radius_km} km.")
         return drivers
         
