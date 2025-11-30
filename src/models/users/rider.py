@@ -8,7 +8,7 @@ if TYPE_CHECKING:
     from ..ride.ride import Ride
 
 class Rider(User):
-    def __init__(self, email: str, user_name: str, longitude: float, latitude: float):
+    def __init__(self, email: str, user_name: str, longitude: float, latitude: float, user_id: str = None):
         super().__init__(email, user_name)
         self.current_location = Location(latitude, longitude)
         self.current_ride: Ride | None = None
